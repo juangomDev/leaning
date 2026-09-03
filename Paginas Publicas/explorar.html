@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorar Tutores — EduConnect | Catálogo de Profesores</title>
+    <meta name="description" content="Busca y filtra entre más de 1,500 tutores verificados. Filtra por materia, modalidad, precio y rating. Encuentra al tutor perfecto para ti.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: { brand: { 50:'#f0f7ff', 100:'#e0effe', 500:'#2563eb', 600:'#1d4ed8', 700:'#1e40af', accent:'#f97316' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        .filter-chip.active { background-color: #1d4ed8; color: white; border-color: #1d4ed8; }
+        .tutor-card { transition: all 0.25s ease; }
+        .tutor-card:hover { transform: translateY(-3px); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1); }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: #1d4ed8; border-radius: 50%; cursor: pointer; }
+        input[type=range] { -webkit-appearance: none; height: 4px; background: #e2e8f0; border-radius: 4px; outline: none; }
+    </style>
+</head>
+<body class="font-sans bg-slate-50 text-slate-800 antialiased">
+
+    <!-- Navbar -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl bg-brand-600 text-white flex items-center justify-center shadow-lg shadow-brand-500/30"><i class="fa-solid fa-graduation-cap text-sm"></i></div>
+                <span class="text-xl font-extrabold text-slate-900">Edu<span class="text-brand-600">Connect</span></span>
+            </a>
+            <!-- Search Bar Inline -->
+            <div class="hidden md:flex flex-1 max-w-md mx-8 relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                <input id="navSearch" type="text" placeholder="Buscar tutor, materia..." class="w-full pl-10 pr-4 py-2.5 bg-slate-100 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white border border-transparent transition-all">
+            </div>
+            <div class="flex items-center gap-2.5">
+                <a href="login-registro.html" class="hidden sm:inline-flex px-4 py-2 text-sm font-semibold text-slate-700 hover:text-brand-600 transition-colors rounded-lg hover:bg-slate-50">Iniciar Sesión</a>
+                <a href="login-registro.html" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm shadow-md transition-all duration-200">Registrarse</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Page Header -->
+        <div class="mb-8">
+            <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Explorar Tutores</h1>
+            <p class="text-slate-500 mt-1.5">Mostrando <span id="resultCount" class="font-bold text-slate-700">6</span> tutores disponibles</p>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+
+            <!-- ======= SIDEBAR FILTERS ======= -->
+            <aside class="lg:w-72 shrink-0">
+                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-7 sticky top-24">
+                    <div class="flex items-center justify-between">
+                        <h2 class="font-bold text-slate-900 text-base">Filtros</h2>
+                        <button id="clearFilters" class="text-xs font-semibold text-brand-600 hover:text-brand-800 transition-colors">Limpiar todo</button>
+                    </div>
+
+                    <!-- Search -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-2">Buscar</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                            <input id="searchFilter" type="text" placeholder="Ej. Álgebra, Python..." class="w-full pl-9 pr-3 py-2.5 bg-slate-50 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+                    </div>
+
+                    <!-- Category -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-3">Materia</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-2.5 cursor-pointer group">
+                                <input type="radio" name="categoria" value="" class="accent-brand-600" checked> <span class="text-sm text-slate-700 group-hover:text-brand-600 transition-colors">Todas las materias</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 cursor-pointer group">
+                                <input type="radio" name="categoria" value="matematicas" class="accent-brand-600"> <span class="text-sm text-slate-700 group-hover:text-brand-600 transition-colors">Matemáticas</span>
+                                <span class="ml-auto text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">320</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 cursor-pointer group">
+                                <input type="radio" name="categoria" value="programacion" class="accent-brand-600"> <span class="text-sm text-slate-700 group-hover:text-brand-600 transition-colors">Programación</span>
+                                <span class="ml-auto text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">210</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 cursor-pointer group">
+                                <input type="radio" name="categoria" value="ingles" class="accent-brand-600"> <span class="text-sm text-slate-700 group-hover:text-brand-600 transition-colors">Idiomas</span>
+                                <span class="ml-auto text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">450</span>
+                            </label>
+                            <label class="flex items-center gap-2.5 cursor-pointer group">
+                                <input type="radio" name="categoria" value="ciencias" class="accent-brand-600"> <span class="text-sm text-slate-700 group-hover:text-brand-600 transition-colors">Ciencias</span>
+                                <span class="ml-auto text-xs text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">180</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Modality -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-3">Modalidad</label>
+                        <div class="flex gap-2">
+                            <button class="filter-chip active flex-1 py-2 text-xs font-semibold rounded-lg border border-slate-200 transition-all" data-modal="todas">Todas</button>
+                            <button class="filter-chip flex-1 py-2 text-xs font-semibold rounded-lg border border-slate-200 text-slate-600 hover:border-brand-400 transition-all" data-modal="online"><i class="fa-solid fa-laptop mr-1"></i>Online</button>
+                            <button class="filter-chip flex-1 py-2 text-xs font-semibold rounded-lg border border-slate-200 text-slate-600 hover:border-brand-400 transition-all" data-modal="presencial"><i class="fa-solid fa-location-dot mr-1"></i>Presencial</button>
+                        </div>
+                    </div>
+
+                    <!-- Price Range -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-3">
+                            Precio por hora — hasta <span id="priceDisplay" class="text-brand-600">$50 USD</span>
+                        </label>
+                        <input id="priceRange" type="range" min="10" max="100" value="50" step="5" class="w-full">
+                        <div class="flex justify-between text-xs text-slate-400 mt-1.5"><span>$10</span><span>$100</span></div>
+                    </div>
+
+                    <!-- Rating -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide mb-3">Calificación mínima</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="rating" value="" class="accent-brand-600" checked> <span class="text-sm text-slate-700">Cualquier calificación</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="rating" value="4.5" class="accent-brand-600"> <span class="flex text-amber-400 text-xs gap-0.5"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></span> <span class="text-sm text-slate-700">4.5+</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="rating" value="4" class="accent-brand-600"> <span class="flex text-amber-400 text-xs gap-0.5"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span> <span class="text-sm text-slate-700">4.0+</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button id="applyFilters" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl transition-all text-sm shadow-md">
+                        Aplicar Filtros
+                    </button>
+                </div>
+            </aside>
+
+            <!-- ======= MAIN CONTENT ======= -->
+            <main class="flex-1 min-w-0">
+
+                <!-- Sort Bar -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 bg-white px-5 py-3.5 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 -mx-1 px-1">
+                        <span class="text-xs font-semibold text-slate-500 shrink-0">Ordenar:</span>
+                        <button class="shrink-0 px-3 py-1.5 bg-brand-600 text-white text-xs font-semibold rounded-lg">Recomendados</button>
+                        <button class="shrink-0 px-3 py-1.5 text-slate-600 hover:bg-slate-100 text-xs font-semibold rounded-lg transition-colors">Mejor valorados</button>
+                        <button class="shrink-0 px-3 py-1.5 text-slate-600 hover:bg-slate-100 text-xs font-semibold rounded-lg transition-colors">Precio: menor a mayor</button>
+                        <button class="shrink-0 px-3 py-1.5 text-slate-600 hover:bg-slate-100 text-xs font-semibold rounded-lg transition-colors">Precio: mayor a menor</button>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <button id="viewGrid" class="p-2 bg-brand-600 text-white rounded-lg"><i class="fa-solid fa-grip"></i></button>
+                        <button id="viewList" class="p-2 text-slate-500 hover:bg-slate-100 rounded-lg transition-colors"><i class="fa-solid fa-list"></i></button>
+                    </div>
+                </div>
+
+                <!-- Tutor Grid -->
+                <div id="tutorGrid" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
+                    <!-- Cards generated by JS -->
+                </div>
+
+                <!-- Pagination -->
+                <div class="flex items-center justify-center gap-2 mt-10">
+                    <button class="w-9 h-9 rounded-lg bg-white border border-slate-200 text-slate-500 hover:border-brand-400 transition-all flex items-center justify-center text-sm">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+                    <button class="w-9 h-9 rounded-lg bg-brand-600 text-white font-bold text-sm">1</button>
+                    <button class="w-9 h-9 rounded-lg bg-white border border-slate-200 text-slate-600 hover:border-brand-400 transition-all text-sm font-medium">2</button>
+                    <button class="w-9 h-9 rounded-lg bg-white border border-slate-200 text-slate-600 hover:border-brand-400 transition-all text-sm font-medium">3</button>
+                    <span class="text-slate-400 text-sm">...</span>
+                    <button class="w-9 h-9 rounded-lg bg-white border border-slate-200 text-slate-600 hover:border-brand-400 transition-all text-sm font-medium">12</button>
+                    <button class="w-9 h-9 rounded-lg bg-white border border-slate-200 text-slate-500 hover:border-brand-400 transition-all flex items-center justify-center text-sm">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer minimal -->
+    <footer class="mt-16 py-8 border-t border-slate-200 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-slate-500">
+            <span>© 2026 <span class="font-bold text-slate-700">EduConnect</span>. Todos los derechos reservados.</span>
+            <div class="flex gap-5">
+                <a href="#" class="hover:text-brand-600 transition-colors">Privacidad</a>
+                <a href="#" class="hover:text-brand-600 transition-colors">Términos</a>
+                <a href="#" class="hover:text-brand-600 transition-colors">Contacto</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const tutorsData = [
+            { id:1, name:"Dra. Elena Rostova", subject:"Matemáticas & Cálculo", category:"matematicas", rating:4.9, reviews:84, price:25, modality:"online", avatar:"https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80", bio:"Doctora en Ciencias Matemáticas con 8+ años preparando alumnos para exámenes universitarios.", badges:["Tutor Top","Verificada"] },
+            { id:2, name:"Ing. Carlos Mendoza", subject:"Programación Python & Web", category:"programacion", rating:5.0, reviews:112, price:30, modality:"presencial", avatar:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80", bio:"Desarrollador Senior apasionado. Clases prácticas de JavaScript, React y Python.", badges:["Respuesta Rápida","Verificado"] },
+            { id:3, name:"Sarah Jenkins", subject:"Inglés Nativo & TOEFL", category:"ingles", rating:4.8, reviews:65, price:22, modality:"online", avatar:"https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80", bio:"Profesora nativa del Reino Unido. Especialista en conversación para negocios y TOEFL.", badges:["Nativa","Verificada"] },
+            { id:4, name:"Prof. Miguel Ángel", subject:"Álgebra y Física Básica", category:"matematicas", rating:4.9, reviews:43, price:20, modality:"presencial", avatar:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80", bio:"Licenciado en Educación. Métodos visuales y paciencia para estudiantes de bachillerato.", badges:["Paciencia Garantizada"] },
+            { id:5, name:"Valeria Gómez", subject:"Bases de Datos & SQL", category:"programacion", rating:4.7, reviews:29, price:28, modality:"online", avatar:"https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&w=300&q=80", bio:"Ingeniera de datos. Aprende SQL, bases relacionales e introducción a Data Science.", badges:["Verificada"] },
+            { id:6, name:"David Smith", subject:"Inglés Conversacional", category:"ingles", rating:4.9, reviews:91, price:24, modality:"online", avatar:"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80", bio:"Supera el miedo a hablar inglés con sesiones dinámicas de fluidez y pronunciación.", badges:["Tutor Top"] },
+        ];
+
+        function renderCards(list) {
+            const grid = document.getElementById('tutorGrid');
+            document.getElementById('resultCount').textContent = list.length;
+            grid.innerHTML = '';
+            if (list.length === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center py-16 text-slate-400"><i class="fa-solid fa-magnifying-glass-slash text-4xl mb-3 block"></i><p class="font-semibold">No encontramos tutores con esos filtros</p></div>';
+                return;
+            }
+            list.forEach(t => {
+                const stars = '<i class="fa-solid fa-star text-amber-400"></i>'.repeat(Math.floor(t.rating)) + (t.rating % 1 >= 0.5 ? '<i class="fa-solid fa-star-half-stroke text-amber-400"></i>' : '');
+                const badgesHTML = t.badges.map(b => `<span class="px-2 py-0.5 bg-brand-50 text-brand-700 text-[10px] font-semibold rounded-md">${b}</span>`).join('');
+                grid.innerHTML += `
+                <div class="tutor-card bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden flex flex-col">
+                    <div class="p-5 flex-1">
+                        <div class="flex items-start gap-3.5 mb-4">
+                            <div class="relative shrink-0">
+                                <img src="${t.avatar}" class="w-14 h-14 rounded-xl object-cover border-2 border-brand-100" alt="${t.name}">
+                                <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+                            </div>
+                            <div class="min-w-0">
+                                <h3 class="font-bold text-slate-900 text-sm leading-tight truncate">${t.name}</h3>
+                                <p class="text-xs font-semibold text-brand-600 mt-0.5 truncate">${t.subject}</p>
+                                <div class="flex items-center gap-1 mt-1 text-xs">${stars} <span class="font-bold text-amber-500">${t.rating}</span><span class="text-slate-400">(${t.reviews})</span></div>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-500 leading-relaxed line-clamp-2 mb-3">${t.bio}</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-600 text-[10px] font-semibold rounded-md"><i class="fa-solid ${t.modality==='online'?'fa-laptop':'fa-location-dot'} text-brand-500 mr-1"></i>${t.modality==='online'?'En Línea':'Presencial'}</span>
+                            ${badgesHTML}
+                        </div>
+                    </div>
+                    <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+                        <div><p class="text-[10px] text-slate-400">Precio/hora</p><p class="font-extrabold text-slate-900 text-base">$${t.price} <span class="text-xs font-normal text-slate-400">USD</span></p></div>
+                        <a href="tutor-perfil.html?id=${t.id}" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl transition-all shadow-sm">Ver Perfil</a>
+                    </div>
+                </div>`;
+            });
+        }
+
+        document.getElementById('priceRange').addEventListener('input', function() {
+            document.getElementById('priceDisplay').textContent = '$' + this.value + ' USD';
+        });
+
+        document.querySelectorAll('.filter-chip').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        document.getElementById('applyFilters').addEventListener('click', () => {
+            const q = document.getElementById('searchFilter').value.toLowerCase();
+            const cat = document.querySelector('input[name=categoria]:checked').value;
+            const rating = parseFloat(document.querySelector('input[name=rating]:checked').value || 0);
+            const maxPrice = parseInt(document.getElementById('priceRange').value);
+            const filtered = tutorsData.filter(t =>
+                (!q || t.name.toLowerCase().includes(q) || t.subject.toLowerCase().includes(q)) &&
+                (!cat || t.category === cat) &&
+                t.rating >= rating &&
+                t.price <= maxPrice
+            );
+            renderCards(filtered);
+        });
+
+        document.getElementById('clearFilters').addEventListener('click', () => {
+            document.getElementById('searchFilter').value = '';
+            document.querySelector('input[name=categoria][value=""]').checked = true;
+            document.querySelector('input[name=rating][value=""]').checked = true;
+            document.getElementById('priceRange').value = 50;
+            document.getElementById('priceDisplay').textContent = '$50 USD';
+            renderCards(tutorsData);
+        });
+
+        document.getElementById('navSearch').addEventListener('input', function() {
+            const q = this.value.toLowerCase();
+            renderCards(tutorsData.filter(t => t.name.toLowerCase().includes(q) || t.subject.toLowerCase().includes(q)));
+        });
+
+        renderCards(tutorsData);
+    </script>
+</body>
+</html>

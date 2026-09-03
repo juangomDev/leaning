@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduConnect - Clases Privadas y Tutorías</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                            accent: '#f97316'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-brand-600 text-white flex items-center justify-center font-bold text-xl shadow-lg shadow-brand-500/30">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <span class="text-2xl font-extrabold tracking-tight text-slate-900">Edu<span class="text-brand-600">Connect</span></span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+                <a href="#materias" class="hover:text-brand-600 transition-colors">Materias</a>
+                <a href="#tutores" class="hover:text-brand-600 transition-colors">Tutores Destacados</a>
+                <a href="#como-funciona" class="hover:text-brand-600 transition-colors">¿Cómo funciona?</a>
+                <a href="#ser-tutor" class="hover:text-brand-600 transition-colors">Enseñar en EduConnect</a>
+            </nav>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-3">
+                <button onclick="openModal('loginModal')" class="hidden sm:inline-flex px-4 py-2.5 text-sm font-semibold text-slate-700 hover:text-brand-600 transition-colors">
+                    Iniciar Sesión
+                </button>
+                <a href="#tutores" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm shadow-md shadow-brand-500/20 hover:shadow-lg transition-all duration-200">
+                    <span>Buscar Tutor</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-12 pb-20 lg:pt-20 lg:pb-28 overflow-hidden bg-gradient-to-b from-brand-50/50 via-white to-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                
+                <!-- Hero Left Content -->
+                <div class="lg:col-span-7 text-center lg:text-left space-y-8">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-100 text-brand-700 text-xs font-bold tracking-wide uppercase">
+                        <i class="fa-solid fa-star text-amber-500"></i>
+                         Plana líder en tutorías personalizadas
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-[1.15] tracking-tight">
+                        Encuentra el tutor ideal para alcanzar tus <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-indigo-600">metas académicas</span>
+                    </h1>
+                    
+                    <p class="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                        Conecta de forma rápida y segura con profesores verificados para clases presenciales o en línea. Aprende a tu propio ritmo.
+                    </p>
+
+                    <!-- Interactive Search Bar -->
+                    <div class="bg-white p-3 sm:p-4 rounded-2xl shadow-xl shadow-slate-200/80 border border-slate-100 max-w-2xl mx-auto lg:mx-0">
+                        <form id="heroSearchForm" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <div class="relative">
+                                <i class="fa-solid fa-book-open absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                                <select id="heroSubject" class="w-full pl-10 pr-4 py-3 bg-slate-50 rounded-xl text-slate-700 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 border border-transparent">
+                                    <option value="">¿Qué deseas aprender?</option>
+                                    <option value="matematicas">Matemáticas</option>
+                                    <option value="programacion">Programación</option>
+                                    <option value="ingles">Inglés</option>
+                                    <option value="fisica">Física</option>
+                                    <option value="quimica">Química</option>
+                                </select>
+                            </div>
+
+                            <div class="relative">
+                                <i class="fa-solid fa-location-dot absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                                <select id="heroModal" class="w-full pl-10 pr-4 py-3 bg-slate-50 rounded-xl text-slate-700 font-medium text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 border border-transparent">
+                                    <option value="todas">Modalidad</option>
+                                    <option value="online">En Línea</option>
+                                    <option value="presencial">Presencial</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 px-6 rounded-xl shadow-md transition-all duration-200 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <span>Buscar</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-8 border-t border-slate-200/60">
+                        <div>
+                            <p class="text-2xl font-bold text-slate-900">+1,500</p>
+                            <p class="text-xs text-slate-500 font-medium">Tutores Verificados</p>
+                        </div>
+                        <div class="h-8 w-px bg-slate-200"></div>
+                        <div>
+                            <p class="text-2xl font-bold text-slate-900">98%</p>
+                            <p class="text-xs text-slate-500 font-medium">Calificaciones Positivas</p>
+                        </div>
+                        <div class="h-8 w-px bg-slate-200"></div>
+                        <div>
+                            <p class="text-2xl font-bold text-slate-900">+50</p>
+                            <p class="text-xs text-slate-500 font-medium">Materias Disponibles</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right Image Visual -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        <!-- Background Decorative Elements -->
+                        <div class="absolute -top-6 -left-6 w-72 h-72 bg-brand-500/10 rounded-full blur-3xl"></div>
+                        <div class="absolute -bottom-6 -right-6 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl"></div>
+
+                        <!-- Main Image Wrapper -->
+                        <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-100">
+                            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="" class="w-full h-[460px] object-cover">
+                        </div>
+
+                        <!-- Floating Card 1: Verified Tutor -->
+                        <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-3 animate-bounce-slow">
+                            <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-shield-check"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-slate-800">100% Verificados</p>
+                                <p class="text-xs text-slate-500">Credenciales validadas</p>
+                            </div>
+                        </div>
+
+                        <!-- Floating Card 2: Rating -->
+                        <div class="absolute -top-4 -right-4 bg-white p-3.5 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-3">
+                            <div class="flex text-amber-400 text-sm">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="text-xs font-bold text-slate-700">4.9 / 5.0</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Proposition Banner -->
+    <section class="py-12 bg-white border-y border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-user-check"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-base mb-1">Perfiles Transparentes</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">Revisa antecedentes, formación académica y opiniones reales de otros alumnos antes de elegir.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-base mb-1">Flexibilidad Total</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">Sin paquetes obligatorios de largo plazo. Coordina tus horarios según tus necesidades.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-handshake-angle"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-base mb-1">Garantía de Satisfacción</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">Si la primera clase no cumple con tus expectativas, te reasignamos con otro tutor sin costo adicional.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subjects Categories Section -->
+    <section id="materias" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Explora por área de estudio</h2>
+                <p class="mt-4 text-slate-600 text-lg">Encuentra especialistas preparados para guiarte en cualquier nivel académico.</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Category Card 1 -->
+                <div onclick="filterBySubjectCategory('matematicas')" class="group p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-brand-500 transition-all duration-300 cursor-pointer">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 group-hover:bg-brand-600 group-hover:text-white flex items-center justify-center text-2xl transition-all duration-300 mb-6">
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                    <h3 class="font-bold text-xl text-slate-900 group-hover:text-brand-600 transition-colors">Matemáticas</h3>
+                    <p class="text-sm text-slate-500 mt-2">Álgebra, Cálculo, Geometría, Estadística y Trigonometría.</p>
+                    <div class="mt-6 flex items-center text-xs font-bold text-brand-600 gap-1">
+                        <span>Ver 320+ profesores</span>
+                        <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+
+                <!-- Category Card 2 -->
+                <div onclick="filterBySubjectCategory('programacion')" class="group p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-brand-500 transition-all duration-300 cursor-pointer">
+                    <div class="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 group-hover:bg-brand-600 group-hover:text-white flex items-center justify-center text-2xl transition-all duration-300 mb-6">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <h3 class="font-bold text-xl text-slate-900 group-hover:text-brand-600 transition-colors">Programación & TI</h3>
+                    <p class="text-sm text-slate-500 mt-2">Python, JavaScript, Desarrollo Web, Algoritmos y Bases de Datos.</p>
+                    <div class="mt-6 flex items-center text-xs font-bold text-brand-600 gap-1">
+                        <span>Ver 210+ profesores</span>
+                        <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+
+                <!-- Category Card 3 -->
+                <div onclick="filterBySubjectCategory('ingles')" class="group p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-brand-500 transition-all duration-300 cursor-pointer">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 group-hover:bg-brand-600 group-hover:text-white flex items-center justify-center text-2xl transition-all duration-300 mb-6">
+                        <i class="fa-solid fa-language"></i>
+                    </div>
+                    <h3 class="font-bold text-xl text-slate-900 group-hover:text-brand-600 transition-colors">Idiomas</h3>
+                    <p class="text-sm text-slate-500 mt-2">Inglés, Francés, Alemán, Conversación y Preparación de TOEFL.</p>
+                    <div class="mt-6 flex items-center text-xs font-bold text-brand-600 gap-1">
+                        <span>Ver 450+ profesores</span>
+                        <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+
+                <!-- Category Card 4 -->
+                <div onclick="filterBySubjectCategory('fisica')" class="group p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-brand-500 transition-all duration-300 cursor-pointer">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 group-hover:bg-brand-600 group-hover:text-white flex items-center justify-center text-2xl transition-all duration-300 mb-6">
+                        <i class="fa-solid fa-atom"></i>
+                    </div>
+                    <h3 class="font-bold text-xl text-slate-900 group-hover:text-brand-600 transition-colors">Ciencias Naturales</h3>
+                    <p class="text-sm text-slate-500 mt-2">Física, Química General, Biología y Termodinámica.</p>
+                    <div class="mt-6 flex items-center text-xs font-bold text-brand-600 gap-1">
+                        <span>Ver 180+ profesores</span>
+                        <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Tutors Section (Interactive Search & Filters) -->
+    <section id="tutores" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Tutores Destacados</h2>
+                    <p class="mt-3 text-slate-600 text-lg">Encuentra al profesor idóneo filtrando por tus necesidades particulares.</p>
+                </div>
+
+                <!-- Interactive Filter Tabs -->
+                <div class="flex flex-wrap items-center gap-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+                    <button onclick="filterTutors('todos')" class="filter-btn active px-4 py-2 rounded-lg text-sm font-bold transition-all bg-white text-brand-600 shadow-sm" data-filter="todos">
+                        Todos
+                    </button>
+                    <button onclick="filterTutors('matematicas')" class="filter-btn px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all" data-filter="matematicas">
+                        Matemáticas
+                    </button>
+                    <button onclick="filterTutors('programacion')" class="filter-btn px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all" data-filter="programacion">
+                        Programación
+                    </button>
+                    <button onclick="filterTutors('ingles')" class="filter-btn px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all" data-filter="ingles">
+                        Inglés
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tutor Cards Grid -->
+            <div id="tutorsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- JavaScript will populate tutor cards here dynamically -->
+            </div>
+
+            <!-- Empty State Notice (Hidden by default) -->
+            <div id="noResults" class="hidden text-center py-16 bg-slate-50 rounded-2xl border border-dashed border-slate-300">
+                <i class="fa-solid fa-magnifying-glass-slash text-4xl text-slate-400 mb-4"></i>
+                <h3 class="text-lg font-bold text-slate-700">No encontramos tutores con estos criterios</h3>
+                <p class="text-sm text-slate-500 mt-1">Prueba seleccionando otra materia o filtro de modalidad.</p>
+                <button onclick="filterTutors('todos')" class="mt-4 px-4 py-2 bg-brand-600 text-white rounded-lg font-semibold text-sm">Restablecer filtros</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="como-funciona" class="py-20 bg-slate-900 text-white relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#2563eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-500 text-sm font-extrabold uppercase tracking-widest">Paso a Paso</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mt-2">¿Cómo funciona la plataforma?</h2>
+                <p class="mt-4 text-slate-400 text-lg">Comenzar a aprender con un tutor privado solo te tomará unos pocos minutos.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 relative">
+                <!-- Step 1 -->
+                <div class="bg-slate-800/80 backdrop-blur border border-slate-700 p-8 rounded-2xl relative">
+                    <div class="w-12 h-12 rounded-xl bg-brand-600 text-white font-extrabold text-xl flex items-center justify-center mb-6 shadow-lg shadow-brand-500/30">
+                        1
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Busca y compara</h3>
+                    <p class="text-slate-400 leading-relaxed text-sm">
+                        Explora los perfiles de los tutores, lee las opiniones de otros alumnos, verifica su experiencia y compara sus tarifas por hora.
+                    </p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-slate-800/80 backdrop-blur border border-slate-700 p-8 rounded-2xl relative">
+                    <div class="w-12 h-12 rounded-xl bg-brand-600 text-white font-extrabold text-xl flex items-center justify-center mb-6 shadow-lg shadow-brand-500/30">
+                        2
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Reserva tu clase</h3>
+                    <p class="text-slate-400 leading-relaxed text-sm">
+                        Elige la modalidad que prefieras (Online o Presencial) y selecciona el día y hora disponible que mejor se adapte a tu agenda.
+                    </p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-slate-800/80 backdrop-blur border border-slate-700 p-8 rounded-2xl relative">
+                    <div class="w-12 h-12 rounded-xl bg-brand-600 text-white font-extrabold text-xl flex items-center justify-center mb-6 shadow-lg shadow-brand-500/30">
+                        3
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Aprende y avanza</h3>
+                    <p class="text-slate-400 leading-relaxed text-sm">
+                        Conéctate a tu aula virtual o acude al punto de encuentro. Recibe atención personalizada y evalúa tu clase al finalizar.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Lo que dicen nuestros estudiantes</h2>
+                <p class="mt-4 text-slate-600 text-lg">Cientos de alumnos han superado sus exámenes y aprendido nuevas habilidades.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                    <div class="flex text-amber-400 text-sm">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-700 text-sm leading-relaxed italic">
+                        "Estaba sufriendo con Cálculo Integral para mi examen universitario. Encontré a la profesora Elena y en solo 4 sesiones logré entender conceptos que llevaba meses sin captar."
+                    </p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="" class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">Camila Torres</h4>
+                            <p class="text-xs text-slate-500">Estudiante de Ingeniería</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                    <div class="flex text-amber-400 text-sm">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-700 text-sm leading-relaxed italic">
+                        "Necesitaba preparar mi entrevista técnica en inglés. Carlos me ayudó con conversación fluida enfocado en términos de software. Súper recomendado."
+                    </p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="" class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">Mateo Ríos</h4>
+                            <p class="text-xs text-slate-500">Desarrollador Web</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                    <div class="flex text-amber-400 text-sm">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-700 text-sm leading-relaxed italic">
+                        "El sistema de reservas es muy rápido y claro. La garantía de la primera clase me dio la confianza para probar y ahora tomo clases semanales de Física."
+                    </p>
+                    <div class="flex items-center gap-3 pt-2">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80" alt="" class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">Sofía Mendoza</h4>
+                            <p class="text-xs text-slate-500">Estudiante de Bachillerato</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Become a Tutor CTA Section -->
+    <section id="ser-tutor" class="py-20 bg-gradient-to-r from-brand-600 to-indigo-700 text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-8 space-y-6 text-center lg:text-left">
+                    <span class="bg-white/20 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">¿Eres profesor o especialista?</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+                        Enseña en EduConnect y genera ingresos compartiendo tu conocimiento
+                    </h2>
+                    <p class="text-brand-100 text-lg max-w-2xl mx-auto lg:mx-0">
+                        Define tus propias tarifas por hora, administra tus horarios con flexibilidad y conecta con miles de estudiantes que buscan tus habilidades.
+                    </p>
+                    <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
+                        <div class="flex items-center gap-2 text-sm font-medium">
+                            <i class="fa-solid fa-circle-check text-brand-accent"></i>
+                            <span>Sin cuotas de inscripción</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm font-medium">
+                            <i class="fa-solid fa-circle-check text-brand-accent"></i>
+                            <span>Cobros semanales seguros</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm font-medium">
+                            <i class="fa-solid fa-circle-check text-brand-accent"></i>
+                            <span>Herramientas para tus clases</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-4 text-center">
+                    <div class="bg-white text-slate-900 p-8 rounded-3xl shadow-2xl space-y-6">
+                        <h3 class="text-2xl font-bold text-slate-900">Únete a nuestra red</h3>
+                        <p class="text-slate-600 text-sm">Completa tu registro en menos de 5 minutos y comienza a recibir solicitudes.</p>
+                        <button onclick="openModal('tutorRegisterModal')" class="w-full py-3.5 bg-brand-accent hover:bg-orange-600 text-white font-bold rounded-xl shadow-lg transition-all duration-200">
+                            Regístrate como Tutor
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-16 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+                <!-- Col 1: Brand Info -->
+                <div class="col-span-2 space-y-4">
+                    <a href="#" class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-brand-600 text-white flex items-center justify-center font-bold text-base">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <span class="text-xl font-extrabold text-white tracking-tight">Edu<span class="text-brand-500">Connect</span></span>
+                    </a>
+                    <p class="text-sm text-slate-400 max-w-sm">
+                        La plataforma que simplifica el encuentro entre estudiantes motivados y tutores calificados.
+                    </p>
+                    <div class="flex gap-4 text-slate-400 pt-2">
+                        <a href="#" class="hover:text-white transition-colors text-lg"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="hover:text-white transition-colors text-lg"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="hover:text-white transition-colors text-lg"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="#" class="hover:text-white transition-colors text-lg"><i class="fa-brands fa-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- Col 2: Estudiantes -->
+                <div>
+                    <h4 class="text-white text-sm font-bold uppercase tracking-wider mb-4">Estudiantes</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#tutores" class="hover:text-white transition-colors">Buscar Tutores</a></li>
+                        <li><a href="#materias" class="hover:text-white transition-colors">Categorías</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Garantía de Clase</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Precios y Pagos</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Profesores -->
+                <div>
+                    <h4 class="text-white text-sm font-bold uppercase tracking-wider mb-4">Profesores</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#ser-tutor" class="hover:text-white transition-colors">Convertirme en Tutor</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Requisitos</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Centro de Tutores</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Casos de Éxito</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Soporte -->
+                <div>
+                    <h4 class="text-white text-sm font-bold uppercase tracking-wider mb-4">Soporte</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">Preguntas Frecuentes</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contacto</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Política de Privacidad</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Términos del Servicio</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-slate-800 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p>&copy; 2026 EduConnect Inc. Todos los derechos reservados.</p>
+                <p>Diseñado para conectar conocimiento y crecimiento académico.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL 1: Tutor Profile & Booking Modal -->
+    <div id="tutorModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-xl w-full shadow-2xl overflow-hidden relative animate-in fade-in zoom-in duration-200">
+            <!-- Modal Close Button -->
+            <button onclick="closeModal('tutorModal')" class="absolute top-4 right-4 w-9 h-9 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full flex items-center justify-center transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div id="modalTutorContent" class="p-6 sm:p-8">
+                <!-- Dynamic Content Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: Tutor Registration Modal -->
+    <div id="tutorRegisterModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl p-6 sm:p-8 relative">
+            <button onclick="closeModal('tutorRegisterModal')" class="absolute top-4 right-4 w-9 h-9 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <h3 class="text-2xl font-bold text-slate-900 mb-2">Aplica como Tutor</h3>
+            <p class="text-sm text-slate-600 mb-6">Ingresa tus datos y nos pondremos en contacto para validar tu perfil.</p>
+
+            <form onsubmit="handleTutorSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nombre Completo</label>
+                    <input type="text" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="Ej. Roberto García">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Correo Electrónico</label>
+                    <input type="email" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="tu@email.com">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Materia Principal</label>
+                    <select required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <option value="">Selecciona tu especialidad</option>
+                        <option value="Matemáticas">Matemáticas</option>
+                        <option value="Programación">Programación</option>
+                        <option value="Inglés">Inglés</option>
+                        <option value="Física / Química">Física / Química</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Tarifa esperada ($/hora)</label>
+                    <input type="number" required min="10" max="100" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="25">
+                </div>
+                <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-md transition-all">
+                    Enviar Solicitud
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: Login Modal -->
+    <div id="loginModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-sm w-full shadow-2xl p-6 sm:p-8 relative">
+            <button onclick="closeModal('loginModal')" class="absolute top-4 right-4 w-9 h-9 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <h3 class="text-2xl font-bold text-slate-900 mb-2">¡Hola de nuevo!</h3>
+            <p class="text-sm text-slate-600 mb-6">Inicia sesión en tu cuenta de EduConnect.</p>
+
+            <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Correo Electrónico</label>
+                    <input type="email" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="estudiante@email.com">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Contraseña</label>
+                    <input type="password" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="••••••••">
+                </div>
+                <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-md transition-all">
+                    Ingresar
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Custom Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-slate-700">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <span id="toastMessage" class="text-sm font-medium"></span>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Mock Tutors Database Data
+        const tutorsData = [
+            {
+                id: 1,
+                name: "Dra. Elena Rostova",
+                subjectCategory: "matematicas",
+                subjectName: "Matemáticas & Cálculo",
+                rating: 4.9,
+                reviewsCount: 84,
+                price: 25,
+                modality: "online",
+                avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80",
+                bio: "Doctora en Ciencias Matemáticas con más de 8 años de experiencia preparando alumnos para exámenes universitarios y Olimpiadas.",
+                badges: ["Tutor Top", "Verificada"]
+            },
+            {
+                id: 2,
+                name: "Ing. Carlos Mendoza",
+                subjectCategory: "programacion",
+                subjectName: "Programación Python & Web",
+                rating: 5.0,
+                reviewsCount: 112,
+                price: 30,
+                modality: "presencial",
+                avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
+                bio: "Desarrollador Senior apasionado por la enseñanza. Imparto clases prácticas de JavaScript, React, Python y lógica de algoritmos.",
+                badges: ["Respuesta Rápida", "Verificado"]
+            },
+            {
+                id: 3,
+                name: "Sarah Jenkins",
+                subjectCategory: "ingles",
+                subjectName: "Inglés Nativo & TOEFL",
+                rating: 4.8,
+                reviewsCount: 65,
+                price: 22,
+                modality: "online",
+                avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80",
+                bio: "Profesora nativa del Reino Unido. Especialista en conversación fluida para negocios y preparación intensiva de TOEFL e IELTS.",
+                badges: ["Nativa", "Verificada"]
+            },
+            {
+                id: 4,
+                name: "Prof. Miguel Ángel",
+                subjectCategory: "matematicas",
+                subjectName: "Álgebra y Física Básica",
+                rating: 4.9,
+                reviewsCount: 43,
+                price: 20,
+                modality: "presencial",
+                avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80",
+                bio: "Licenciado en Educación con enfoque en paciencia y métodos visuales para estudiantes de bachillerato e instituto.",
+                badges: ["Paciencia Garantizada"]
+            },
+            {
+                id: 5,
+                name: "Valeria Gómez",
+                subjectCategory: "programacion",
+                subjectName: "Bases de Datos & SQL",
+                rating: 4.7,
+                reviewsCount: 29,
+                price: 28,
+                modality: "online",
+                avatar: "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&w=300&q=80",
+                bio: "Ingeniera de datos. Aprende a estructurar bases de datos relacionales, consultas complejas e introducción a Data Science.",
+                badges: ["Verificada"]
+            },
+            {
+                id: 6,
+                name: "David Smith",
+                subjectCategory: "ingles",
+                subjectName: "Inglés Conversacional",
+                rating: 4.9,
+                reviewsCount: 91,
+                price: 24,
+                modality: "online",
+                avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80",
+                bio: "Supera el miedo a hablar en inglés con sesiones dinámicas enfocadas en fluidez, pronunciación y confianza personal.",
+                badges: ["Tutor Top"]
+            }
+        ];
+
+        let currentCategoryFilter = 'todos';
+
+        // Render Tutors Cards
+        function renderTutors(list) {
+            const grid = document.getElementById('tutorsGrid');
+            const noResults = document.getElementById('noResults');
+
+            grid.innerHTML = '';
+
+            if (list.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            list.forEach(tutor => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between group";
+
+                card.innerHTML = `
+                    <div class="p-6">
+                        <!-- Tutor Header -->
+                        <div class="flex items-start gap-4 mb-4">
+                            <div class="relative">
+                                <img src="${tutor.avatar}" alt="${tutor.name}" class="w-16 h-16 rounded-2xl object-cover border-2 border-brand-100">
+                                <span class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full" title="Disponible hoy"></span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-900 group-hover:text-brand-600 transition-colors">${tutor.name}</h3>
+                                <p class="text-xs font-semibold text-brand-600 uppercase tracking-wider">${tutor.subjectName}</p>
+                                <div class="flex items-center gap-1.5 mt-1 text-xs">
+                                    <span class="text-amber-500 font-bold flex items-center gap-1">
+                                        <i class="fa-solid fa-star"></i> ${tutor.rating}
+                                    </span>
+                                    <span class="text-slate-400">(${tutor.reviewsCount} opiniones)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bio -->
+                        <p class="text-sm text-slate-600 line-clamp-3 leading-relaxed mb-4">
+                            ${tutor.bio}
+                        </p>
+
+                        <!-- Badges & Modality -->
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-medium">
+                                <i class="fa-solid ${tutor.modality === 'online' ? 'fa-laptop' : 'fa-location-dot'} text-brand-500 mr-1"></i>
+                                ${tutor.modality === 'online' ? 'En Línea' : 'Presencial'}
+                            </span>
+                            ${tutor.badges.map(badge => `
+                                <span class="px-2.5 py-1 rounded-md bg-brand-50 text-brand-700 text-xs font-medium">
+                                    ${badge}
+                                </span>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Footer Action -->
+                    <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between mt-auto">
+                        <div>
+                            <span class="text-xs text-slate-500 font-medium">Precio por hora</span>
+                            <p class="text-lg font-extrabold text-slate-900">$${tutor.price} <span class="text-xs font-normal text-slate-500">USD</span></p>
+                        </div>
+                        <button onclick="openTutorModal(${tutor.id})" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold transition-all shadow-sm">
+                            Ver Perfil
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter Tutors Logic
+        function filterTutors(category) {
+            currentCategoryFilter = category;
+            
+            // Update Active Buttons UI
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.dataset.filter === category) {
+                    btn.className = "filter-btn active px-4 py-2 rounded-lg text-sm font-bold transition-all bg-white text-brand-600 shadow-sm";
+                } else {
+                    btn.className = "filter-btn px-4 py-2 rounded-lg text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all";
+                }
+            });
+
+            if (category === 'todos') {
+                renderTutors(tutorsData);
+            } else {
+                const filtered = tutorsData.filter(t => t.subjectCategory === category);
+                renderTutors(filtered);
+            }
+        }
+
+        function filterBySubjectCategory(category) {
+            const section = document.getElementById('tutores');
+            section.scrollIntoView({ behavior: 'smooth' });
+            filterTutors(category);
+        }
+
+        // Hero Search Form Handling
+        document.getElementById('heroSearchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const subject = document.getElementById('heroSubject').value;
+            const modality = document.getElementById('heroModal').value;
+
+            let results = tutorsData;
+
+            if (subject) {
+                results = results.filter(t => t.subjectCategory === subject);
+            }
+
+            if (modality !== 'todas') {
+                results = results.filter(t => t.modality === modality);
+            }
+
+            // Scroll to Results Section
+            document.getElementById('tutores').scrollIntoView({ behavior: 'smooth' });
+            
+            // Set Tab active state if subject matched
+            if (subject) {
+                filterTutors(subject);
+            } else {
+                renderTutors(results);
+            }
+        });
+
+        // Modal Handlers
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Open Individual Tutor Profile Modal
+        function openTutorModal(tutorId) {
+            const tutor = tutorsData.find(t => t.id === tutorId);
+            if (!tutor) return;
+
+            const modalContent = document.getElementById('modalTutorContent');
+            modalContent.innerHTML = `
+                <div class="flex items-start gap-5 mb-6">
+                    <img src="${tutor.avatar}" alt="${tutor.name}" class="w-20 h-20 rounded-2xl object-cover border-2 border-brand-500 shadow-md">
+                    <div>
+                        <div class="inline-block px-2.5 py-0.5 rounded bg-brand-50 text-brand-700 text-xs font-bold uppercase mb-1">
+                            ${tutor.subjectName}
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900">${tutor.name}</h3>
+                        <div class="flex items-center gap-2 mt-1 text-sm">
+                            <span class="text-amber-500 font-bold flex items-center gap-1">
+                                <i class="fa-solid fa-star"></i> ${tutor.rating}
+                            </span>
+                            <span class="text-slate-400">(${tutor.reviewsCount} alumnos calificados)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4 text-slate-600 text-sm mb-6">
+                    <h4 class="font-bold text-slate-900 text-base">Sobre el profesor</h4>
+                    <p class="leading-relaxed">${tutor.bio}</p>
+                    
+                    <div class="grid grid-cols-2 gap-4 py-3 bg-slate-50 rounded-xl p-4 border border-slate-100">
+                        <div>
+                            <span class="text-xs text-slate-400 font-medium">Modalidad de clase</span>
+                            <p class="font-bold text-slate-800 capitalize">${tutor.modality === 'online' ? '💻 En Línea' : '📍 Presencial'}</p>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 font-medium">Tarifa por hora</span>
+                            <p class="font-bold text-slate-800">$${tutor.price} USD</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-100 pt-6">
+                    <h4 class="font-bold text-slate-900 text-sm mb-3">Reservar primera sesión</h4>
+                    <form onsubmit="handleBooking(event, '${tutor.name}')" class="space-y-3">
+                        <div class="grid grid-cols-2 gap-3">
+                            <input type="date" required class="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <select required class="w-full px-3 py-2 bg-slate-50 rounded-xl border border-slate-200 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <option value="">Hora disponible</option>
+                                <option value="09:00">09:00 AM</option>
+                                <option value="14:00">02:00 PM</option>
+                                <option value="17:00">05:00 PM</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-xl shadow-md transition-all">
+                            Confirmar Reserva de Clase
+                        </button>
+                    </form>
+                </div>
+            `;
+
+            openModal('tutorModal');
+        }
+
+        // Form Submit Handlers
+        function handleBooking(e, tutorName) {
+            e.preventDefault();
+            closeModal('tutorModal');
+            showToast(`¡Solicitud enviada a ${tutorName}! Te confirmaremos por correo.`);
+        }
+
+        function handleTutorSubmit(e) {
+            e.preventDefault();
+            closeModal('tutorRegisterModal');
+            showToast('¡Gracias por postularte! Revisaremos tu perfil pronto.');
+        }
+
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            closeModal('loginModal');
+            showToast('Sesión iniciada correctamente.');
+        }
+
+        // Custom Toast Notification System
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+
+            toastMessage.textContent = message;
+            toast.classList.remove('hidden');
+
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 4000);
+        }
+
+        // Initial Load Render
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTutors(tutorsData);
+        });
+    </script>
+</body>
+</html>

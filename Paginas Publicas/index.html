@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduConnect — Encuentra tu Tutor Ideal | Clases Online y Presenciales</title>
+    <meta name="description" content="Conecta con más de 1,500 tutores verificados para clases privadas online o presenciales. Matemáticas, Programación, Idiomas, Ciencias y más.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: {
+                        brand: { 50:'#f0f7ff', 100:'#e0effe', 500:'#2563eb', 600:'#1d4ed8', 700:'#1e40af', accent:'#f97316' }
+                    },
+                    animation: { 'float': 'float 3s ease-in-out infinite' },
+                    keyframes: { float: { '0%,100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-10px)' } } }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-gradient { background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 50%, #f8fafc 100%); }
+        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-4px); }
+        .counter { font-variant-numeric: tabular-nums; }
+    </style>
+</head>
+<body class="font-sans bg-slate-50 text-slate-800 antialiased">
+
+    <!-- Navbar -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between py-4">
+            <a href="index.html" class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl bg-brand-600 text-white flex items-center justify-center shadow-lg shadow-brand-500/30">
+                    <i class="fa-solid fa-graduation-cap text-sm"></i>
+                </div>
+                <span class="text-xl font-extrabold tracking-tight text-slate-900">Edu<span class="text-brand-600">Connect</span></span>
+            </a>
+            <nav class="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600">
+                <a href="explorar.html" class="hover:text-brand-600 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-compass text-xs"></i> Explorar</a>
+                <a href="#como-funciona" class="hover:text-brand-600 transition-colors">¿Cómo funciona?</a>
+                <a href="registro-tutor.html" class="hover:text-brand-600 transition-colors">Enseñar</a>
+            </nav>
+            <div class="flex items-center gap-2.5">
+                <a href="login-registro.html" class="hidden sm:inline-flex px-4 py-2 text-sm font-semibold text-slate-700 hover:text-brand-600 transition-colors rounded-lg hover:bg-slate-50">Iniciar Sesión</a>
+                <a href="explorar.html" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm shadow-md shadow-brand-500/20 hover:shadow-lg transition-all duration-200">
+                    <i class="fa-solid fa-magnifying-glass text-xs"></i> Buscar Tutor
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero-gradient pt-14 pb-24 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7 space-y-7">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-100 text-brand-700 text-xs font-bold tracking-wider uppercase border border-brand-200/50">
+                        <i class="fa-solid fa-star text-amber-500 text-xs"></i>
+                        Plataforma líder en tutorías personalizadas
+                    </div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold text-slate-900 leading-[1.12] tracking-tight">
+                        Aprende con el tutor<br>que necesitas para
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-indigo-500"> alcanzar tus metas</span>
+                    </h1>
+                    <p class="text-lg text-slate-600 max-w-xl leading-relaxed">
+                        Conecta con profesores verificados para clases privadas online o presenciales. Tu ritmo, tu horario, tu aprendizaje.
+                    </p>
+
+                    <!-- Search Bar -->
+                    <div class="bg-white p-3 rounded-2xl shadow-xl shadow-slate-200/80 border border-slate-100 max-w-2xl">
+                        <form id="searchForm" action="explorar.html" method="GET" class="flex flex-col sm:flex-row gap-2.5">
+                            <div class="relative flex-1">
+                                <i class="fa-solid fa-book-open absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                                <input type="text" name="q" id="searchInput" placeholder="¿Qué quieres aprender?" class="w-full pl-10 pr-4 py-3 bg-slate-50 rounded-xl text-slate-700 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 border border-transparent">
+                            </div>
+                            <div class="relative sm:w-44">
+                                <i class="fa-solid fa-location-dot absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                                <select name="modalidad" class="w-full pl-10 pr-4 py-3 bg-slate-50 rounded-xl text-slate-700 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 border border-transparent appearance-none">
+                                    <option value="">Modalidad</option>
+                                    <option value="online">En Línea</option>
+                                    <option value="presencial">Presencial</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2 text-sm shadow-md">
+                                <i class="fa-solid fa-magnifying-glass"></i> Buscar
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div class="flex flex-wrap gap-2 text-xs font-medium text-slate-500">
+                        <span>Popular:</span>
+                        <a href="explorar.html?q=matematicas" class="px-3 py-1 bg-white rounded-full border border-slate-200 hover:border-brand-400 hover:text-brand-600 transition-all cursor-pointer">Matemáticas</a>
+                        <a href="explorar.html?q=python" class="px-3 py-1 bg-white rounded-full border border-slate-200 hover:border-brand-400 hover:text-brand-600 transition-all cursor-pointer">Python</a>
+                        <a href="explorar.html?q=ingles" class="px-3 py-1 bg-white rounded-full border border-slate-200 hover:border-brand-400 hover:text-brand-600 transition-all cursor-pointer">Inglés</a>
+                        <a href="explorar.html?q=fisica" class="px-3 py-1 bg-white rounded-full border border-slate-200 hover:border-brand-400 hover:text-brand-600 transition-all cursor-pointer">Física</a>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="flex flex-wrap items-center gap-8 pt-2 border-t border-slate-200/60">
+                        <div><p class="text-2xl font-bold text-slate-900 counter">+1,500</p><p class="text-xs text-slate-500 font-medium mt-0.5">Tutores Verificados</p></div>
+                        <div class="h-8 w-px bg-slate-200"></div>
+                        <div><p class="text-2xl font-bold text-slate-900 counter">98%</p><p class="text-xs text-slate-500 font-medium mt-0.5">Satisfacción</p></div>
+                        <div class="h-8 w-px bg-slate-200"></div>
+                        <div><p class="text-2xl font-bold text-slate-900 counter">+50</p><p class="text-xs text-slate-500 font-medium mt-0.5">Materias</p></div>
+                    </div>
+                </div>
+
+                <!-- Hero Visual -->
+                <div class="lg:col-span-5 relative">
+                    <div class="relative mx-auto max-w-md">
+                        <div class="absolute -top-8 -left-8 w-64 h-64 bg-brand-500/10 rounded-full blur-3xl"></div>
+                        <div class="absolute -bottom-8 -right-8 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl"></div>
+                        <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+                            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Estudiantes aprendiendo" class="w-full h-[440px] object-cover">
+                        </div>
+                        <!-- Floating badge: verified -->
+                        <div class="absolute -bottom-5 -left-5 bg-white p-3.5 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-3 animate-float">
+                            <div class="w-11 h-11 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg"><i class="fa-solid fa-shield-check"></i></div>
+                            <div><p class="text-sm font-bold text-slate-800">100% Verificados</p><p class="text-xs text-slate-500">Credenciales validadas</p></div>
+                        </div>
+                        <!-- Floating badge: rating -->
+                        <div class="absolute -top-4 -right-4 bg-white p-3 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-2.5">
+                            <div class="flex text-amber-400 text-xs gap-0.5">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <span class="text-xs font-bold text-slate-700">4.9 / 5.0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Proposition -->
+    <section class="py-12 bg-white border-y border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-user-check"></i></div>
+                    <div><h3 class="font-bold text-slate-900 mb-1">Perfiles Transparentes</h3><p class="text-sm text-slate-600 leading-relaxed">Revisa antecedentes, formación académica y reseñas reales antes de elegir.</p></div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-calendar-check"></i></div>
+                    <div><h3 class="font-bold text-slate-900 mb-1">Flexibilidad Total</h3><p class="text-sm text-slate-600 leading-relaxed">Sin paquetes obligatorios. Coordina horarios según tus necesidades.</p></div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-handshake-angle"></i></div>
+                    <div><h3 class="font-bold text-slate-900 mb-1">Garantía de Satisfacción</h3><p class="text-sm text-slate-600 leading-relaxed">Si la primera clase no cumple tus expectativas, te reasignamos sin costo.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subject Categories -->
+    <section class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Explora por área de estudio</h2>
+                <p class="mt-3 text-slate-600 text-lg">Especialistas preparados para guiarte en cualquier nivel.</p>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <a href="explorar.html?categoria=matematicas" class="group p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-brand-400 transition-all duration-300 card-hover block">
+                    <div class="w-13 h-13 w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 group-hover:bg-brand-600 group-hover:text-white flex items-center justify-center text-2xl transition-all mb-5"><i class="fa-solid fa-calculator"></i></div>
+                    <h3 class="font-bold text-lg text-slate-900 group-hover:text-brand-600 transition-colors">Matemáticas</h3>
+                    <p class="text-sm text-slate-500 mt-1.5 mb-5">Álgebra, Cálculo, Geometría y Estadística.</p>
+                    <div class="flex items-center text-xs font-bold text-brand-600 gap-1">Ver 320+ profesores <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-1 transition-transform"></i></div>
+                </a>
+                <a href="explorar.html?categoria=programacion" class="group p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-brand-400 transition-all duration-300 card-hover block">
+                    <div class="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 group-hover:bg-brand-600 group-hover:text-white flex items-center justify-center text-2xl transition-all mb-5"><i class="fa-solid fa-code"></i></div>
+                    <h3 class="font-bold text-lg text-slate-900 group-hover:text-brand-600 transition-colors">Programación & TI</h3>
+                    <p class="text-sm text-slate-500 mt-1.5 mb-5">Python, JavaScript, Desarrollo Web y Bases de Datos.</p>
+                    <div class="flex items-center text-xs font-bold text-brand-600 gap-1">Ver 210+ profesores <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-1 transition-transform"></i></div>
+                </a>
+                <a href="explorar.html?categoria=idiomas" class="group p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-brand-400 transition-all duration-300 card-hover block">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 group-hover:bg-brand-600 group-hover:text-white flex items-center justify-center text-2xl transition-all mb-5"><i class="fa-solid fa-language"></i></div>
+                    <h3 class="font-bold text-lg text-slate-900 group-hover:text-brand-600 transition-colors">Idiomas</h3>
+                    <p class="text-sm text-slate-500 mt-1.5 mb-5">Inglés, Francés, Alemán y preparación TOEFL.</p>
+                    <div class="flex items-center text-xs font-bold text-brand-600 gap-1">Ver 450+ profesores <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-1 transition-transform"></i></div>
+                </a>
+                <a href="explorar.html?categoria=ciencias" class="group p-6 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-brand-400 transition-all duration-300 card-hover block">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 group-hover:bg-brand-600 group-hover:text-white flex items-center justify-center text-2xl transition-all mb-5"><i class="fa-solid fa-atom"></i></div>
+                    <h3 class="font-bold text-lg text-slate-900 group-hover:text-brand-600 transition-colors">Ciencias Naturales</h3>
+                    <p class="text-sm text-slate-500 mt-1.5 mb-5">Física, Química, Biología y Termodinámica.</p>
+                    <div class="flex items-center text-xs font-bold text-brand-600 gap-1">Ver 180+ profesores <i class="fa-solid fa-chevron-right text-[10px] group-hover:translate-x-1 transition-transform"></i></div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works -->
+    <section id="como-funciona" class="py-20 bg-slate-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-[0.07] bg-[radial-gradient(#2563eb_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-14">
+                <span class="text-brand-500 text-xs font-extrabold uppercase tracking-widest">Proceso Simple</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 tracking-tight">¿Cómo funciona?</h2>
+                <p class="mt-3 text-slate-400 text-lg">Empezar a aprender solo te tomará unos minutos.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-7">
+                <div class="bg-slate-800/70 backdrop-blur border border-slate-700 p-8 rounded-2xl">
+                    <div class="w-12 h-12 rounded-xl bg-brand-600 font-extrabold text-xl flex items-center justify-center mb-6 shadow-lg shadow-brand-500/30">1</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Busca y compara</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Explora perfiles, lee opiniones de alumnos y compara tarifas por hora en tiempo real.</p>
+                </div>
+                <div class="bg-slate-800/70 backdrop-blur border border-slate-700 p-8 rounded-2xl">
+                    <div class="w-12 h-12 rounded-xl bg-brand-600 font-extrabold text-xl flex items-center justify-center mb-6 shadow-lg shadow-brand-500/30">2</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Reserva tu clase</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Elige modalidad (Online o Presencial) y selecciona el horario disponible que mejor se ajuste.</p>
+                </div>
+                <div class="bg-slate-800/70 backdrop-blur border border-slate-700 p-8 rounded-2xl">
+                    <div class="w-12 h-12 rounded-xl bg-brand-600 font-extrabold text-xl flex items-center justify-center mb-6 shadow-lg shadow-brand-500/30">3</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Aprende y avanza</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Conéctate al aula virtual o acude al punto de encuentro. Evalúa tu clase al finalizar.</p>
+                </div>
+            </div>
+            <div class="text-center mt-10">
+                <a href="explorar.html" class="inline-flex items-center gap-2 px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-lg transition-all">
+                    Empezar ahora <i class="fa-solid fa-arrow-right text-sm"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Lo que dicen nuestros estudiantes</h2>
+                <p class="mt-3 text-slate-600 text-lg">Cientos de alumnos han superado sus metas académicas.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-7">
+                <div class="bg-slate-50 p-7 rounded-2xl border border-slate-200/60 space-y-4">
+                    <div class="flex text-amber-400 text-sm gap-0.5"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="text-slate-700 text-sm leading-relaxed italic">"Estaba sufriendo con Cálculo Integral. Encontré a la profesora Elena y en solo 4 sesiones logré entender conceptos que llevaba meses sin captar."</p>
+                    <div class="flex items-center gap-3 pt-1">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80" class="w-10 h-10 rounded-full object-cover" alt="">
+                        <div><p class="font-bold text-slate-900 text-sm">Camila Torres</p><p class="text-xs text-slate-500">Ingeniería Civil</p></div>
+                    </div>
+                </div>
+                <div class="bg-slate-50 p-7 rounded-2xl border border-slate-200/60 space-y-4">
+                    <div class="flex text-amber-400 text-sm gap-0.5"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="text-slate-700 text-sm leading-relaxed italic">"Necesitaba preparar mi entrevista técnica en inglés. Carlos me ayudó con conversación fluida enfocado en términos de software. Súper recomendado."</p>
+                    <div class="flex items-center gap-3 pt-1">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80" class="w-10 h-10 rounded-full object-cover" alt="">
+                        <div><p class="font-bold text-slate-900 text-sm">Mateo Ríos</p><p class="text-xs text-slate-500">Desarrollador Web</p></div>
+                    </div>
+                </div>
+                <div class="bg-slate-50 p-7 rounded-2xl border border-slate-200/60 space-y-4">
+                    <div class="flex text-amber-400 text-sm gap-0.5"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                    <p class="text-slate-700 text-sm leading-relaxed italic">"La garantía de la primera clase me dio confianza para probar. Ahora tomo clases semanales de Física y mis notas mejoraron notablemente."</p>
+                    <div class="flex items-center gap-3 pt-1">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&q=80" class="w-10 h-10 rounded-full object-cover" alt="">
+                        <div><p class="font-bold text-slate-900 text-sm">Sofía Mendoza</p><p class="text-xs text-slate-500">Bachillerato</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tutor CTA -->
+    <section class="py-16 bg-gradient-to-r from-brand-600 to-indigo-700 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-10 items-center">
+                <div class="lg:col-span-8 space-y-5">
+                    <span class="bg-white/20 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">¿Eres profesor o especialista?</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold">Enseña en EduConnect y genera ingresos compartiendo tu conocimiento</h2>
+                    <div class="flex flex-wrap gap-5">
+                        <span class="flex items-center gap-2 text-sm font-medium"><i class="fa-solid fa-circle-check text-brand-accent"></i> Sin cuotas de inscripción</span>
+                        <span class="flex items-center gap-2 text-sm font-medium"><i class="fa-solid fa-circle-check text-brand-accent"></i> Cobros semanales seguros</span>
+                        <span class="flex items-center gap-2 text-sm font-medium"><i class="fa-solid fa-circle-check text-brand-accent"></i> Herramientas para tus clases</span>
+                    </div>
+                </div>
+                <div class="lg:col-span-4">
+                    <a href="registro-tutor.html" class="block w-full py-4 bg-white text-brand-600 hover:bg-brand-50 font-extrabold text-center rounded-2xl shadow-xl transition-all duration-200 text-lg">
+                        Regístrate como Tutor →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-14 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+                <div class="col-span-2 md:col-span-1 space-y-4">
+                    <span class="text-xl font-extrabold text-white">Edu<span class="text-brand-500">Connect</span></span>
+                    <p class="text-sm leading-relaxed">La plataforma que simplifica el encuentro entre estudiantes y tutores calificados.</p>
+                    <div class="flex gap-3 text-lg">
+                        <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white text-xs font-bold uppercase tracking-wider mb-4">Estudiantes</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="explorar.html" class="hover:text-white transition-colors">Buscar Tutores</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Categorías</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Garantía de Clase</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white text-xs font-bold uppercase tracking-wider mb-4">Profesores</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="registro-tutor.html" class="hover:text-white transition-colors">Convertirme en Tutor</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Requisitos</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Casos de Éxito</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white text-xs font-bold uppercase tracking-wider mb-4">Soporte</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contacto</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Privacidad</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-6 border-t border-slate-800 text-xs text-slate-500 text-center">
+                <p>© 2026 EduConnect Inc. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
