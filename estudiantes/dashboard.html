@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Estudiante — EduConnect</title>
+    <meta name="description" content="Gestiona tus clases, ingresa al aula virtual y consulta tu progreso de aprendizaje en EduConnect.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: {
+                        brand: { 50:'#f0f7ff', 100:'#e0effe', 500:'#2563eb', 600:'#1d4ed8', 700:'#1e40af', accent:'#f97316' }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white flex h-screen overflow-hidden">
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-slate-200 flex flex-col transition-transform duration-300 -translate-x-full lg:translate-x-0 lg:static">
+        <!-- Logo -->
+        <div class="h-18 px-6 flex items-center justify-between border-b border-slate-100 py-5">
+            <a href="dashboard.html" class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl bg-brand-600 text-white flex items-center justify-center shadow-lg shadow-brand-500/30">
+                    <i class="fa-solid fa-graduation-cap text-sm"></i>
+                </div>
+                <span class="text-xl font-extrabold tracking-tight text-slate-900">Edu<span class="text-brand-600">Connect</span></span>
+            </a>
+            <button id="closeSidebarBtn" class="lg:hidden p-2 text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Student Profile Mini Card -->
+        <div class="p-4 border-b border-slate-100">
+            <div class="flex items-center gap-3 p-2 bg-slate-50 rounded-2xl border border-slate-200/70">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80" alt="Alumno" class="w-10 h-10 rounded-xl object-cover border border-brand-200">
+                <div class="flex-1 min-w-0">
+                    <h4 class="text-xs font-bold text-slate-900 truncate">Alejandro Silva</h4>
+                    <p class="text-[11px] text-brand-600 font-semibold flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Estudiante Activo
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nav Links -->
+        <nav class="flex-1 px-4 py-4 space-y-1.5 overflow-y-auto">
+            <p class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-2">Mi Portal</p>
+            
+            <a href="dashboard.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-brand-50 text-brand-700 font-bold text-sm shadow-sm transition-all">
+                <i class="fa-solid fa-chart-pie text-brand-600 w-4"></i> Dashboard
+            </a>
+            
+            <a href="aula-virtual.html" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-semibold text-sm transition-all group">
+                <span class="flex items-center gap-3">
+                    <i class="fa-solid fa-video text-slate-400 group-hover:text-brand-600 w-4 transition-colors"></i> Aula Virtual
+                </span>
+                <span class="px-2 py-0.5 text-[10px] font-extrabold bg-red-100 text-red-600 rounded-full animate-pulse">EN VIVO</span>
+            </a>
+
+            <a href="mis-clases.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-semibold text-sm transition-all group">
+                <i class="fa-solid fa-calendar-days text-slate-400 group-hover:text-brand-600 w-4 transition-colors"></i> Mis Clases
+            </a>
+
+            <a href="mis-tutores.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-semibold text-sm transition-all group">
+                <i class="fa-solid fa-user-tie text-slate-400 group-hover:text-brand-600 w-4 transition-colors"></i> Mis Tutores
+            </a>
+
+            <a href="finanzas.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-semibold text-sm transition-all group">
+                <i class="fa-solid fa-receipt text-slate-400 group-hover:text-brand-600 w-4 transition-colors"></i> Finanzas & Recibos
+            </a>
+
+            <div class="pt-4 mt-4 border-t border-slate-100">
+                <p class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-2">Comunidad</p>
+                <a href="../Paginas Publicas/explorar.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-semibold text-sm transition-all group">
+                    <i class="fa-solid fa-compass text-slate-400 group-hover:text-brand-600 w-4 transition-colors"></i> Buscar Nuevos Tutores
+                </a>
+            </div>
+        </nav>
+
+        <!-- Bottom Session -->
+        <div class="p-4 border-t border-slate-100">
+            <a href="../Paginas Publicas/login-registro.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-500 hover:bg-red-50 hover:text-red-600 font-semibold text-sm transition-all">
+                <i class="fa-solid fa-arrow-right-from-bracket w-4"></i> Cerrar Sesión
+            </a>
+        </div>
+    </aside>
+
+    <!-- Overlay for mobile sidebar -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden lg:hidden"></div>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        
+        <!-- Header -->
+        <header class="h-18 bg-white border-b border-slate-200 px-4 sm:px-6 lg:px-8 flex items-center justify-between shrink-0 py-4">
+            <div class="flex items-center gap-4">
+                <button id="openSidebarBtn" class="lg:hidden p-2 text-slate-600 hover:text-brand-600">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+                <div>
+                    <h1 class="text-base sm:text-lg font-extrabold text-slate-900">Dashboard del Estudiante</h1>
+                    <p class="text-xs text-slate-500 hidden sm:block">Bienvenido de vuelta, Alejandro. Tienes 1 clase hoy.</p>
+                </div>
+            </div>
+
+            <!-- Topbar Actions -->
+            <div class="flex items-center gap-3">
+                <!-- Credits pill -->
+                <div class="hidden sm:flex items-center gap-2 bg-emerald-50 border border-emerald-200/80 px-3 py-1.5 rounded-xl">
+                    <i class="fa-solid fa-wallet text-emerald-600 text-xs"></i>
+                    <span class="text-xs font-bold text-emerald-800">$65.00 USD</span>
+                    <a href="finanzas.html" class="text-[11px] font-bold text-emerald-600 hover:underline ml-1">+ Recargar</a>
+                </div>
+
+                <!-- Notifications -->
+                <div class="relative">
+                    <button class="w-9 h-9 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 flex items-center justify-center relative">
+                        <i class="fa-solid fa-bell text-xs"></i>
+                        <span class="w-2 h-2 rounded-full bg-brand-600 absolute top-2 right-2 ring-2 ring-white"></span>
+                    </button>
+                </div>
+
+                <!-- Profile avatar link -->
+                <a href="mis-tutores.html" class="flex items-center gap-2 pl-2">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80" alt="Avatar" class="w-9 h-9 rounded-xl object-cover ring-2 ring-brand-100">
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Scrollable Body -->
+        <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6">
+
+            <!-- ================= ALERT BANNER: CLASE EN VIVO ================= -->
+            <div class="bg-gradient-to-r from-brand-600 via-indigo-600 to-brand-700 rounded-3xl p-6 sm:p-8 text-white shadow-xl shadow-brand-500/15 relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+                
+                <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div class="space-y-2">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-white text-xs font-extrabold tracking-wide uppercase backdrop-blur-md">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                            Tu próxima clase está lista
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-black tracking-tight">Algoritmos y Estructuras de Datos</h2>
+                        <p class="text-brand-100 text-sm max-w-xl">
+                            Con el <span class="font-bold text-white">Ing. Carlos Mendoza</span>. La sala virtual ya se encuentra abierta y el profesor está conectado.
+                        </p>
+                        <div class="flex items-center gap-4 text-xs text-brand-100 pt-1">
+                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-clock"></i> 18:00 - 19:00 hrs</span>
+                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-laptop"></i> Online (WebRTC)</span>
+                        </div>
+                    </div>
+
+                    <div class="shrink-0 flex flex-col sm:flex-row gap-3">
+                        <a href="aula-virtual.html" class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-white text-brand-600 hover:bg-brand-50 font-extrabold rounded-2xl shadow-lg transition-all duration-200 text-sm group">
+                            <i class="fa-solid fa-video text-brand-600 group-hover:scale-110 transition-transform"></i>
+                            Entrar al Aula Virtual
+                        </a>
+                        <a href="mis-clases.html" class="inline-flex items-center justify-center gap-2 px-4 py-3.5 bg-white/15 hover:bg-white/25 text-white font-bold rounded-2xl backdrop-blur-md transition-all text-sm">
+                            Detalles
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= STATS CARDS ================= -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <!-- Stat 1 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-brand-600 flex items-center justify-center text-lg shrink-0">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-semibold">Clases Tomadas</p>
+                        <h3 class="text-2xl font-black text-slate-900 mt-0.5">14</h3>
+                    </div>
+                </div>
+                <!-- Stat 2 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg shrink-0">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-semibold">Horas de Estudio</p>
+                        <h3 class="text-2xl font-black text-slate-900 mt-0.5">21 hrs</h3>
+                    </div>
+                </div>
+                <!-- Stat 3 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg shrink-0">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-semibold">Tutores Frecuentes</p>
+                        <h3 class="text-2xl font-black text-slate-900 mt-0.5">3</h3>
+                    </div>
+                </div>
+                <!-- Stat 4 -->
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg shrink-0">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-semibold">Nivel Académico</p>
+                        <h3 class="text-xl font-black text-slate-900 mt-0.5">Avanzado</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= 2-COLUMN SECTION: AGENDA & TUTORES RECIENTES ================= -->
+            <div class="grid lg:grid-cols-12 gap-6">
+                
+                <!-- Left Column: Upcoming Classes (8 cols) -->
+                <div class="lg:col-span-8 bg-white rounded-3xl border border-slate-200/80 shadow-sm p-6 space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div>
+                            <h3 class="text-base font-extrabold text-slate-900">Agenda de la Semana</h3>
+                            <p class="text-xs text-slate-500 mt-0.5">Tienes 3 sesiones programadas para los próximos días</p>
+                        </div>
+                        <a href="mis-clases.html" class="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1">
+                            Ver calendario completo <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </a>
+                    </div>
+
+                    <!-- Classes List -->
+                    <div class="space-y-3.5">
+                        <!-- Class 1 (Today) -->
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-brand-50/50 border border-brand-100 hover:border-brand-200 transition-all">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-2xl bg-brand-600 text-white flex flex-col items-center justify-center shrink-0 shadow-md shadow-brand-500/20 font-bold">
+                                    <span class="text-[10px] uppercase font-semibold text-brand-200">HOY</span>
+                                    <span class="text-base leading-none">18:00</span>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h4 class="font-extrabold text-slate-900 text-sm">Algoritmos en Python</h4>
+                                        <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-emerald-100 text-emerald-700">Confirmada</span>
+                                    </div>
+                                    <p class="text-xs text-slate-600 mt-0.5">Profesor: Ing. Carlos Mendoza · 1 hr</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <a href="aula-virtual.html" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1.5">
+                                    <i class="fa-solid fa-arrow-right-to-bracket text-[11px]"></i> Entrar
+                                </a>
+                                <a href="mis-clases.html" class="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-white transition-all">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Class 2 (Tomorrow) -->
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-slate-300 transition-all">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-2xl bg-white border border-slate-200 text-slate-700 flex flex-col items-center justify-center shrink-0 font-bold">
+                                    <span class="text-[10px] uppercase text-slate-400 font-semibold">JUE</span>
+                                    <span class="text-base leading-none text-slate-800">16:30</span>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h4 class="font-extrabold text-slate-900 text-sm">Cálculo Diferencial e Integral</h4>
+                                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-brand-600">Online</span>
+                                    </div>
+                                    <p class="text-xs text-slate-600 mt-0.5">Profesora: Dra. Elena Rostova · 1.5 hrs</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <a href="mis-clases.html" class="px-3.5 py-2 bg-white border border-slate-200 text-slate-700 font-bold text-xs rounded-xl hover:bg-slate-50 transition-all">
+                                    Gestionar
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Class 3 (Weekend) -->
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-slate-300 transition-all">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-2xl bg-white border border-slate-200 text-slate-700 flex flex-col items-center justify-center shrink-0 font-bold">
+                                    <span class="text-[10px] uppercase text-slate-400 font-semibold">SÁB</span>
+                                    <span class="text-base leading-none text-slate-800">10:00</span>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h4 class="font-extrabold text-slate-900 text-sm">Conversación en Inglés Avanzado</h4>
+                                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-brand-600">Online</span>
+                                    </div>
+                                    <p class="text-xs text-slate-600 mt-0.5">Profesora: Sarah Jenkins · 1 hr</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <a href="mis-clases.html" class="px-3.5 py-2 bg-white border border-slate-200 text-slate-700 font-bold text-xs rounded-xl hover:bg-slate-50 transition-all">
+                                    Gestionar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: My Active Tutors & Quick Hire (4 cols) -->
+                <div class="lg:col-span-4 bg-white rounded-3xl border border-slate-200/80 shadow-sm p-6 space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <h3 class="text-base font-extrabold text-slate-900">Mis Tutores</h3>
+                        <a href="mis-tutores.html" class="text-xs font-bold text-brand-600 hover:underline">Ver todos</a>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- Tutor 1 -->
+                        <div class="flex items-center justify-between gap-3 p-3 rounded-2xl hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all">
+                            <div class="flex items-center gap-3">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Carlos" class="w-11 h-11 rounded-xl object-cover border border-slate-200">
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-xs">Carlos Mendoza</h4>
+                                    <p class="text-[11px] text-slate-500">Python · $30/h</p>
+                                    <div class="flex items-center gap-1 text-amber-500 text-[10px] mt-0.5 font-bold">
+                                        <i class="fa-solid fa-star"></i> 5.0 (8 clases juntos)
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="../Paginas Publicas/tutor-perfil.html?id=2" class="p-2 text-brand-600 hover:bg-brand-50 rounded-xl transition-colors" title="Reservar otra clase">
+                                <i class="fa-solid fa-calendar-plus text-sm"></i>
+                            </a>
+                        </div>
+
+                        <!-- Tutor 2 -->
+                        <div class="flex items-center justify-between gap-3 p-3 rounded-2xl hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all">
+                            <div class="flex items-center gap-3">
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80" alt="Elena" class="w-11 h-11 rounded-xl object-cover border border-slate-200">
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-xs">Dra. Elena Rostova</h4>
+                                    <p class="text-[11px] text-slate-500">Cálculo · $28/h</p>
+                                    <div class="flex items-center gap-1 text-amber-500 text-[10px] mt-0.5 font-bold">
+                                        <i class="fa-solid fa-star"></i> 4.9 (4 clases juntos)
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="../Paginas Publicas/tutor-perfil.html?id=1" class="p-2 text-brand-600 hover:bg-brand-50 rounded-xl transition-colors" title="Reservar otra clase">
+                                <i class="fa-solid fa-calendar-plus text-sm"></i>
+                            </a>
+                        </div>
+
+                        <!-- Tutor 3 -->
+                        <div class="flex items-center justify-between gap-3 p-3 rounded-2xl hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all">
+                            <div class="flex items-center gap-3">
+                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80" alt="Sarah" class="w-11 h-11 rounded-xl object-cover border border-slate-200">
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-xs">Sarah Jenkins</h4>
+                                    <p class="text-[11px] text-slate-500">Inglés · $25/h</p>
+                                    <div class="flex items-center gap-1 text-amber-500 text-[10px] mt-0.5 font-bold">
+                                        <i class="fa-solid fa-star"></i> 5.0 (2 clases juntos)
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="../Paginas Publicas/tutor-perfil.html?id=3" class="p-2 text-brand-600 hover:bg-brand-50 rounded-xl transition-colors" title="Reservar otra clase">
+                                <i class="fa-solid fa-calendar-plus text-sm"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <a href="../Paginas Publicas/explorar.html" class="block text-center w-full py-2.5 bg-slate-50 hover:bg-brand-50 text-slate-700 hover:text-brand-600 font-bold text-xs rounded-xl border border-slate-200 transition-all">
+                        <i class="fa-solid fa-magnifying-glass mr-1.5 text-slate-400"></i> Encontrar otro tutor
+                    </a>
+                </div>
+
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Mobile Drawer Scripts -->
+    <script>
+        const openBtn = document.getElementById('openSidebarBtn');
+        const closeBtn = document.getElementById('closeSidebarBtn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        if (openBtn) openBtn.addEventListener('click', toggleSidebar);
+        if (closeBtn) closeBtn.addEventListener('click', toggleSidebar);
+        if (overlay) overlay.addEventListener('click', toggleSidebar);
+    </script>
+</body>
+</html>

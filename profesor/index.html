@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Profesor - EduConnect</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                            accent: '#f97316'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-slate-100 text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Top Bar Navigation for Tutor -->
+    <header class="bg-slate-900 text-white sticky top-0 z-40 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            
+            <!-- Brand & Portal Tag -->
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-brand-600 text-white flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <span class="text-lg font-extrabold tracking-tight text-white">Edu<span class="text-brand-500">Connect</span></span>
+                </a>
+                <span class="px-2.5 py-0.5 rounded-full bg-brand-500/20 text-brand-300 text-[11px] font-bold uppercase tracking-wider border border-brand-500/30">
+                    Panel Profesor
+                </span>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-6 text-xs font-semibold text-slate-300">
+                <a href="profesor-dashboard.html" class="text-white font-bold text-brand-400">Dashboard</a>
+                <a href="#agenda" class="hover:text-white transition-colors">Mi Agenda</a>
+                <a href="#alumnos" class="hover:text-white transition-colors">Mis Alumnos</a>
+                <a href="#finanzas" class="hover:text-white transition-colors">Finanzas & Cobros</a>
+            </nav>
+
+            <!-- User Profile Quick View -->
+            <div class="flex items-center gap-4">
+                <button class="relative text-slate-400 hover:text-white transition-colors">
+                    <i class="fa-regular fa-bell text-lg"></i>
+                    <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-brand-accent rounded-full"></span>
+                </button>
+                <div class="flex items-center gap-3 pl-3 border-l border-slate-800">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="" class="w-9 h-9 rounded-xl object-cover border border-slate-700">
+                    <div class="hidden sm:block text-left">
+                        <p class="text-xs font-bold text-white leading-tight">Ing. Carlos Mendoza</p>
+                        <p class="text-[10px] text-emerald-400 font-semibold flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Disponible
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        
+        <!-- Welcome Banner -->
+        <div class="bg-gradient-to-r from-brand-700 via-brand-600 to-indigo-700 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div class="space-y-2">
+                <span class="px-3 py-1 bg-white/20 rounded-full text-xs font-bold uppercase tracking-wider">Sesión Activa</span>
+                <h1 class="text-2xl sm:text-3xl font-extrabold">¡Hola de nuevo, Carlos!</h1>
+                <p class="text-brand-100 text-sm max-w-xl">Tienes 2 clases programadas para el día de hoy y 1 nueva solicitud de alumno esperando respuesta.</p>
+            </div>
+            <button onclick="showToast('Sincronizando con Google Calendar...')" class="px-5 py-3 bg-white text-brand-700 hover:bg-brand-50 font-bold rounded-2xl text-xs shadow-lg transition-all shrink-0 flex items-center gap-2">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span>Sincronizar Agenda</span>
+            </button>
+        </div>
+
+        <!-- Metrics Overview Grid -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <!-- Metric 1 -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-2">
+                <div class="flex items-center justify-between text-slate-400">
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Saldo Disponible</span>
+                    <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm font-bold">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                </div>
+                <p class="text-2xl font-extrabold text-slate-900">$480.00 <span class="text-xs text-slate-400 font-normal">USD</span></p>
+                <p class="text-[11px] text-emerald-600 font-bold flex items-center gap-1">
+                    <i class="fa-solid fa-arrow-up"></i> +$120 esta semana
+                </p>
+            </div>
+
+            <!-- Metric 2 -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-2">
+                <div class="flex items-center justify-between text-slate-400">
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Clases del Mes</span>
+                    <div class="w-8 h-8 rounded-xl bg-blue-50 text-brand-600 flex items-center justify-center text-sm font-bold">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
+                </div>
+                <p class="text-2xl font-extrabold text-slate-900">18 Sesiones</p>
+                <p class="text-[11px] text-slate-500 font-medium">Cumplimiento del 100%</p>
+            </div>
+
+            <!-- Metric 3 -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-2">
+                <div class="flex items-center justify-between text-slate-400">
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Calificación</span>
+                    <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center text-sm font-bold">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+                <p class="text-2xl font-extrabold text-slate-900">5.0 / 5.0</p>
+                <p class="text-[11px] text-amber-600 font-bold">Basado en 112 opiniones</p>
+            </div>
+
+            <!-- Metric 4 -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm space-y-2">
+                <div class="flex items-center justify-between text-slate-400">
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Tasa de Respuesta</span>
+                    <div class="w-8 h-8 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-sm font-bold">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                </div>
+                <p class="text-2xl font-extrabold text-slate-900">15 min</p>
+                <p class="text-[11px] text-purple-600 font-bold">Respuesta ultra rápida</p>
+            </div>
+        </div>
+
+        <!-- Two Column Main Body -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Left Column: Pending Requests & Upcoming Classes -->
+            <div class="lg:col-span-8 space-y-8">
+                
+                <!-- Pending Booking Requests -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <h2 class="font-extrabold text-slate-900 text-base flex items-center gap-2">
+                            <i class="fa-solid fa-clock-rotate-left text-brand-accent"></i>
+                            Solicitudes de Clase Pendientes
+                        </h2>
+                        <span id="requestsCount" class="px-2.5 py-0.5 rounded-full bg-orange-100 text-brand-accent text-xs font-bold">1 Solicitud</span>
+                    </div>
+
+                    <div id="requestsList" class="space-y-4">
+                        <!-- Pending Item Card -->
+                        <div id="request-card-1" class="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div class="flex items-center gap-3">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Camila Torres" class="w-12 h-12 rounded-xl object-cover">
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-sm">Camila Torres</h4>
+                                    <p class="text-xs text-brand-600 font-semibold">Programación Python & Lógica</p>
+                                    <p class="text-[11px] text-slate-500 mt-0.5"><i class="fa-regular fa-calendar mr-1"></i> Mañana, 16:00 - 17:00 (1 hora)</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2 w-full sm:w-auto">
+                                <button onclick="rejectRequest(1)" class="flex-1 sm:flex-none px-4 py-2 bg-white hover:bg-rose-50 text-rose-600 border border-slate-200 hover:border-rose-200 rounded-xl font-bold text-xs transition-colors">
+                                    Rechazar
+                                </button>
+                                <button onclick="acceptRequest(1)" class="flex-1 sm:flex-none px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs shadow-md transition-colors">
+                                    Aceptar Clase
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="noRequestsMsg" class="hidden text-center py-6 text-xs text-slate-400 font-medium">
+                        No tienes solicitudes pendientes por responder en este momento.
+                    </div>
+                </div>
+
+                <!-- Today's Schedule -->
+                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <h2 class="font-extrabold text-slate-900 text-base flex items-center gap-2">
+                            <i class="fa-solid fa-calendar-day text-brand-600"></i>
+                            Clases Programadas para Hoy
+                        </h2>
+                        <span class="text-xs font-bold text-slate-500">Jueves, 3 de Septiembre</span>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- Today Class 1 (Live Active Soon) -->
+                        <div class="p-5 rounded-2xl border-2 border-brand-500 bg-brand-50/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-2xl bg-brand-600 text-white flex items-center justify-center font-extrabold text-sm shrink-0 shadow-md">
+                                    15:00
+                                </div>
+                                <div class="space-y-1">
+                                    <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase">En 15 Minutos</span>
+                                    <h3 class="font-bold text-slate-900 text-base">Desarrollo Frontend React</h3>
+                                    <p class="text-xs text-slate-600">Alumno: <span class="font-semibold text-slate-800">Mateo Ríos</span> • Modalidad: 💻 En Línea</p>
+                                </div>
+                            </div>
+
+                            <a href="aula-virtual.html" class="w-full sm:w-auto px-5 py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs shadow-md transition-all text-center flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-video"></i>
+                                <span>Entrar al Aula Virtual</span>
+                            </a>
+                        </div>
+
+                        <!-- Today Class 2 -->
+                        <div class="p-5 rounded-2xl border border-slate-200 bg-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-700 flex items-center justify-center font-extrabold text-sm shrink-0">
+                                    18:30
+                                </div>
+                                <div class="space-y-1">
+                                    <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-bold uppercase">Más Tarde</span>
+                                    <h3 class="font-bold text-slate-900 text-base">Estructuras de Datos C++</h3>
+                                    <p class="text-xs text-slate-600">Alumno: <span class="font-semibold text-slate-800">Sofía Mendoza</span> • Modalidad: 💻 En Línea</p>
+                                </div>
+                            </div>
+
+                            <button onclick="showToast('El botón se activará 10 minutos antes de la clase.')" class="w-full sm:w-auto px-4 py-2.5 bg-slate-100 text-slate-400 font-bold rounded-xl text-xs cursor-not-allowed text-center">
+                                No Iniciada
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Quick Profile Control & Next Earnings -->
+            <div class="lg:col-span-4 space-y-6">
+                
+                <!-- Quick Payout Box -->
+                <div class="bg-slate-900 text-white p-6 rounded-2xl space-y-4 shadow-lg relative overflow-hidden">
+                    <div class="space-y-1 relative z-10">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Próximo Pago Automático</span>
+                        <h3 class="text-3xl font-extrabold text-white">$480.00 USD</h3>
+                        <p class="text-xs text-emerald-400 font-medium">Programado para este Viernes</p>
+                    </div>
+
+                    <div class="pt-2 relative z-10">
+                        <button onclick="showToast('Solicitud de retiro anticipado enviada.')" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs transition-colors shadow-md">
+                            Solicitar Retiro Inmediato
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tutor Profile Status Widget -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                    <h3 class="font-bold text-slate-900 text-sm border-b border-slate-100 pb-3">Estado de Perfil Público</h3>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-slate-600 font-medium">Tarifa por hora:</span>
+                            <span class="font-bold text-slate-900">$30 USD / hr</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-slate-600 font-medium">Visibilidad de perfil:</span>
+                            <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-bold">Público</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-slate-600 font-medium">Comisión plataforma:</span>
+                            <span class="font-bold text-slate-900">12%</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button onclick="showToast('Redirigiendo a edición de perfil...')" class="w-full py-2.5 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold border border-slate-200 rounded-xl text-xs transition-colors">
+                            Editar Información y Tarifas
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-slate-700">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <span id="toastMessage" class="text-sm font-medium"></span>
+    </div>
+
+    <script>
+        function acceptRequest(id) {
+            document.getElementById(`request-card-${id}`).remove();
+            checkEmptyRequests();
+            showToast('¡Clase confirmada! Hemos notificado al estudiante.');
+        }
+
+        function rejectRequest(id) {
+            document.getElementById(`request-card-${id}`).remove();
+            checkEmptyRequests();
+            showToast('Solicitud rechazada. El horario se mantendrá libre en tu agenda.');
+        }
+
+        function checkEmptyRequests() {
+            const list = document.getElementById('requestsList');
+            if (list.children.length === 0) {
+                document.getElementById('noRequestsMsg').classList.remove('hidden');
+                document.getElementById('requestsCount').textContent = '0 Solicitudes';
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 4000);
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enseña en EduConnect — Conviértete en Tutor y Genera Ingresos</title>
+    <meta name="description"
+        content="Únete a la red de tutores más confiable de Latinoamérica. Elige tus propios horarios, fija tus tarifas y enseña a miles de estudiantes online o presencial.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#f0f7ff', 100: '#e0effe', 500: '#2563eb', 600: '#1d4ed8', 700: '#1e40af', accent: '#f97316' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-pattern {
+            background-color: #0f172a;
+            background-image: radial-gradient(#1e40af 1px, transparent 1px), radial-gradient(#2563eb 1px, #0f172a 1px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+
+        .step-circle {
+            transition: all 0.3s ease;
+        }
+
+        .step-circle.active {
+            background-color: #2563eb;
+            color: white;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+        }
+
+        .step-circle.completed {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .chip-selectable {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chip-selectable.selected {
+            background-color: #1d4ed8;
+            color: white;
+            border-color: #1d4ed8;
+        }
+
+        .faq-item button i {
+            transition: transform 0.25s ease;
+        }
+
+        .faq-item.open button i {
+            transform: rotate(180deg);
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #2563eb;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 6px;
+            outline: none;
+        }
+    </style>
+</head>
+
+<body class="font-sans bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Navbar -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between py-4">
+            <a href="index.html" class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl bg-brand-600 text-white flex items-center justify-center shadow-lg shadow-brand-500/30">
+                    <i class="fa-solid fa-graduation-cap text-sm"></i>
+                </div>
+                <span class="text-xl font-extrabold tracking-tight text-slate-900">Edu<span class="text-brand-600">Connect</span></span>
+            </a>
+            
+            <nav class="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600">
+                <a href="explorar.html" class="hover:text-brand-600 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-compass text-xs"></i> Explorar</a>
+                <a href="index.html#como-funciona" class="hover:text-brand-600 transition-colors">¿Cómo funciona?</a>
+                <a href="registro-tutor.html" class="text-brand-600 font-bold border-b-2 border-brand-600 pb-0.5">Enseñar</a>
+            </nav>
+
+            <div class="flex items-center gap-2.5">
+                <a href="login-registro.html" class="hidden sm:inline-flex px-4 py-2 text-sm font-semibold text-slate-700 hover:text-brand-600 transition-colors rounded-lg hover:bg-slate-50">
+                    Iniciar Sesión
+                </a>
+                <a href="#formulario-postulacion" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm shadow-md shadow-brand-500/20 hover:shadow-lg transition-all duration-200">
+                    <i class="fa-solid fa-chalkboard-user text-xs"></i> Postular Ahora
+                </a>
+                <!-- Mobile menu button -->
+                <button id="mobileMenuBtn" class="md:hidden p-2 text-slate-600 hover:text-brand-600">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-5 space-y-3 shadow-lg">
+            <a href="explorar.html" class="block py-2 text-sm font-semibold text-slate-700 hover:text-brand-600 flex items-center gap-2"><i class="fa-solid fa-compass text-xs text-brand-600"></i> Explorar Tutores</a>
+            <a href="index.html#como-funciona" class="block py-2 text-sm font-semibold text-slate-700 hover:text-brand-600 flex items-center gap-2"><i class="fa-solid fa-circle-question text-xs text-brand-600"></i> ¿Cómo funciona?</a>
+            <a href="registro-tutor.html" class="block py-2 text-sm font-bold text-brand-600 flex items-center gap-2"><i class="fa-solid fa-chalkboard-user text-xs text-brand-600"></i> Enseñar en EduConnect</a>
+            <div class="pt-2 border-t border-slate-100 flex flex-col gap-2">
+                <a href="login-registro.html" class="block py-2 text-sm font-semibold text-slate-700 hover:text-brand-600">Iniciar Sesión</a>
+                <a href="#formulario-postulacion" class="inline-flex items-center justify-center gap-2 py-2.5 bg-brand-600 text-white font-bold text-sm rounded-xl">Postular Ahora</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-pattern text-white pt-16 pb-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+
+                <div class="lg:col-span-7 space-y-6">
+                    <div
+                        class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-500/20 text-brand-300 text-xs font-bold tracking-wider uppercase border border-brand-400/30">
+                        <i class="fa-solid fa-sparkles text-amber-400 text-xs"></i>
+                        Comunidad docente en crecimiento
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl font-extrabold text-white leading-tight tracking-tight">
+                        Enseña lo que apasionas.<br>
+                        Gana hasta <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-indigo-300 to-amber-300">$1,500
+                            USD/mes</span> a tu propio ritmo.
+                    </h1>
+
+                    <p class="text-slate-300 text-base sm:text-lg max-w-xl leading-relaxed">
+                        Conecta con miles de estudiantes que buscan clases en Matemáticas, Programación, Idiomas y
+                        Ciencias. Fija tus tarifas y enseña online o presencial.
+                    </p>
+
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <a href="#formulario-postulacion"
+                            class="inline-flex items-center gap-2 px-6 py-3.5 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl shadow-lg shadow-brand-500/30 transition-all text-sm">
+                            Comenzar Registro Gratis <i class="fa-solid fa-arrow-down text-xs"></i>
+                        </a>
+                        <a href="#calculadora"
+                            class="inline-flex items-center gap-2 px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold rounded-xl border border-slate-700 transition-all text-sm">
+                            <i class="fa-solid fa-calculator text-brand-400"></i> Calcular Ingresos
+                        </a>
+                    </div>
+
+                    <!-- Key stats badge -->
+                    <div class="grid grid-cols-3 gap-4 pt-6 border-t border-slate-800/80">
+                        <div>
+                            <p class="text-2xl font-bold text-white counter">0%</p>
+                            <p class="text-xs text-slate-400 mt-0.5">Costo de inscripción</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-white counter">Semanal</p>
+                            <p class="text-xs text-slate-400 mt-0.5">Pagos directos a tu banco</p>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-white counter">+10,000</p>
+                            <p class="text-xs text-slate-400 mt-0.5">Clases dictadas</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Graphic / Summary Card -->
+                <div class="lg:col-span-5">
+                    <div
+                        class="bg-slate-800/80 backdrop-blur-xl border border-slate-700 rounded-3xl p-7 shadow-2xl space-y-6">
+                        <div class="flex items-center justify-between pb-4 border-b border-slate-700/60">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Perfil del
+                                Tutor</span>
+                            <span
+                                class="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-400 text-xs font-bold rounded-full border border-emerald-500/30">
+                                <i class="fa-solid fa-check text-[10px] mr-1"></i> Verificación Rápida
+                            </span>
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80"
+                                alt="Profesor" class="w-16 h-16 rounded-2xl object-cover border-2 border-brand-400">
+                            <div>
+                                <h3 class="font-bold text-white text-base">Carlos Mendoza</h3>
+                                <p class="text-xs text-brand-300">Tutor de Python & Algoritmos</p>
+                                <div class="flex items-center gap-1.5 mt-1 text-xs text-amber-400">
+                                    <i class="fa-solid fa-star"></i>
+                                    <span class="font-bold text-white">5.0</span>
+                                    <span class="text-slate-400">(112 reseñas)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="grid grid-cols-2 gap-3 bg-slate-900/60 p-4 rounded-2xl border border-slate-700/50 text-center">
+                            <div>
+                                <p class="text-xs text-slate-400">Tarifa actual</p>
+                                <p class="text-xl font-black text-white mt-0.5">$30 <span
+                                        class="text-xs font-normal text-slate-400">USD/h</span></p>
+                            </div>
+                            <div class="border-l border-slate-700/60 pl-3">
+                                <p class="text-xs text-slate-400">Ingreso estimado</p>
+                                <p class="text-xl font-black text-emerald-400 mt-0.5">$1,800 <span
+                                        class="text-xs font-normal text-slate-400">USD/m</span></p>
+                            </div>
+                        </div>
+
+                        <ul class="space-y-2.5 text-xs text-slate-300">
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-circle-check text-brand-400 text-sm"></i> Controla tus horarios
+                                según tu disponibilidad.
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-circle-check text-brand-400 text-sm"></i> Soporte administrativo y
+                                cobros automatizados.
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <i class="fa-solid fa-circle-check text-brand-400 text-sm"></i> Aula virtual integrada
+                                con pizarra interactiva.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Earnings Calculator -->
+    <section id="calculadora" class="py-16 bg-white border-b border-slate-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-10">
+                <span class="text-brand-600 text-xs font-extrabold uppercase tracking-widest">Simulador
+                    Financiero</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">¿Cuánto podrías ganar enseñando?
+                </h2>
+                <p class="text-slate-500 text-sm mt-2">Ajusta las horas semanales y tu tarifa por hora para estimar tu
+                    potencial mensual.</p>
+            </div>
+
+            <div class="bg-slate-50 rounded-3xl p-7 sm:p-10 border border-slate-200/80 shadow-md">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+
+                    <div class="space-y-6">
+                        <!-- Hours Slider -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-xs font-bold text-slate-700 uppercase tracking-wide">Horas por
+                                    semana</label>
+                                <span id="hoursVal"
+                                    class="text-base font-extrabold text-brand-600 bg-brand-50 px-3 py-1 rounded-lg border border-brand-200">15
+                                    hrs</span>
+                            </div>
+                            <input id="hoursRange" type="range" min="3" max="40" value="15" class="w-full">
+                            <div class="flex justify-between text-[11px] text-slate-400 mt-1.5">
+                                <span>3 hrs/sem (Part-time)</span>
+                                <span>40 hrs/sem (Full-time)</span>
+                            </div>
+                        </div>
+
+                        <!-- Price Slider -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-xs font-bold text-slate-700 uppercase tracking-wide">Tarifa por
+                                    hora</label>
+                                <span id="rateVal"
+                                    class="text-base font-extrabold text-brand-600 bg-brand-50 px-3 py-1 rounded-lg border border-brand-200">$25
+                                    USD</span>
+                            </div>
+                            <input id="rateRange" type="range" min="12" max="60" value="25" class="w-full">
+                            <div class="flex justify-between text-[11px] text-slate-400 mt-1.5">
+                                <span>$12 USD</span>
+                                <span>$60 USD</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Output Card -->
+                    <div
+                        class="bg-gradient-to-br from-brand-600 to-indigo-700 text-white rounded-2xl p-6 sm:p-8 text-center shadow-xl shadow-brand-500/20">
+                        <span class="text-xs font-semibold text-brand-100 uppercase tracking-wider">Ingreso Estimado
+                            Mensual</span>
+                        <div class="my-3">
+                            <span id="monthlyIncome"
+                                class="text-4xl sm:text-5xl font-black tracking-tight text-white">$1,500</span>
+                            <span class="text-brand-200 text-sm font-medium"> USD/mes</span>
+                        </div>
+                        <p class="text-xs text-brand-100/90 leading-relaxed mb-5">
+                            Basado en 4 semanas por mes con tus tarifas elegidas. ¡Tú decides cuándo y cuánto trabajar!
+                        </p>
+                        <a href="#formulario-postulacion"
+                            class="inline-flex items-center justify-center w-full py-3 bg-white text-brand-600 hover:bg-brand-50 font-bold rounded-xl shadow-md text-sm transition-all">
+                            Quiero ser Tutor →
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="beneficios" class="py-16 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14">
+                <span class="text-brand-600 text-xs font-extrabold uppercase tracking-widest">¿Por qué
+                    EduConnect?</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-1">Todo lo que necesitas para impartir clases de
+                    nivel</h2>
+                <p class="text-slate-500 text-base mt-2">Nosotros nos encargamos de la captación y los cobros para que
+                    tú solo enseñes.</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div
+                    class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
+                    <div
+                        class="w-12 h-12 rounded-xl bg-blue-50 text-brand-600 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base mb-2">Libertad de Horarios</h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        Define qué días y horas estás disponible. Si tienes un viaje o exámenes, bloquea tu calendario
+                        con un clic.
+                    </p>
+                </div>
+
+                <div
+                    class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
+                    <div
+                        class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-money-bill-transfer"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base mb-2">Pagos Puntuales</h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        Los alumnos pagan por adelantado a través de la plataforma. Recibe tus fondos cada semana sin
+                        cobros demorados.
+                    </p>
+                </div>
+
+                <div
+                    class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
+                    <div
+                        class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base mb-2">Flujo Constante de Alumnos</h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        Invertimos en marketing y alianzas universitarias para que siempre tengas solicitudes de nuevos
+                        alumnos.
+                    </p>
+                </div>
+
+                <div
+                    class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
+                    <div
+                        class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base mb-2">Herramientas Docentes</h3>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        Accede a salón virtual, grabador de sesiones, pizarra colaborativa y sistema automático de
+                        recordatorios por WhatsApp y correo.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Multi-Step Application Form -->
+    <section id="formulario-postulacion" class="py-20 bg-white border-t border-slate-200">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6">
+
+            <div class="text-center mb-10">
+                <span class="text-brand-600 text-xs font-extrabold uppercase tracking-widest">Formulario de
+                    Postulación</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Regístrate como Tutor en 4 sencillos
+                    pasos</h2>
+                <p class="text-slate-500 text-sm mt-1.5">Tardará menos de 5 minutos. Revisaremos tu solicitud en menos
+                    de 24 horas.</p>
+            </div>
+
+            <!-- Wizard Card -->
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-xl p-6 sm:p-10">
+
+                <!-- Steps Progress Bar -->
+                <div class="mb-8">
+                    <div class="flex items-center justify-between relative">
+                        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-slate-200 -z-0"></div>
+                        <div id="progressLine"
+                            class="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-brand-600 -z-0 transition-all duration-300"
+                            style="width: 0%;"></div>
+
+                        <!-- Step 1 Indicator -->
+                        <div class="relative z-10 flex flex-col items-center">
+                            <div id="circleStep1"
+                                class="step-circle active w-9 h-9 rounded-full bg-slate-200 text-slate-600 font-bold text-xs flex items-center justify-center border-2 border-white">
+                                1</div>
+                            <span class="text-[11px] font-semibold text-slate-600 mt-1">Datos</span>
+                        </div>
+                        <!-- Step 2 Indicator -->
+                        <div class="relative z-10 flex flex-col items-center">
+                            <div id="circleStep2"
+                                class="step-circle w-9 h-9 rounded-full bg-slate-200 text-slate-600 font-bold text-xs flex items-center justify-center border-2 border-white">
+                                2</div>
+                            <span class="text-[11px] font-semibold text-slate-600 mt-1">Materia</span>
+                        </div>
+                        <!-- Step 3 Indicator -->
+                        <div class="relative z-10 flex flex-col items-center">
+                            <div id="circleStep3"
+                                class="step-circle w-9 h-9 rounded-full bg-slate-200 text-slate-600 font-bold text-xs flex items-center justify-center border-2 border-white">
+                                3</div>
+                            <span class="text-[11px] font-semibold text-slate-600 mt-1">Tarifa</span>
+                        </div>
+                        <!-- Step 4 Indicator -->
+                        <div class="relative z-10 flex flex-col items-center">
+                            <div id="circleStep4"
+                                class="step-circle w-9 h-9 rounded-full bg-slate-200 text-slate-600 font-bold text-xs flex items-center justify-center border-2 border-white">
+                                4</div>
+                            <span class="text-[11px] font-semibold text-slate-600 mt-1">Bio</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Container -->
+                <form id="tutorApplicationForm" onsubmit="submitApplication(event)">
+
+                    <!-- ================= STEP 1: DATOS PERSONALES ================= -->
+                    <div id="stepContent1" class="space-y-4">
+                        <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">1. Información
+                            Personal</h3>
+
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Nombre
+                                    *</label>
+                                <input type="text" id="tutorFirstName" required placeholder="Ej. Carlos"
+                                    class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Apellido
+                                    *</label>
+                                <input type="text" id="tutorLastName" required placeholder="Ej. Mendoza"
+                                    class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                            </div>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Correo
+                                    Electrónico *</label>
+                                <input type="email" id="tutorEmail" required placeholder="carlos@correo.com"
+                                    class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Teléfono
+                                    / WhatsApp *</label>
+                                <input type="tel" id="tutorPhone" required placeholder="+1 234 567 8900"
+                                    class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                            </div>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">País
+                                    de Residencia *</label>
+                                <select id="tutorCountry" required
+                                    class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                                    <option value="">Selecciona tu país</option>
+                                    <option value="Mexico">México</option>
+                                    <option value="Colombia">Colombia</option>
+                                    <option value="Argentina">Argentina</option>
+                                    <option value="Chile">Chile</option>
+                                    <option value="Peru">Perú</option>
+                                    <option value="Espana">España</option>
+                                    <option value="Otro">Otro país</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Ciudad
+                                    *</label>
+                                <input type="text" id="tutorCity" required placeholder="Ej. Ciudad de México"
+                                    class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ================= STEP 2: FORMACIÓN & MATERIAS ================= -->
+                    <div id="stepContent2" class="hidden space-y-4">
+                        <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">2. Formación
+                            Académica y Materias</h3>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Título
+                                universitario o carrera en curso *</label>
+                            <input type="text" id="tutorDegree"
+                                placeholder="Ej. Licenciatura en Matemáticas / Ingeniería en Software"
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                        </div>
+
+                        <div>
+                            <label
+                                class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Categoría
+                                Principal *</label>
+                            <select id="tutorCategory"
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                                <option value="matematicas">Matemáticas & Cálculo</option>
+                                <option value="programacion">Programación & Tecnología</option>
+                                <option value="ingles">Idiomas (Inglés, Francés, etc.)</option>
+                                <option value="ciencias">Ciencias (Física, Química, Biología)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Materias
+                                que puedes enseñar (Haz clic para seleccionar):</label>
+                            <div class="flex flex-wrap gap-2" id="subjectChipsContainer">
+                                <span
+                                    class="chip-selectable selected px-3 py-1.5 border border-slate-200 bg-brand-600 text-white text-xs font-medium rounded-xl">Álgebra</span>
+                                <span
+                                    class="chip-selectable px-3 py-1.5 border border-slate-200 bg-slate-50 text-slate-600 text-xs font-medium rounded-xl">Cálculo
+                                    Diferencial</span>
+                                <span
+                                    class="chip-selectable px-3 py-1.5 border border-slate-200 bg-slate-50 text-slate-600 text-xs font-medium rounded-xl">Python</span>
+                                <span
+                                    class="chip-selectable px-3 py-1.5 border border-slate-200 bg-slate-50 text-slate-600 text-xs font-medium rounded-xl">JavaScript</span>
+                                <span
+                                    class="chip-selectable px-3 py-1.5 border border-slate-200 bg-slate-50 text-slate-600 text-xs font-medium rounded-xl">Inglés
+                                    Conversacional</span>
+                                <span
+                                    class="chip-selectable px-3 py-1.5 border border-slate-200 bg-slate-50 text-slate-600 text-xs font-medium rounded-xl">TOEFL</span>
+                                <span
+                                    class="chip-selectable px-3 py-1.5 border border-slate-200 bg-slate-50 text-slate-600 text-xs font-medium rounded-xl">Física
+                                    Clásica</span>
+                                <span
+                                    class="chip-selectable px-3 py-1.5 border border-slate-200 bg-slate-50 text-slate-600 text-xs font-medium rounded-xl">Química
+                                    General</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Años de
+                                experiencia dando clases *</label>
+                            <select id="tutorExp"
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                                <option value="1">Menos de 1 año (Iniciando con vocación)</option>
+                                <option value="2">1 a 3 años</option>
+                                <option value="5" selected>3 a 6 años</option>
+                                <option value="10">Más de 6 años (Senior / Docente formal)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- ================= STEP 3: MODALIDAD & TARIFAS ================= -->
+                    <div id="stepContent3" class="hidden space-y-4">
+                        <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">3. Modalidad y
+                            Tarifas</h3>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">¿Cómo
+                                prefieres dictar tus clases? *</label>
+                            <div class="grid grid-cols-3 gap-3">
+                                <label
+                                    class="p-3 border-2 border-brand-600 bg-brand-50 rounded-xl text-center cursor-pointer text-xs font-bold text-brand-700 flex flex-col items-center gap-1">
+                                    <input type="radio" name="formModality" value="online" checked class="hidden">
+                                    <i class="fa-solid fa-laptop text-base"></i>
+                                    <span>En Línea</span>
+                                </label>
+                                <label
+                                    class="p-3 border-2 border-slate-200 hover:border-brand-400 rounded-xl text-center cursor-pointer text-xs font-bold text-slate-600 flex flex-col items-center gap-1">
+                                    <input type="radio" name="formModality" value="presencial" class="hidden">
+                                    <i class="fa-solid fa-location-dot text-base"></i>
+                                    <span>Presencial</span>
+                                </label>
+                                <label
+                                    class="p-3 border-2 border-slate-200 hover:border-brand-400 rounded-xl text-center cursor-pointer text-xs font-bold text-slate-600 flex flex-col items-center gap-1">
+                                    <input type="radio" name="formModality" value="ambas" class="hidden">
+                                    <i class="fa-solid fa-shuffle text-base"></i>
+                                    <span>Ambas</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Tu
+                                Tarifa por Hora (USD) *</label>
+                            <div class="relative max-w-xs">
+                                <span
+                                    class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
+                                <input type="number" id="tutorPriceInput" min="10" max="100" value="25"
+                                    class="w-full pl-8 pr-14 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white">
+                                <span
+                                    class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-medium">USD/h</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-1">El promedio en tu categoría es de $20 a $35
+                                USD/hora.</p>
+                        </div>
+
+                        <div>
+                            <label
+                                class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Disponibilidad
+                                tentativa semanal</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                                <label
+                                    class="flex items-center gap-2 p-2 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50">
+                                    <input type="checkbox" checked class="accent-brand-600"> Lunes a Viernes (Tardes)
+                                </label>
+                                <label
+                                    class="flex items-center gap-2 p-2 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50">
+                                    <input type="checkbox" checked class="accent-brand-600"> Lunes a Viernes (Mañanas)
+                                </label>
+                                <label
+                                    class="flex items-center gap-2 p-2 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50">
+                                    <input type="checkbox" class="accent-brand-600"> Fines de Semana
+                                </label>
+                                <label
+                                    class="flex items-center gap-2 p-2 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50">
+                                    <input type="checkbox" class="accent-brand-600"> Horarios Nocturnos
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ================= STEP 4: PRESENTACIÓN & BIO ================= -->
+                    <div id="stepContent4" class="hidden space-y-4">
+                        <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2">4. Presentación y
+                            Metodología</h3>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Título
+                                de tu Perfil *</label>
+                            <input type="text" id="tutorHeadline"
+                                placeholder="Ej. Ingeniero de Software con pasión por enseñar Python desde cero"
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1.5">Sobre
+                                ti y tu método de enseñanza *</label>
+                            <textarea id="tutorBio" rows="4"
+                                placeholder="Explica tu experiencia, cómo organizas tus clases y qué pueden esperar tus estudiantes..."
+                                class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition-all"></textarea>
+                            <p class="text-[11px] text-slate-400 mt-1">Los tutores con biografías completas y detalladas
+                                reciben 3 veces más solicitudes de clase.</p>
+                        </div>
+
+                        <!-- Verification documents -->
+                        <div
+                            class="border-2 border-dashed border-slate-300 rounded-2xl p-5 text-center bg-slate-50 hover:bg-brand-50/50 hover:border-brand-400 transition-colors">
+                            <i class="fa-solid fa-cloud-arrow-up text-2xl text-slate-400 mb-2 block"></i>
+                            <p class="text-xs font-bold text-slate-700">Adjunta tu CV o Certificado Académico (Opcional)
+                            </p>
+                            <p class="text-[10px] text-slate-400 mt-0.5">PDF, PNG o JPG hasta 10MB para acelerar la
+                                verificación de tu insignia.</p>
+                            <input type="file" class="hidden" id="fileUpload">
+                            <button type="button" onclick="document.getElementById('fileUpload').click()"
+                                class="mt-3 px-3 py-1.5 bg-white border border-slate-200 text-xs font-semibold text-slate-700 rounded-lg hover:bg-slate-50">
+                                Seleccionar Archivo
+                            </button>
+                        </div>
+
+                        <label class="flex items-start gap-2.5 cursor-pointer pt-2">
+                            <input type="checkbox" required class="w-4 h-4 accent-brand-600 rounded mt-0.5 shrink-0">
+                            <span class="text-xs text-slate-600">
+                                Acepto los <a href="#" class="text-brand-600 font-semibold underline">Términos para
+                                    Docentes</a> y autorizo la validación de mis antecedentes académicos.
+                            </span>
+                        </label>
+                    </div>
+
+                    <!-- Wizard Action Buttons -->
+                    <div class="flex items-center justify-between pt-6 border-t border-slate-100 mt-6">
+                        <button type="button" id="prevBtn" onclick="prevStep()"
+                            class="hidden px-5 py-2.5 border border-slate-200 text-slate-600 hover:bg-slate-50 text-xs font-bold rounded-xl transition-all">
+                            <i class="fa-solid fa-arrow-left mr-1.5"></i> Anterior
+                        </button>
+                        <div class="ml-auto flex gap-3">
+                            <button type="button" id="nextBtn" onclick="nextStep()"
+                                class="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl shadow-md transition-all">
+                                Siguiente <i class="fa-solid fa-arrow-right ml-1.5"></i>
+                            </button>
+                            <button type="submit" id="submitBtn"
+                                class="hidden px-7 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-md transition-all">
+                                <i class="fa-solid fa-paper-plane mr-1.5"></i> Enviar Postulación
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials from Tutors -->
+    <section class="py-16 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-brand-600 text-xs font-extrabold uppercase tracking-widest">Casos de Éxito</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-1">Lo que dicen los profesores de nuestra comunidad
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-7 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                    <div class="flex text-amber-400 text-xs gap-0.5">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-xs text-slate-600 italic leading-relaxed">
+                        "Empecé dedicándole solo 8 horas los fines de semana. Hoy doy 25 horas semanales y he podido
+                        financiar mis estudios de posgrado gracias a EduConnect."
+                    </p>
+                    <div class="flex items-center gap-3 pt-2 border-t border-slate-100">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80"
+                            alt="Elena" class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <p class="text-xs font-bold text-slate-900">Dra. Elena Rostova</p>
+                            <p class="text-[11px] text-slate-500">Matemáticas · 84 alumnos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-7 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                    <div class="flex text-amber-400 text-xs gap-0.5">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-xs text-slate-600 italic leading-relaxed">
+                        "La plataforma me ahorra tener que perseguir pagos. Los alumnos reservan, pagan y nos vemos en
+                        la sala de clases virtual sin ningún problema."
+                    </p>
+                    <div class="flex items-center gap-3 pt-2 border-t border-slate-100">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80"
+                            alt="Miguel" class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <p class="text-xs font-bold text-slate-900">Prof. Miguel Ángel</p>
+                            <p class="text-[11px] text-slate-500">Física Básica · 43 alumnos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-7 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                    <div class="flex text-amber-400 text-xs gap-0.5">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-xs text-slate-600 italic leading-relaxed">
+                        "Me permitió conectar con estudiantes de toda Latinoamérica. Es gratificante ver cómo avanzan
+                        desde sus primeras clases de programación."
+                    </p>
+                    <div class="flex items-center gap-3 pt-2 border-t border-slate-100">
+                        <img src="https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&w=100&q=80"
+                            alt="Valeria" class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <p class="text-xs font-bold text-slate-900">Valeria Gómez</p>
+                            <p class="text-[11px] text-slate-500">Bases de Datos & SQL</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Accordion -->
+    <section id="faq" class="py-16 bg-white border-t border-slate-200">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-10">
+                <span class="text-brand-600 text-xs font-extrabold uppercase tracking-widest">Preguntas
+                    Frecuentes</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Resolvemos tus dudas sobre ser tutor
+                </h2>
+            </div>
+
+            <div class="space-y-3">
+                <div class="faq-item border border-slate-200 rounded-2xl p-4">
+                    <button onclick="toggleFaq(this)"
+                        class="w-full flex items-center justify-between text-left font-bold text-slate-900 text-sm">
+                        <span>¿Cuánto cobra EduConnect de comisión?</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
+                    </button>
+                    <div class="hidden text-xs text-slate-600 mt-3 pt-3 border-t border-slate-100 leading-relaxed">
+                        Registrarse y publicar tu perfil es 100% gratuito. Solo retenemos una pequeña tarifa de servicio
+                        del 15% sobre las clases completadas para cubrir pasarela de pagos segura, hosting del aula
+                        virtual y captación de alumnos.
+                    </div>
+                </div>
+
+                <div class="faq-item border border-slate-200 rounded-2xl p-4">
+                    <button onclick="toggleFaq(this)"
+                        class="w-full flex items-center justify-between text-left font-bold text-slate-900 text-sm">
+                        <span>¿Cómo y cuándo recibo el dinero de mis clases?</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
+                    </button>
+                    <div class="hidden text-xs text-slate-600 mt-3 pt-3 border-t border-slate-100 leading-relaxed">
+                        Tus ingresos se liquidan todos los lunes mediante transferencia bancaria local, PayPal o Stripe,
+                        según el país de residencia que indiques en tu perfil.
+                    </div>
+                </div>
+
+                <div class="faq-item border border-slate-200 rounded-2xl p-4">
+                    <button onclick="toggleFaq(this)"
+                        class="w-full flex items-center justify-between text-left font-bold text-slate-900 text-sm">
+                        <span>¿Qué requisitos necesito para ser aceptado?</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
+                    </button>
+                    <div class="hidden text-xs text-slate-600 mt-3 pt-3 border-t border-slate-100 leading-relaxed">
+                        Conocimientos comprobables en la materia a impartir (diploma universitario, certificaciones o
+                        experiencia demostrada), buena conexión a internet si enseñas online, y pasión por la enseñanza.
+                    </div>
+                </div>
+
+                <div class="faq-item border border-slate-200 rounded-2xl p-4">
+                    <button onclick="toggleFaq(this)"
+                        class="w-full flex items-center justify-between text-left font-bold text-slate-900 text-sm">
+                        <span>¿Puedo cancelar o reprogramar una clase si tengo un imprevisto?</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
+                    </button>
+                    <div class="hidden text-xs text-slate-600 mt-3 pt-3 border-t border-slate-100 leading-relaxed">
+                        Sí. Puedes coordinar con tu estudiante directamente desde tu panel con al menos 12 horas de
+                        anticipación sin penalización.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8 text-sm">
+                <div class="col-span-2 md:col-span-1 space-y-3">
+                    <span class="text-xl font-extrabold text-white">Edu<span
+                            class="text-brand-500">Connect</span></span>
+                    <p class="text-xs text-slate-400 leading-relaxed">Impulsando el aprendizaje de miles de alumnos a
+                        través de tutores dedicados.</p>
+                </div>
+                <div>
+                    <h4 class="text-white text-xs font-bold uppercase tracking-wider mb-3">Estudiantes</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="explorar.html" class="hover:text-white transition-colors">Buscar Tutores</a></li>
+                        <li><a href="explorar.html?categoria=matematicas"
+                                class="hover:text-white transition-colors">Clases de Matemáticas</a></li>
+                        <li><a href="explorar.html?categoria=programacion"
+                                class="hover:text-white transition-colors">Clases de Programación</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white text-xs font-bold uppercase tracking-wider mb-3">Profesores</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="registro-tutor.html" class="text-brand-400 font-bold hover:underline">Postular como
+                                Tutor</a></li>
+                        <li><a href="#calculadora" class="hover:text-white transition-colors">Calculadora de Tarifas</a>
+                        </li>
+                        <li><a href="#faq" class="hover:text-white transition-colors">Preguntas Frecuentes</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white text-xs font-bold uppercase tracking-wider mb-3">Cuenta</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="login-registro.html" class="hover:text-white transition-colors">Iniciar Sesión</a>
+                        </li>
+                        <li><a href="login-registro.html?mode=register" class="hover:text-white transition-colors">Crear
+                                Cuenta Alumno</a></li>
+                        <li><a href="index.html" class="hover:text-white transition-colors">Volver al Inicio</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-6 border-t border-slate-800 text-xs text-center text-slate-500">
+                © 2026 EduConnect Inc. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast"
+        class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-700">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <span id="toastMsg" class="text-sm font-medium"></span>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (mobileBtn && mobileMenu) {
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
+        // Earnings Calculator
+        const hoursRange = document.getElementById('hoursRange');
+        const rateRange = document.getElementById('rateRange');
+        const hoursVal = document.getElementById('hoursVal');
+        const rateVal = document.getElementById('rateVal');
+        const monthlyIncome = document.getElementById('monthlyIncome');
+
+        function updateCalculator() {
+            const h = parseInt(hoursRange.value);
+            const r = parseInt(rateRange.value);
+            hoursVal.textContent = h + ' hrs';
+            rateVal.textContent = '$' + r + ' USD';
+            const total = h * r * 4;
+            monthlyIncome.textContent = '$' + total.toLocaleString('en-US');
+        }
+
+        hoursRange.addEventListener('input', updateCalculator);
+        rateRange.addEventListener('input', updateCalculator);
+
+        // Chip selection for subjects
+        document.querySelectorAll('.chip-selectable').forEach(chip => {
+            chip.addEventListener('click', function () {
+                this.classList.toggle('selected');
+                if (this.classList.contains('selected')) {
+                    this.classList.remove('bg-slate-50', 'text-slate-600');
+                    this.classList.add('bg-brand-600', 'text-white', 'border-brand-600');
+                } else {
+                    this.classList.add('bg-slate-50', 'text-slate-600');
+                    this.classList.remove('bg-brand-600', 'text-white', 'border-brand-600');
+                }
+            });
+        });
+
+        // FAQ accordion
+        function toggleFaq(btn) {
+            const item = btn.closest('.faq-item');
+            const content = item.querySelector('div');
+            item.classList.toggle('open');
+            content.classList.toggle('hidden');
+        }
+
+        // Multi-Step Form Logic
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        function updateStepUI() {
+            // Update step content visibility
+            for (let i = 1; i <= totalSteps; i++) {
+                const el = document.getElementById('stepContent' + i);
+                if (el) el.classList.toggle('hidden', i !== currentStep);
+
+                const circle = document.getElementById('circleStep' + i);
+                if (circle) {
+                    circle.classList.remove('active', 'completed');
+                    if (i < currentStep) {
+                        circle.classList.add('completed');
+                        circle.innerHTML = '<i class="fa-solid fa-check"></i>';
+                    } else if (i === currentStep) {
+                        circle.classList.add('active');
+                        circle.textContent = i;
+                    } else {
+                        circle.textContent = i;
+                    }
+                }
+            }
+
+            // Update progress line
+            const pct = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            document.getElementById('progressLine').style.width = pct + '%';
+
+            // Update buttons
+            document.getElementById('prevBtn').classList.toggle('hidden', currentStep === 1);
+            document.getElementById('nextBtn').classList.toggle('hidden', currentStep === totalSteps);
+            document.getElementById('submitBtn').classList.toggle('hidden', currentStep !== totalSteps);
+        }
+
+        function nextStep() {
+            // Basic validation for Step 1
+            if (currentStep === 1) {
+                const name = document.getElementById('tutorFirstName').value.trim();
+                const last = document.getElementById('tutorLastName').value.trim();
+                const email = document.getElementById('tutorEmail').value.trim();
+                const phone = document.getElementById('tutorPhone').value.trim();
+                const country = document.getElementById('tutorCountry').value;
+                const city = document.getElementById('tutorCity').value.trim();
+                if (!name || !last || !email || !phone || !country || !city) {
+                    showToast('Por favor completa todos los campos del Paso 1');
+                    return;
+                }
+            }
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateStepUI();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepUI();
+            }
+        }
+
+        function submitApplication(e) {
+            e.preventDefault();
+            const tutorName = document.getElementById('tutorFirstName').value.trim() || 'Profesor';
+            const tutorEmail = document.getElementById('tutorEmail').value.trim();
+
+            showToast('¡Postulación enviada con éxito! Redirigiendo...');
+
+            // Redirect to login-registro as defined in the architectural flow
+            setTimeout(() => {
+                window.location.href = `login-registro.html?mode=register&role=tutor&registered=true&name=${encodeURIComponent(tutorName)}&email=${encodeURIComponent(tutorEmail)}`;
+            }, 1500);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 4000);
+        }
+    </script>
+</body>
+
+</html>

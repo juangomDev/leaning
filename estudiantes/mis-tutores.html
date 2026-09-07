@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Tutores — EduConnect</title>
+    <meta name="description" content="Gestiona tus tutores favoritos, revisa sus perfiles y vuelve a contratar clases en EduConnect.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: {
+                        brand: { 50:'#f0f7ff', 100:'#e0effe', 500:'#2563eb', 600:'#1d4ed8', 700:'#1e40af', accent:'#f97316' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .tutor-card { transition: all 0.2s ease; }
+        .tutor-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px -8px rgba(0,0,0,0.12); }
+        .star-filled { color: #f59e0b; }
+        .tab-btn.active { color: #1d4ed8; border-bottom-color: #1d4ed8; font-weight: 700; }
+        .tab-btn { border-bottom: 2px solid transparent; transition: all 0.2s; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+        .anim-in { animation: fadeIn 0.3s ease forwards; }
+    </style>
+</head>
+<body class="font-sans bg-slate-50 text-slate-800 antialiased flex h-screen overflow-hidden">
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-slate-200 flex flex-col transition-transform duration-300 -translate-x-full lg:translate-x-0 lg:static">
+        <div class="h-18 px-6 flex items-center justify-between border-b border-slate-100 py-5">
+            <a href="dashboard.html" class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-xl bg-brand-600 text-white flex items-center justify-center shadow-lg shadow-brand-500/30">
+                    <i class="fa-solid fa-graduation-cap text-sm"></i>
+                </div>
+                <span class="text-xl font-extrabold tracking-tight text-slate-900">Edu<span class="text-brand-600">Connect</span></span>
+            </a>
+            <button id="closeSidebarBtn" class="lg:hidden p-2 text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="p-4 border-b border-slate-100">
+            <div class="flex items-center gap-3 p-2 bg-slate-50 rounded-2xl border border-slate-200/70">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80" alt="Alumno" class="w-10 h-10 rounded-xl object-cover border border-brand-200">
+                <div class="flex-1 min-w-0">
+                    <h4 class="text-xs font-bold text-slate-900 truncate">Alejandro Silva</h4>
+                    <p class="text-[11px] text-brand-600 font-semibold flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Estudiante Activo
+                    </p>
+                </div>
+            </div>
+        </div>
+        <nav class="flex-1 px-4 py-4 space-y-1.5 overflow-y-auto">
+            <p class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-2">Mi Portal</p>
+            <a href="dashboard.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-semibold text-sm transition-all group">
+                <i class="fa-solid fa-chart-pie text-slate-400 group-hover:text-brand-600 w-4 transition-colors"></i> Dashboard
+            </a>
+            <a href="aula-virtual.html" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-semibold text-sm transition-all group">
+                <span class="flex items-center gap-3"><i class="fa-solid fa-video text-slate-400 group-hover:text-brand-600 w-4 transition-colors"></i> Aula Virtual</span>
+                <span class="px-2 py-0.5 text-[10px] font-extrabold bg-red-100 text-red-600 rounded-full animate-pulse">EN VIVO</span>
+            </a>
+            <a href="mis-clases.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-semibold text-sm transition-all group">
+                <i class="fa-solid fa-calendar-days text-slate-400 group-hover:text-brand-600 w-4 transition-colors"></i> Mis Clases
+            </a>
+            <a href="mis-tutores.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-brand-50 text-brand-700 font-bold text-sm shadow-sm transition-all">
+                <i class="fa-solid fa-user-tie text-brand-600 w-4"></i> Mis Tutores
+            </a>
+            <a href="finanzas.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-semibold text-sm transition-all group">
+                <i class="fa-solid fa-receipt text-slate-400 group-hover:text-brand-600 w-4 transition-colors"></i> Finanzas &amp; Recibos
+            </a>
+            <div class="pt-4 mt-4 border-t border-slate-100">
+                <p class="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 mb-2">Comunidad</p>
+                <a href="../Paginas Publicas/explorar.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-semibold text-sm transition-all group">
+                    <i class="fa-solid fa-compass text-slate-400 group-hover:text-brand-600 w-4 transition-colors"></i> Buscar Nuevos Tutores
+                </a>
+            </div>
+        </nav>
+        <div class="p-4 border-t border-slate-100">
+            <a href="../Paginas Publicas/login-registro.html" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-500 hover:bg-red-50 hover:text-red-600 font-semibold text-sm transition-all">
+                <i class="fa-solid fa-arrow-right-from-bracket w-4"></i> Cerrar Sesion
+            </a>
+        </div>
+    </aside>
+
+    <div id="sidebarOverlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden lg:hidden"></div>
+
+    <!-- MAIN -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <header class="h-18 bg-white border-b border-slate-200 px-4 sm:px-6 lg:px-8 flex items-center justify-between shrink-0 py-4">
+            <div class="flex items-center gap-4">
+                <button id="openSidebarBtn" class="lg:hidden p-2 text-slate-600 hover:text-brand-600">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+                <div>
+                    <h1 class="text-base sm:text-lg font-extrabold text-slate-900">Mis Tutores</h1>
+                    <p class="text-xs text-slate-500 hidden sm:block">Tutores con los que has tomado clases</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="../Paginas Publicas/explorar.html" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs transition-colors shadow-md shadow-brand-500/20">
+                    <i class="fa-solid fa-plus text-[10px]"></i> Nuevo Tutor
+                </a>
+                <button class="relative p-2 text-slate-500 hover:text-brand-600 hover:bg-brand-50 rounded-xl transition-colors">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-brand-500 rounded-full"></span>
+                </button>
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80" alt="Alumno" class="w-9 h-9 rounded-xl object-cover border-2 border-brand-200 cursor-pointer">
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 space-y-6">
+
+            <!-- Stats row -->
+            <div class="grid grid-cols-3 gap-4">
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-sm text-center">
+                    <p class="text-2xl font-extrabold text-slate-900">4</p>
+                    <p class="text-xs text-slate-500 mt-0.5">Tutores activos</p>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-sm text-center">
+                    <p class="text-2xl font-extrabold text-slate-900">47</p>
+                    <p class="text-xs text-slate-500 mt-0.5">Horas de clase</p>
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-sm text-center">
+                    <p class="text-2xl font-extrabold text-amber-500">4.9</p>
+                    <p class="text-xs text-slate-500 mt-0.5">Rating promedio</p>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex items-center gap-0 border-b border-slate-200 bg-white rounded-t-2xl px-5 pt-1">
+                <button onclick="switchTab('activos')" id="tab-activos" class="tab-btn active px-5 py-3 text-xs font-semibold text-brand-700 mr-1">Activos (4)</button>
+                <button onclick="switchTab('favoritos')" id="tab-favoritos" class="tab-btn px-5 py-3 text-xs font-semibold text-slate-500 hover:text-slate-700 mr-1">Favoritos (2)</button>
+                <button onclick="switchTab('historial')" id="tab-historial" class="tab-btn px-5 py-3 text-xs font-semibold text-slate-500 hover:text-slate-700">Historial (6)</button>
+            </div>
+
+            <!-- Tutor Grid -->
+            <div id="tutorGrid" class="grid sm:grid-cols-2 xl:grid-cols-2 gap-4 -mt-4 bg-white rounded-b-2xl border border-t-0 border-slate-200/80 p-5 shadow-sm">
+                <!-- Filled by JS -->
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Modal: Reservar clase -->
+    <div id="bookModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeBookModal()"></div>
+        <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-md p-7">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-base font-extrabold text-slate-900">Reservar nueva clase</h3>
+                <button onclick="closeBookModal()" class="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="bookTutorInfo" class="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl border border-slate-200 mb-5"></div>
+            <div class="space-y-3">
+                <div>
+                    <label class="text-xs font-bold text-slate-600 mb-1.5 block">Fecha de la clase</label>
+                    <input type="date" id="bookDate" class="w-full px-4 py-3 text-sm border border-slate-200 rounded-xl focus:outline-none focus:border-brand-400 bg-slate-50">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-600 mb-1.5 block">Horario</label>
+                    <select id="bookTime" class="w-full px-4 py-3 text-sm border border-slate-200 rounded-xl focus:outline-none focus:border-brand-400 bg-slate-50 appearance-none">
+                        <option>09:00 AM</option>
+                        <option>11:00 AM</option>
+                        <option>02:00 PM</option>
+                        <option>05:00 PM</option>
+                        <option>07:00 PM</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-600 mb-1.5 block">Modalidad</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="setModalidad(this,'Online')" class="mod-btn py-2.5 rounded-xl border border-brand-500 bg-brand-50 text-xs font-bold text-brand-700 transition-colors">
+                            <i class="fa-solid fa-video mr-1.5 text-[10px]"></i>Online
+                        </button>
+                        <button onclick="setModalidad(this,'Presencial')" class="mod-btn py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:border-brand-400 hover:bg-brand-50/50 transition-colors">
+                            <i class="fa-solid fa-location-dot mr-1.5 text-[10px]"></i>Presencial
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-600 mb-1.5 block">Notas (opcional)</label>
+                    <textarea id="bookNotes" rows="2" placeholder="Tema especifico, nivel, dudas..." class="w-full px-4 py-3 text-sm border border-slate-200 rounded-xl focus:outline-none focus:border-brand-400 bg-slate-50 resize-none"></textarea>
+                </div>
+            </div>
+            <button onclick="confirmBook()" class="w-full mt-5 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm transition-colors shadow-md shadow-brand-500/20">
+                Confirmar reserva
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal: Escribir resena -->
+    <div id="reviewModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeReviewModal()"></div>
+        <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-sm p-7">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-base font-extrabold text-slate-900">Dejar resena</h3>
+                <button onclick="closeReviewModal()" class="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="reviewTutorName" class="text-sm font-bold text-slate-700 mb-4"></div>
+            <div class="flex gap-2 mb-4" id="starSelector">
+                <button onclick="setStar(1)" class="star-btn text-2xl text-slate-300 hover:text-amber-400 transition-colors"><i class="fa-solid fa-star"></i></button>
+                <button onclick="setStar(2)" class="star-btn text-2xl text-slate-300 hover:text-amber-400 transition-colors"><i class="fa-solid fa-star"></i></button>
+                <button onclick="setStar(3)" class="star-btn text-2xl text-slate-300 hover:text-amber-400 transition-colors"><i class="fa-solid fa-star"></i></button>
+                <button onclick="setStar(4)" class="star-btn text-2xl text-amber-400 transition-colors"><i class="fa-solid fa-star"></i></button>
+                <button onclick="setStar(5)" class="star-btn text-2xl text-amber-400 transition-colors"><i class="fa-solid fa-star"></i></button>
+            </div>
+            <textarea id="reviewText" rows="3" placeholder="Cuéntanos tu experiencia con este tutor..." class="w-full px-4 py-3 text-sm border border-slate-200 rounded-xl focus:outline-none focus:border-brand-400 bg-slate-50 resize-none mb-4"></textarea>
+            <button onclick="submitReview()" class="w-full py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm transition-colors shadow-md shadow-brand-500/20">
+                Publicar resena
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 z-[100] hidden items-center gap-3 bg-slate-900 text-white text-sm font-semibold px-5 py-3.5 rounded-2xl shadow-2xl border border-slate-700/50 max-w-xs">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="toastMsg"></span>
+    </div>
+
+    <script>
+        const tutors = [
+            {
+                id:1, name:'Dra. Elena Rostova', subject:'Matematicas y Calculo', cat:'matematicas',
+                avatar:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80',
+                rating:4.9, reviews:84, price:25, modality:'Online', badge:'Tutor Top',
+                sessions:12, lastSession:'01 Sep 2026', status:'activo', favorito:true,
+                nextSession:'10 Sep 2026 - 10:00 AM',
+                bio:'Matematica con PhD en la Universidad de Moscu. Especializada en Calculo, Algebra Lineal y Estadistica.'
+            },
+            {
+                id:2, name:'Ing. Carlos Mendoza', subject:'Programacion Python y Web', cat:'programacion',
+                avatar:'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80',
+                rating:5.0, reviews:112, price:30, modality:'Presencial', badge:'Respuesta Rapida',
+                sessions:8, lastSession:'03 Sep 2026', status:'activo', favorito:true,
+                nextSession:'11 Sep 2026 - 02:00 PM',
+                bio:'Ingeniero de software con 10+ anos de experiencia. Especialista en Python, FastAPI, React y arquitectura cloud.'
+            },
+            {
+                id:3, name:'Sarah Jenkins', subject:'Ingles Nativo y TOEFL', cat:'ingles',
+                avatar:'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80',
+                rating:4.8, reviews:65, price:22, modality:'Online', badge:'Nativa',
+                sessions:15, lastSession:'28 Ago 2026', status:'activo', favorito:false,
+                nextSession:'09 Sep 2026 - 09:00 AM',
+                bio:'Hablante nativa de ingles (EE.UU.), certificada para preparacion TOEFL, IELTS y conversacion avanzada.'
+            },
+            {
+                id:4, name:'Valeria Gomez', subject:'Bases de Datos y SQL', cat:'programacion',
+                avatar:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
+                rating:4.7, reviews:29, price:28, modality:'Online', badge:'Verificada',
+                sessions:5, lastSession:'25 Ago 2026', status:'activo', favorito:false,
+                nextSession:null,
+                bio:'Ingeniera de datos con experiencia en PostgreSQL, MongoDB, Redis y optimizacion de queries complejos.'
+            },
+            {
+                id:5, name:'Prof. Miguel Angel', subject:'Algebra y Fisica Basica', cat:'matematicas',
+                avatar:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+                rating:4.9, reviews:43, price:20, modality:'Presencial', badge:'Paciencia Garantizada',
+                sessions:3, lastSession:'20 Ago 2026', status:'historial', favorito:false,
+                nextSession:null,
+                bio:'Profesor universitario con 15 anos de experiencia enseñando matematicas y fisica a estudiantes de bachillerato y universidad.'
+            },
+            {
+                id:6, name:'David Smith', subject:'Ingles Conversacional', cat:'ingles',
+                avatar:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
+                rating:4.9, reviews:91, price:24, modality:'Online', badge:'Tutor Top',
+                sessions:4, lastSession:'15 Ago 2026', status:'historial', favorito:false,
+                nextSession:null,
+                bio:'Profesional bilingue con experiencia en ingles de negocios, entrevistas tecnicas y conversacion fluida.'
+            },
+        ];
+
+        let currentTab = 'activos';
+        let currentReviewTutor = null;
+        let currentStars = 4;
+        let selectedModalidad = 'Online';
+        let currentBookTutor = null;
+
+        const filterMap = {
+            activos: t => t.status === 'activo',
+            favoritos: t => t.favorito,
+            historial: t => true,
+        };
+
+        function stars(n) {
+            return Array.from({length:5}, (_,i) =>
+                `<i class="fa-solid fa-star ${i < Math.floor(n) ? 'text-amber-400' : 'text-slate-200'} text-xs"></i>`
+            ).join('');
+        }
+
+        function renderGrid(tab) {
+            const list = tutors.filter(filterMap[tab] || (() => true));
+            const grid = document.getElementById('tutorGrid');
+            if (!list.length) {
+                grid.innerHTML = `<div class="col-span-2 py-12 text-center">
+                    <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-slate-100 flex items-center justify-center">
+                        <i class="fa-solid fa-user-slash text-slate-300 text-xl"></i>
+                    </div>
+                    <p class="text-sm font-bold text-slate-400">Sin tutores en esta seccion</p>
+                    <a href="../Paginas Publicas/explorar.html" class="inline-flex items-center gap-2 mt-4 px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl transition-colors">
+                        <i class="fa-solid fa-magnifying-glass text-[10px]"></i> Explorar tutores
+                    </a>
+                </div>`;
+                return;
+            }
+            grid.innerHTML = list.map(t => `
+                <div class="tutor-card bg-white rounded-2xl border border-slate-200/80 p-5 flex flex-col gap-4 anim-in">
+                    <!-- Header -->
+                    <div class="flex items-start gap-3">
+                        <div class="relative shrink-0">
+                            <img src="${t.avatar}" alt="${t.name}" class="w-14 h-14 rounded-2xl object-cover border-2 border-slate-100">
+                            <span class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white ${t.status==='activo'?'bg-emerald-500':'bg-slate-300'}"></span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between gap-2">
+                                <div>
+                                    <h3 class="text-sm font-extrabold text-slate-900 leading-tight">${t.name}</h3>
+                                    <p class="text-xs text-slate-500 truncate">${t.subject}</p>
+                                </div>
+                                <button onclick="toggleFav(${t.id})" id="fav-${t.id}" class="p-1.5 rounded-lg ${t.favorito?'text-red-500 bg-red-50':'text-slate-300 hover:text-red-400 hover:bg-red-50'} transition-colors shrink-0" title="Favorito">
+                                    <i class="fa-solid fa-heart text-xs"></i>
+                                </button>
+                            </div>
+                            <div class="flex items-center gap-1.5 mt-1">
+                                ${stars(t.rating)}
+                                <span class="text-xs font-bold text-slate-700">${t.rating}</span>
+                                <span class="text-[11px] text-slate-400">(${t.reviews})</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bio -->
+                    <p class="text-xs text-slate-500 leading-relaxed line-clamp-2">${t.bio}</p>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-2 text-center">
+                        <div class="bg-slate-50 rounded-xl py-2 px-1">
+                            <p class="text-sm font-extrabold text-slate-900">${t.sessions}</p>
+                            <p class="text-[10px] text-slate-400 font-semibold">Clases</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl py-2 px-1">
+                            <p class="text-sm font-extrabold text-slate-900">$${t.price}</p>
+                            <p class="text-[10px] text-slate-400 font-semibold">por hora</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl py-2 px-1">
+                            <p class="text-[10px] font-extrabold text-slate-700 leading-tight">${t.modality}</p>
+                            <p class="text-[10px] text-slate-400 font-semibold">Modalidad</p>
+                        </div>
+                    </div>
+
+                    <!-- Badge + last session -->
+                    <div class="flex items-center justify-between">
+                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-brand-50 text-brand-700 text-[10px] font-bold">
+                            <i class="fa-solid fa-medal text-[9px]"></i> ${t.badge}
+                        </span>
+                        <span class="text-[11px] text-slate-400">Ultima clase: ${t.lastSession}</span>
+                    </div>
+
+                    ${t.nextSession ? `<div class="flex items-center gap-2 p-2.5 rounded-xl bg-emerald-50 border border-emerald-100">
+                        <i class="fa-solid fa-clock text-emerald-500 text-xs"></i>
+                        <span class="text-[11px] font-bold text-emerald-700">Proxima: ${t.nextSession}</span>
+                    </div>` : ''}
+
+                    <!-- Actions -->
+                    <div class="flex gap-2 pt-1">
+                        <button onclick="openBookModal(${t.id})" class="flex-1 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold transition-colors shadow-sm shadow-brand-500/20">
+                            <i class="fa-solid fa-plus text-[10px] mr-1"></i> Reservar clase
+                        </button>
+                        <button onclick="openReviewModal(${t.id})" class="px-3 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:border-amber-400 hover:text-amber-500 hover:bg-amber-50/50 text-xs font-bold transition-colors" title="Dejar resena">
+                            <i class="fa-solid fa-star text-xs"></i>
+                        </button>
+                        <a href="../Paginas Publicas/tutor-perfil.html?id=${t.id}" class="px-3 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:border-brand-400 hover:text-brand-600 hover:bg-brand-50/50 text-xs font-bold transition-colors" title="Ver perfil">
+                            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            ['activos','favoritos','historial'].forEach(t => {
+                const btn = document.getElementById('tab-' + t);
+                if (t === tab) { btn.classList.add('active'); btn.classList.remove('text-slate-500'); btn.classList.add('text-brand-700'); }
+                else { btn.classList.remove('active'); btn.classList.add('text-slate-500'); btn.classList.remove('text-brand-700'); }
+            });
+            renderGrid(tab);
+        }
+
+        function toggleFav(id) {
+            const t = tutors.find(x => x.id === id);
+            if (!t) return;
+            t.favorito = !t.favorito;
+            const btn = document.getElementById('fav-' + id);
+            if (t.favorito) { btn.classList.add('text-red-500','bg-red-50'); btn.classList.remove('text-slate-300'); }
+            else { btn.classList.remove('text-red-500','bg-red-50'); btn.classList.add('text-slate-300'); }
+            showToast(t.favorito ? t.name + ' agregado a favoritos' : t.name + ' removido de favoritos', 'heart');
+        }
+
+        function openBookModal(id) {
+            currentBookTutor = tutors.find(t => t.id === id);
+            if (!currentBookTutor) return;
+            document.getElementById('bookTutorInfo').innerHTML = `
+                <img src="${currentBookTutor.avatar}" class="w-12 h-12 rounded-xl object-cover border border-slate-200">
+                <div><p class="text-sm font-extrabold text-slate-900">${currentBookTutor.name}</p>
+                <p class="text-xs text-slate-500">${currentBookTutor.subject}</p>
+                <p class="text-xs font-bold text-brand-600 mt-0.5">$${currentBookTutor.price} USD / hora</p></div>`;
+            const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate()+1);
+            document.getElementById('bookDate').value = tomorrow.toISOString().split('T')[0];
+            const m = document.getElementById('bookModal');
+            m.classList.remove('hidden'); m.classList.add('flex');
+        }
+        function closeBookModal() {
+            const m = document.getElementById('bookModal');
+            m.classList.add('hidden'); m.classList.remove('flex');
+        }
+        function setModalidad(btn, val) {
+            selectedModalidad = val;
+            document.querySelectorAll('.mod-btn').forEach(b => {
+                b.classList.remove('border-brand-500','bg-brand-50','text-brand-700');
+                b.classList.add('border-slate-200','text-slate-700');
+            });
+            btn.classList.add('border-brand-500','bg-brand-50','text-brand-700');
+            btn.classList.remove('border-slate-200','text-slate-700');
+        }
+        function confirmBook() {
+            const date = document.getElementById('bookDate').value;
+            const time = document.getElementById('bookTime').value;
+            if (!date) { showToast('Selecciona una fecha','exclamation'); return; }
+            closeBookModal();
+            showToast('Clase con ' + currentBookTutor.name + ' reservada para ' + date + ' a las ' + time, 'check');
+        }
+
+        function openReviewModal(id) {
+            currentReviewTutor = tutors.find(t => t.id === id);
+            if (!currentReviewTutor) return;
+            document.getElementById('reviewTutorName').textContent = 'Resena para: ' + currentReviewTutor.name;
+            document.getElementById('reviewText').value = '';
+            setStar(5);
+            const m = document.getElementById('reviewModal');
+            m.classList.remove('hidden'); m.classList.add('flex');
+        }
+        function closeReviewModal() {
+            const m = document.getElementById('reviewModal');
+            m.classList.add('hidden'); m.classList.remove('flex');
+        }
+        function setStar(n) {
+            currentStars = n;
+            document.querySelectorAll('.star-btn').forEach((btn,i) => {
+                if (i < n) { btn.classList.add('text-amber-400'); btn.classList.remove('text-slate-300'); }
+                else { btn.classList.remove('text-amber-400'); btn.classList.add('text-slate-300'); }
+            });
+        }
+        function submitReview() {
+            const text = document.getElementById('reviewText').value.trim();
+            if (!text) { showToast('Escribe tu opinion antes de publicar','exclamation'); return; }
+            closeReviewModal();
+            showToast('Resena de ' + currentStars + ' estrellas publicada. Gracias!', 'check');
+        }
+
+        function showToast(msg, icon) {
+            const icons = { check:'fa-circle-check text-emerald-400', heart:'fa-heart text-red-400', exclamation:'fa-circle-exclamation text-amber-400' };
+            const t = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            document.getElementById('toastIcon').className = 'fa-solid ' + (icons[icon]||icons.check);
+            t.classList.remove('hidden'); t.classList.add('flex');
+            setTimeout(() => { t.classList.add('hidden'); t.classList.remove('flex'); }, 4000);
+        }
+
+        document.getElementById('openSidebarBtn').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.remove('-translate-x-full');
+            document.getElementById('sidebarOverlay').classList.remove('hidden');
+        });
+        ['closeSidebarBtn','sidebarOverlay'].forEach(id => {
+            document.getElementById(id).addEventListener('click', () => {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+                document.getElementById('sidebarOverlay').classList.add('hidden');
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => renderGrid('activos'));
+    </script>
+</body>
+</html>

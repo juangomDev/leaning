@@ -29,15 +29,26 @@
 <body class="font-sans bg-gradient-to-br from-slate-100 via-brand-50 to-slate-100 min-h-screen antialiased flex flex-col">
 
     <!-- Top bar -->
-    <div class="py-5 px-6">
+    <div class="py-5 px-6 max-w-7xl mx-auto w-full flex items-center justify-between">
         <a href="index.html" class="inline-flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-xl bg-brand-600 text-white flex items-center justify-center shadow-lg shadow-brand-500/30 text-xs"><i class="fa-solid fa-graduation-cap"></i></div>
-            <span class="text-lg font-extrabold text-slate-900">Edu<span class="text-brand-600">Connect</span></span>
+            <div class="w-9 h-9 rounded-xl bg-brand-600 text-white flex items-center justify-center shadow-lg shadow-brand-500/30 text-sm"><i class="fa-solid fa-graduation-cap"></i></div>
+            <span class="text-xl font-extrabold tracking-tight text-slate-900">Edu<span class="text-brand-600">Connect</span></span>
+        </a>
+        <a href="index.html" class="text-xs font-semibold text-slate-500 hover:text-brand-600 transition-colors flex items-center gap-1.5">
+            <i class="fa-solid fa-arrow-left text-[10px]"></i> Volver al inicio
         </a>
     </div>
 
     <main class="flex-1 flex items-center justify-center px-4 py-8">
         <div class="w-full max-w-md">
+            <!-- Contextual Banner (Hidden by default, shown via JS if coming from booking or tutor registration) -->
+            <div id="contextBanner" class="hidden mb-6 p-4 rounded-2xl border shadow-sm flex items-start gap-3">
+                <div id="contextIcon" class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 mt-0.5 text-sm"></div>
+                <div>
+                    <h3 id="contextTitle" class="text-xs font-extrabold uppercase tracking-wider mb-0.5"></h3>
+                    <p id="contextDesc" class="text-xs leading-relaxed"></p>
+                </div>
+            </div>
 
             <!-- Tab Switcher -->
             <div class="flex bg-white rounded-2xl p-1.5 shadow-sm border border-slate-200/80 mb-6">
@@ -201,6 +212,7 @@
 
     <script>
         let selectedRole = 'student';
+        let bookingData = null;
 
         function showPanel(panel) {
             const isLogin = panel === 'login';
@@ -242,17 +254,131 @@
             document.getElementById('strengthLabel').className = `text-[10px] mt-1 ${level===4?'text-emerald-600':level>=2?'text-amber-600':'text-red-500'}`;
         }
 
+        // URL Parameters detection (Flow integration)
+        (function initFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const action = params.get('action');
+            const role = params.get('role');
+            const mode = params.get('mode');
+            const registered = params.get('registered');
+            const tutorName = params.get('tutorName');
+            const day = params.get('day');
+            const time = params.get('time');
+            const name = params.get('name');
+            const email = params.get('email');
+
+            const banner = document.getElementById('contextBanner');
+            const icon = document.getElementById('contextIcon');
+            const title = document.getElementById('contextTitle');
+            const desc = document.getElementById('contextDesc');
+
+            if (action === 'book' && tutorName) {
+                bookingData = { tutorName, day, time };
+                banner.className = 'mb-6 p-4 rounded-2xl border border-blue-200 bg-blue-50/80 shadow-sm flex items-start gap-3';
+                icon.className = 'w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 mt-0.5 text-sm shadow-md';
+                icon.innerHTML = '<i class="fa-solid fa-calendar-check"></i>';
+                title.className = 'text-xs font-extrabold uppercase tracking-wider text-blue-900 mb-0.5';
+                title.textContent = 'Confirmación de Reserva';
+                desc.className = 'text-xs leading-relaxed text-blue-700';
+                desc.innerHTML = `Estás a un paso de confirmar tu clase con <strong>${tutorName}</strong> (Día ${day || 'programado'} a las ${time || 'hora acordada'}). Inicia sesión o crea tu cuenta gratuita para completar tu reserva.`;
+                banner.classList.remove('hidden');
+            } else if (registered === 'true') {
+                banner.className = 'mb-6 p-4 rounded-2xl border border-emerald-200 bg-emerald-50/80 shadow-sm flex items-start gap-3';
+                icon.className = 'w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5 text-sm shadow-md';
+                icon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+                title.className = 'text-xs font-extrabold uppercase tracking-wider text-emerald-900 mb-0.5';
+                title.textContent = 'Postulación de Tutor Recibida';
+                desc.className = 'text-xs leading-relaxed text-emerald-700';
+                desc.innerHTML = `¡Bienvenido${name ? ', <strong>' + name + '</strong>' : ''}! Tu perfil docente está en proceso de activación. Crea tu contraseña para acceder a tu panel de control de tutor.`;
+                banner.classList.remove('hidden');
+                selectRole('tutor');
+            }
+
+            if (mode === 'register') {
+                showPanel('register');
+            } else if (mode === 'login') {
+                showPanel('login');
+            }
+
+            if (role === 'tutor') {
+                selectRole('tutor');
+            }
+
+            if (email) {
+                const regEmailInput = document.querySelector('#registerForm input[type=email]');
+                const loginEmailInput = document.querySelector('#loginForm input[type=email]');
+                if (regEmailInput) regEmailInput.value = email;
+                if (loginEmailInput) loginEmailInput.value = email;
+            }
+            if (name) {
+                const nameInput = document.getElementById('registerForm') ? document.getElementById('registerForm').querySelector('input[placeholder="Ana"]') : null;
+                if (nameInput) nameInput.value = name;
+            }
+        })();
+
         function handleLogin(e) {
             e.preventDefault();
-            showToast('¡Sesión iniciada correctamente!');
-            setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+            if (bookingData) {
+                showToast(`¡Reserva confirmada con ${bookingData.tutorName}! Redirigiendo a tu Dashboard...`);
+            } else if (selectedRole === 'tutor') {
+                showToast('¡Bienvenido, Profesor! Accediendo a tu Dashboard de Tutor...');
+            } else {
+                showToast('¡Sesión iniciada! Accediendo a tu Dashboard de Estudiante...');
+            }
+            setTimeout(() => {
+                showDashboardModal();
+            }, 1200);
         }
 
         function handleRegister(e) {
             e.preventDefault();
-            if (selectedRole === 'tutor') { window.location.href = 'registro-tutor.html'; return; }
-            showToast('¡Cuenta creada exitosamente! Bienvenido a EduConnect.');
-            setTimeout(() => { window.location.href = 'explorar.html'; }, 1500);
+            if (selectedRole === 'tutor') {
+                const isFromApplication = new URLSearchParams(window.location.search).get('registered') === 'true';
+                if (!isFromApplication) {
+                    window.location.href = 'registro-tutor.html';
+                    return;
+                }
+                showToast('¡Cuenta de Tutor activada con éxito!');
+            } else if (bookingData) {
+                showToast(`¡Cuenta creada y clase confirmada con ${bookingData.tutorName}!`);
+            } else {
+                showToast('¡Cuenta creada exitosamente! Bienvenido a EduConnect.');
+            }
+            setTimeout(() => {
+                showDashboardModal();
+            }, 1200);
+        }
+
+        function showDashboardModal() {
+            // Simulated Dashboard Entry Point as represented in the system architecture diagram
+            const isTutor = selectedRole === 'tutor' || new URLSearchParams(window.location.search).get('role') === 'tutor';
+            const roleName = isTutor ? 'Profesor / Tutor' : 'Estudiante';
+            const extraMsg = bookingData ? `Tu clase con <strong>${bookingData.tutorName}</strong> ha sido agendada con éxito.` : `Has ingresado a tu entorno privado de ${roleName}.`;
+
+            const modalHTML = `
+                <div id="dashModal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+                    <div class="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl border border-slate-100 text-center space-y-4 animate-scale">
+                        <div class="w-16 h-16 rounded-2xl ${isTutor ? 'bg-indigo-100 text-indigo-600' : 'bg-brand-100 text-brand-600'} flex items-center justify-center text-3xl mx-auto shadow-md">
+                            <i class="fa-solid ${isTutor ? 'fa-chalkboard-user' : 'fa-user-graduate'}"></i>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">[ DASHBOARD DE ${isTutor ? 'PROFESOR' : 'USUARIO'} ]</span>
+                            <h2 class="text-2xl font-extrabold text-slate-900">¡Acceso Concedido!</h2>
+                            <p class="text-xs text-slate-500 mt-1">${extraMsg}</p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-left text-xs space-y-2 text-slate-600">
+                            <div class="flex justify-between"><span>Rol autenticado:</span><strong class="text-slate-900 capitalize">${roleName}</strong></div>
+                            <div class="flex justify-between"><span>Estado de sesión:</span><span class="text-emerald-600 font-bold">Activo (Autenticado)</span></div>
+                            <div class="flex justify-between"><span>Plataforma:</span><strong>EduConnect Core v2.0</strong></div>
+                        </div>
+                        <div class="pt-2 flex gap-3">
+                            <a href="explorar.html" class="flex-1 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition-all">Explorar más</a>
+                            <a href="index.html" class="flex-1 py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs shadow-md transition-all">Ir al Inicio</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
         }
 
         function showToast(msg) {

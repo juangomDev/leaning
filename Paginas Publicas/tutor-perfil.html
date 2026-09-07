@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dra. Elena Rostova — Tutora de Matemáticas | EduConnect</title>
-    <meta name="description" content="Doctora en Ciencias Matemáticas. 8+ años de experiencia. Clases online de Cálculo, Álgebra y Estadística. Rating 4.9/5 con 84 reseñas. Reserva tu clase desde $25/hora.">
+    <title id="pageTitle">Perfil de Tutor — EduConnect</title>
+    <meta name="description" id="pageDesc" content="Conoce la trayectoria, opiniones y disponibilidad de nuestros profesores verificados en EduConnect. Reserva tu clase privada hoy.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -13,7 +13,9 @@
             theme: {
                 extend: {
                     fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
-                    colors: { brand: { 50:'#f0f7ff', 100:'#e0effe', 500:'#2563eb', 600:'#1d4ed8', 700:'#1e40af', accent:'#f97316' } }
+                    colors: {
+                        brand: { 50:'#f0f7ff', 100:'#e0effe', 500:'#2563eb', 600:'#1d4ed8', 700:'#1e40af', accent:'#f97316' }
+                    }
                 }
             }
         }
@@ -23,29 +25,52 @@
         .day-btn.active { background: #1d4ed8; color: white; border-color: #1d4ed8; }
         .time-slot { transition: all 0.2s; cursor: pointer; }
         .time-slot.selected { background: #1d4ed8; color: white; border-color: #1d4ed8; }
-        .time-slot:hover:not(.booked) { border-color: #2563eb; color: #1d4ed8; }
+        .time-slot:hover:not(.booked):not(.selected) { border-color: #2563eb; color: #1d4ed8; }
         .time-slot.booked { opacity: 0.4; cursor: not-allowed; background: #f1f5f9; }
-        .tab-btn.active { color: #1d4ed8; border-bottom-color: #1d4ed8; }
+        .tab-btn.active { color: #1d4ed8; border-bottom-color: #1d4ed8; font-weight: 700; }
         .tab-btn { border-bottom: 2px solid transparent; }
         .review-card { animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="font-sans bg-slate-50 text-slate-800 antialiased">
+<body class="font-sans bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
 
     <!-- Navbar -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between py-4">
             <a href="index.html" class="flex items-center gap-2.5">
-                <div class="w-9 h-9 rounded-xl bg-brand-600 text-white flex items-center justify-center shadow-lg shadow-brand-500/30"><i class="fa-solid fa-graduation-cap text-sm"></i></div>
-                <span class="text-xl font-extrabold text-slate-900">Edu<span class="text-brand-600">Connect</span></span>
+                <div class="w-9 h-9 rounded-xl bg-brand-600 text-white flex items-center justify-center shadow-lg shadow-brand-500/30">
+                    <i class="fa-solid fa-graduation-cap text-sm"></i>
+                </div>
+                <span class="text-xl font-extrabold tracking-tight text-slate-900">Edu<span class="text-brand-600">Connect</span></span>
             </a>
-            <nav class="hidden md:flex items-center gap-5 text-sm text-slate-500">
-                <a href="explorar.html" class="hover:text-brand-600 transition-colors flex items-center gap-1"><i class="fa-solid fa-chevron-left text-xs"></i> Volver al catálogo</a>
+            
+            <nav class="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600">
+                <a href="explorar.html" class="hover:text-brand-600 transition-colors flex items-center gap-1.5"><i class="fa-solid fa-compass text-xs"></i> Explorar</a>
+                <a href="index.html#como-funciona" class="hover:text-brand-600 transition-colors">¿Cómo funciona?</a>
+                <a href="registro-tutor.html" class="hover:text-brand-600 transition-colors">Enseñar</a>
             </nav>
+
             <div class="flex items-center gap-2.5">
-                <a href="login-registro.html" class="hidden sm:inline-flex px-4 py-2 text-sm font-semibold text-slate-700 hover:text-brand-600 transition-colors">Iniciar Sesión</a>
-                <a href="login-registro.html" class="px-4 py-2.5 rounded-xl bg-brand-600 text-white font-semibold text-sm shadow-md transition-all">Registrarse</a>
+                <a href="login-registro.html" class="hidden sm:inline-flex px-4 py-2 text-sm font-semibold text-slate-700 hover:text-brand-600 transition-colors rounded-lg hover:bg-slate-50">Iniciar Sesión</a>
+                <a href="explorar.html" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm shadow-md shadow-brand-500/20 hover:shadow-lg transition-all duration-200">
+                    <i class="fa-solid fa-magnifying-glass text-xs"></i> Buscar Tutor
+                </a>
+                <!-- Mobile button -->
+                <button id="mobileMenuBtn" class="md:hidden p-2 text-slate-600 hover:text-brand-600">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-5 space-y-3 shadow-lg">
+            <a href="explorar.html" class="block py-2 text-sm font-semibold text-slate-700 hover:text-brand-600 flex items-center gap-2"><i class="fa-solid fa-compass text-xs text-brand-600"></i> Explorar Tutores</a>
+            <a href="index.html#como-funciona" class="block py-2 text-sm font-semibold text-slate-700 hover:text-brand-600 flex items-center gap-2"><i class="fa-solid fa-circle-question text-xs text-brand-600"></i> ¿Cómo funciona?</a>
+            <a href="registro-tutor.html" class="block py-2 text-sm font-semibold text-slate-700 hover:text-brand-600 flex items-center gap-2"><i class="fa-solid fa-chalkboard-user text-xs text-brand-600"></i> Enseñar en EduConnect</a>
+            <div class="pt-2 border-t border-slate-100 flex flex-col gap-2">
+                <a href="login-registro.html" class="block py-2 text-sm font-semibold text-slate-700 hover:text-brand-600">Iniciar Sesión</a>
+                <a href="explorar.html" class="inline-flex items-center justify-center gap-2 py-2.5 bg-brand-600 text-white font-bold text-sm rounded-xl">Buscar Tutor</a>
             </div>
         </div>
     </header>
@@ -57,9 +82,9 @@
             <i class="fa-solid fa-chevron-right text-[9px]"></i>
             <a href="explorar.html" class="hover:text-brand-600 transition-colors">Explorar</a>
             <i class="fa-solid fa-chevron-right text-[9px]"></i>
-            <a href="explorar.html?categoria=matematicas" class="hover:text-brand-600 transition-colors">Matemáticas</a>
+            <a id="crumbCategory" href="explorar.html" class="hover:text-brand-600 transition-colors">Materia</a>
             <i class="fa-solid fa-chevron-right text-[9px]"></i>
-            <span class="text-slate-700 font-medium">Dra. Elena Rostova</span>
+            <span id="crumbName" class="text-slate-700 font-medium">Nombre del Tutor</span>
         </nav>
     </div>
 
@@ -70,133 +95,143 @@
             <div class="lg:col-span-8 space-y-6">
 
                 <!-- Profile Header Card -->
-                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-7">
+                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 sm:p-7">
                     <div class="flex flex-col sm:flex-row items-start gap-6">
                         <div class="relative shrink-0">
-                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" alt="Dra. Elena Rostova" class="w-28 h-28 rounded-2xl object-cover border-4 border-brand-100 shadow-lg">
-                            <span class="absolute -bottom-2 -right-2 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full border-2 border-white">Disponible</span>
+                            <img id="tutorAvatar" src="" alt="" class="w-28 h-28 rounded-2xl object-cover border-4 border-brand-100 shadow-md">
+                            <span class="absolute -bottom-2 -right-2 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full border-2 border-white flex items-center gap-1 shadow-sm">
+                                <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span> Disponible
+                            </span>
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-start justify-between gap-3 flex-wrap">
                                 <div>
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <span class="px-2.5 py-0.5 bg-brand-50 text-brand-700 text-xs font-bold rounded-full">Matemáticas & Cálculo</span>
-                                        <span class="px-2.5 py-0.5 bg-amber-50 text-amber-700 text-xs font-bold rounded-full border border-amber-200"><i class="fa-solid fa-crown text-[9px] mr-1"></i>Tutor Top</span>
+                                    <div class="flex items-center gap-2 mb-1 flex-wrap" id="tutorBadges">
+                                        <!-- Badges injected here -->
                                     </div>
-                                    <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Dra. Elena Rostova</h1>
-                                    <p class="text-slate-500 text-sm mt-1">Doctora en Ciencias Matemáticas · Universidad de Madrid</p>
+                                    <h1 id="tutorName" class="text-2xl sm:text-3xl font-extrabold text-slate-900"></h1>
+                                    <p id="tutorDegree" class="text-slate-500 text-sm mt-1"></p>
                                 </div>
                                 <div class="flex gap-2 shrink-0">
-                                    <button class="w-9 h-9 rounded-xl border border-slate-200 text-slate-500 hover:text-red-500 hover:border-red-200 transition-all flex items-center justify-center"><i class="fa-regular fa-heart"></i></button>
-                                    <button class="w-9 h-9 rounded-xl border border-slate-200 text-slate-500 hover:text-brand-600 hover:border-brand-200 transition-all flex items-center justify-center"><i class="fa-solid fa-share-nodes"></i></button>
+                                    <button id="likeBtn" onclick="toggleLike()" class="w-9 h-9 rounded-xl border border-slate-200 text-slate-500 hover:text-red-500 hover:border-red-200 transition-all flex items-center justify-center">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </button>
+                                    <button onclick="shareProfile()" class="w-9 h-9 rounded-xl border border-slate-200 text-slate-500 hover:text-brand-600 hover:border-brand-200 transition-all flex items-center justify-center">
+                                        <i class="fa-solid fa-share-nodes"></i>
+                                    </button>
                                 </div>
                             </div>
 
-                            <!-- Rating Row -->
-                            <div class="flex flex-wrap items-center gap-4 mt-4">
+                            <!-- Rating & Fast Specs Row -->
+                            <div class="flex flex-wrap items-center gap-4 mt-4 pt-3 border-t border-slate-100 text-sm">
                                 <div class="flex items-center gap-1.5">
-                                    <div class="flex text-amber-400 text-sm gap-0.5">
-                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
-                                    </div>
-                                    <span class="font-bold text-slate-900">4.9</span>
-                                    <span class="text-slate-400 text-sm">(84 reseñas)</span>
+                                    <div class="flex text-amber-400 text-xs gap-0.5" id="tutorStars"></div>
+                                    <span id="tutorRatingNum" class="font-bold text-slate-900"></span>
+                                    <span id="tutorReviewsNum" class="text-slate-400 text-xs"></span>
                                 </div>
                                 <div class="h-4 w-px bg-slate-200"></div>
-                                <span class="text-sm text-slate-500 flex items-center gap-1.5"><i class="fa-solid fa-laptop text-brand-500"></i> Clases Online</span>
+                                <span id="tutorModalityText" class="text-xs text-slate-600 flex items-center gap-1.5 font-medium"></span>
                                 <div class="h-4 w-px bg-slate-200"></div>
-                                <span class="text-sm text-slate-500 flex items-center gap-1.5"><i class="fa-solid fa-users text-brand-500"></i> 200+ alumnos</span>
-                                <div class="h-4 w-px bg-slate-200"></div>
-                                <span class="text-sm text-slate-500 flex items-center gap-1.5"><i class="fa-solid fa-shield-check text-emerald-500"></i> Verificada</span>
+                                <span class="text-xs text-slate-600 flex items-center gap-1.5 font-medium"><i class="fa-solid fa-shield-check text-emerald-500"></i> Verificado</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Tabs -->
+                <!-- Tabs Card -->
                 <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
                     <div class="flex border-b border-slate-200">
-                        <button class="tab-btn active px-6 py-4 text-sm font-bold transition-all" data-tab="sobre">Sobre mí</button>
+                        <button class="tab-btn active px-6 py-4 text-sm transition-all" data-tab="sobre">Sobre mí</button>
                         <button class="tab-btn px-6 py-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-all" data-tab="curriculum">Currículum</button>
-                        <button class="tab-btn px-6 py-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-all" data-tab="resenas">Reseñas (84)</button>
+                        <button id="tabReviewsTitle" class="tab-btn px-6 py-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition-all" data-tab="resenas">Reseñas</button>
                     </div>
 
                     <!-- Tab: Sobre mí -->
                     <div id="tab-sobre" class="p-7 space-y-6">
                         <div>
-                            <h2 class="font-bold text-slate-900 mb-3">Presentación</h2>
-                            <p class="text-slate-600 text-sm leading-relaxed">Soy doctora en Ciencias Matemáticas por la Universidad Autónoma de Madrid con más de 8 años de experiencia preparando estudiantes para exámenes universitarios, pruebas de acceso y Olimpiadas de Matemáticas. Mi enfoque combina la teoría con ejercicios prácticos progresivos que permiten al alumno desarrollar confianza y autonomía real.</p>
-                            <p class="text-slate-600 text-sm leading-relaxed mt-3">Adapto cada sesión al nivel y ritmo del estudiante. Antes de la primera clase, hago una evaluación diagnóstica gratuita para identificar los puntos débiles y diseñar un plan personalizado.</p>
+                            <h2 class="font-bold text-slate-900 mb-3 text-base">Presentación & Metodología</h2>
+                            <p id="tutorBio" class="text-slate-600 text-sm leading-relaxed"></p>
                         </div>
                         <div>
-                            <h3 class="font-bold text-slate-900 mb-3">Temas que imparto</h3>
-                            <div class="flex flex-wrap gap-2">
-                                {['Álgebra Lineal','Cálculo Diferencial','Cálculo Integral','Geometría Analítica','Estadística y Probabilidad','Trigonometría','Ecuaciones Diferenciales','Cálculo Vectorial'].map(t => `<span class="px-3 py-1.5 bg-slate-100 text-slate-700 text-xs font-semibold rounded-full">${t}</span>`).join('')}
+                            <h3 class="font-bold text-slate-900 mb-3 text-sm">Temas y especialidades</h3>
+                            <div class="flex flex-wrap gap-2" id="tutorTopicsContainer">
+                                <!-- Chips injected by JS -->
                             </div>
                         </div>
                         <div>
-                            <h3 class="font-bold text-slate-900 mb-3">Niveles académicos</h3>
+                            <h3 class="font-bold text-slate-900 mb-3 text-sm">Niveles de enseñanza</h3>
                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                                <div class="text-center p-3 bg-blue-50 rounded-xl"><p class="text-xs font-bold text-blue-700">Bachillerato</p></div>
-                                <div class="text-center p-3 bg-blue-50 rounded-xl"><p class="text-xs font-bold text-blue-700">Universidad</p></div>
-                                <div class="text-center p-3 bg-blue-50 rounded-xl"><p class="text-xs font-bold text-blue-700">Posgrado</p></div>
-                                <div class="text-center p-3 bg-blue-50 rounded-xl"><p class="text-xs font-bold text-blue-700">Olimpiadas</p></div>
+                                <div class="text-center p-3 bg-blue-50/70 border border-blue-100 rounded-xl"><p class="text-xs font-bold text-blue-700">Bachillerato / Preparatoria</p></div>
+                                <div class="text-center p-3 bg-blue-50/70 border border-blue-100 rounded-xl"><p class="text-xs font-bold text-blue-700">Universitario</p></div>
+                                <div class="text-center p-3 bg-blue-50/70 border border-blue-100 rounded-xl"><p class="text-xs font-bold text-blue-700">Profesional / Adultos</p></div>
+                                <div class="text-center p-3 bg-blue-50/70 border border-blue-100 rounded-xl"><p class="text-xs font-bold text-blue-700">Exámenes de Admisión</p></div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Tab: Currículum (hidden) -->
-                    <div id="tab-curriculum" class="p-7 space-y-5 hidden">
-                        <h2 class="font-bold text-slate-900">Formación Académica</h2>
-                        <div class="space-y-4">
-                            <div class="flex gap-4"><div class="w-2 shrink-0 flex flex-col items-center"><div class="w-2 h-2 rounded-full bg-brand-600 mt-1.5"></div><div class="flex-1 w-px bg-slate-200"></div></div><div><p class="font-bold text-slate-900 text-sm">Doctorado en Ciencias Matemáticas</p><p class="text-brand-600 text-xs font-semibold">Universidad Autónoma de Madrid · 2015</p><p class="text-slate-500 text-xs mt-1">Tesis: Análisis de ecuaciones diferenciales no lineales en sistemas dinámicos.</p></div></div>
-                            <div class="flex gap-4"><div class="w-2 shrink-0 flex flex-col items-center"><div class="w-2 h-2 rounded-full bg-brand-600 mt-1.5"></div><div class="flex-1 w-px bg-slate-200"></div></div><div><p class="font-bold text-slate-900 text-sm">Maestría en Matemáticas Aplicadas</p><p class="text-brand-600 text-xs font-semibold">Universidad Complutense · 2011</p></div></div>
-                            <div class="flex gap-4"><div class="w-2 shrink-0 flex items-center"><div class="w-2 h-2 rounded-full bg-slate-300 mt-1.5"></div></div><div><p class="font-bold text-slate-900 text-sm">Licenciatura en Matemáticas</p><p class="text-slate-500 text-xs font-semibold">Universidad de Salamanca · 2009</p></div></div>
+                    <!-- Tab: Currículum -->
+                    <div id="tab-curriculum" class="p-7 space-y-6 hidden">
+                        <h2 class="font-bold text-slate-900 text-base">Formación Académica</h2>
+                        <div class="space-y-4" id="educationList">
+                            <!-- Injected by JS -->
                         </div>
-                        <h2 class="font-bold text-slate-900 pt-2">Experiencia Docente</h2>
-                        <div class="space-y-3">
-                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200"><p class="font-bold text-slate-900 text-sm">Profesora de Cálculo — Universidad Politécnica</p><p class="text-xs text-slate-500 mt-0.5">2016 – 2022 · Impartí cursos de Cálculo I, II y Álgebra Lineal</p></div>
-                            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200"><p class="font-bold text-slate-900 text-sm">Tutora Privada Independiente</p><p class="text-xs text-slate-500 mt-0.5">2015 – presente · +200 alumnos de nivel universitario y bachillerato</p></div>
+                        <h2 class="font-bold text-slate-900 text-base pt-2">Experiencia Docente</h2>
+                        <div class="space-y-3" id="experienceList">
+                            <!-- Injected by JS -->
                         </div>
                     </div>
 
-                    <!-- Tab: Reseñas (hidden) -->
-                    <div id="tab-resenas" class="p-7 space-y-5 hidden">
-                        <div class="flex items-center gap-6 p-5 bg-brand-50 rounded-xl border border-brand-100">
-                            <div class="text-center shrink-0"><p class="text-5xl font-extrabold text-brand-600">4.9</p><div class="flex text-amber-400 text-sm justify-center mt-1 gap-0.5"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div><p class="text-xs text-slate-500 mt-1">84 reseñas</p></div>
+                    <!-- Tab: Reseñas -->
+                    <div id="tab-resenas" class="p-7 space-y-6 hidden">
+                        <div class="flex items-center gap-6 p-5 bg-brand-50 rounded-2xl border border-brand-100">
+                            <div class="text-center shrink-0">
+                                <p id="ratingSummaryNum" class="text-4xl sm:text-5xl font-extrabold text-brand-600">4.9</p>
+                                <div class="flex text-amber-400 text-sm justify-center mt-1 gap-0.5" id="summaryStars">
+                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                                </div>
+                                <p id="summaryReviewsText" class="text-xs text-slate-500 mt-1"></p>
+                            </div>
                             <div class="flex-1 space-y-1.5">
-                                <div class="flex items-center gap-2 text-xs"><span class="w-3">5★</span><div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-full bg-amber-400 rounded-full" style="width:82%"></div></div><span class="text-slate-500 w-8">82%</span></div>
-                                <div class="flex items-center gap-2 text-xs"><span class="w-3">4★</span><div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-full bg-amber-400 rounded-full" style="width:14%"></div></div><span class="text-slate-500 w-8">14%</span></div>
-                                <div class="flex items-center gap-2 text-xs"><span class="w-3">3★</span><div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-full bg-amber-400 rounded-full" style="width:4%"></div></div><span class="text-slate-500 w-8">4%</span></div>
+                                <div class="flex items-center gap-2 text-xs"><span class="w-3">5★</span><div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-full bg-amber-400 rounded-full" style="width:85%"></div></div><span class="text-slate-500 w-8">85%</span></div>
+                                <div class="flex items-center gap-2 text-xs"><span class="w-3">4★</span><div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-full bg-amber-400 rounded-full" style="width:12%"></div></div><span class="text-slate-500 w-8">12%</span></div>
+                                <div class="flex items-center gap-2 text-xs"><span class="w-3">3★</span><div class="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden"><div class="h-full bg-amber-400 rounded-full" style="width:3%"></div></div><span class="text-slate-500 w-8">3%</span></div>
                             </div>
                         </div>
-                        <div class="space-y-4">
-                            <div class="review-card p-5 border border-slate-200 rounded-xl"><div class="flex items-start gap-3"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=60&q=80" class="w-9 h-9 rounded-full object-cover" alt=""><div class="flex-1"><div class="flex items-center justify-between"><p class="font-bold text-slate-900 text-sm">Camila Torres</p><span class="text-xs text-slate-400">hace 2 semanas</span></div><div class="flex text-amber-400 text-xs gap-0.5 mt-0.5"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div></div><p class="text-slate-600 text-sm leading-relaxed mt-2 italic">"Estaba sufriendo con Cálculo Integral para mi examen universitario. En solo 4 sesiones logré entender conceptos que llevaba meses sin captar. Su método es increíble."</p></div>
-                            <div class="review-card p-5 border border-slate-200 rounded-xl"><div class="flex items-start gap-3"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=60&q=80" class="w-9 h-9 rounded-full object-cover" alt=""><div class="flex-1"><div class="flex items-center justify-between"><p class="font-bold text-slate-900 text-sm">Diego Herrera</p><span class="text-xs text-slate-400">hace 1 mes</span></div><div class="flex text-amber-400 text-xs gap-0.5 mt-0.5"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div></div><p class="text-slate-600 text-sm leading-relaxed mt-2 italic">"Preparé toda la asignatura de Álgebra Lineal con Elena en 3 semanas antes del examen. Pasé con un 9. Muy recomendada."</p></div>
+
+                        <div class="space-y-4" id="reviewsContainer">
+                            <!-- Injected by JS -->
                         </div>
                     </div>
+
                 </div>
             </div>
 
             <!-- ======= RIGHT / BOOKING CARD ======= -->
             <div class="lg:col-span-4">
                 <div class="sticky top-24 space-y-4">
-                    <!-- Booking Card -->
+                    
                     <div class="bg-white rounded-2xl border border-slate-200/80 shadow-lg p-6">
                         <div class="flex items-baseline justify-between mb-5">
-                            <div><span class="text-3xl font-extrabold text-slate-900">$25</span><span class="text-slate-400 text-sm font-medium"> USD / hora</span></div>
-                            <div class="text-right"><div class="flex text-amber-400 text-xs justify-end gap-0.5"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div><p class="text-xs text-slate-400 mt-0.5">4.9 (84 reseñas)</p></div>
+                            <div>
+                                <span id="widgetPrice" class="text-3xl font-extrabold text-slate-900">$25</span>
+                                <span class="text-slate-400 text-sm font-medium"> USD / hora</span>
+                            </div>
+                            <div class="text-right">
+                                <div class="flex text-amber-400 text-xs justify-end gap-0.5" id="widgetStars"></div>
+                                <p id="widgetReviews" class="text-xs text-slate-400 mt-0.5"></p>
+                            </div>
                         </div>
 
                         <!-- Calendar day selector -->
                         <div class="mb-4">
-                            <p class="text-xs font-bold text-slate-600 uppercase tracking-wide mb-2.5">Selecciona una fecha</p>
+                            <p class="text-xs font-bold text-slate-600 uppercase tracking-wide mb-2.5">1. Selecciona un día</p>
                             <div class="grid grid-cols-7 gap-1 text-center">
                                 <div class="text-[9px] text-slate-400 font-bold py-1">L</div><div class="text-[9px] text-slate-400 font-bold py-1">M</div><div class="text-[9px] text-slate-400 font-bold py-1">X</div><div class="text-[9px] text-slate-400 font-bold py-1">J</div><div class="text-[9px] text-slate-400 font-bold py-1">V</div><div class="text-[9px] text-slate-400 font-bold py-1">S</div><div class="text-[9px] text-slate-400 font-bold py-1">D</div>
                                 <button class="day-btn text-xs py-1.5 rounded-lg text-slate-400 cursor-not-allowed">1</button>
                                 <button class="day-btn text-xs py-1.5 rounded-lg text-slate-400 cursor-not-allowed">2</button>
                                 <button class="day-btn text-xs py-1.5 rounded-lg hover:bg-brand-50 hover:text-brand-700 text-slate-700">3</button>
                                 <button class="day-btn text-xs py-1.5 rounded-lg hover:bg-brand-50 hover:text-brand-700 text-slate-700">4</button>
-                                <button class="day-btn active text-xs py-1.5 rounded-lg">5</button>
+                                <button class="day-btn active text-xs py-1.5 rounded-lg font-bold">5</button>
                                 <button class="day-btn text-xs py-1.5 rounded-lg hover:bg-brand-50 hover:text-brand-700 text-slate-700">6</button>
                                 <button class="day-btn text-xs py-1.5 rounded-lg hover:bg-brand-50 hover:text-brand-700 text-slate-700">7</button>
                                 <button class="day-btn text-xs py-1.5 rounded-lg hover:bg-brand-50 hover:text-brand-700 text-slate-700">8</button>
@@ -204,72 +239,373 @@
                                 <button class="day-btn text-xs py-1.5 rounded-lg hover:bg-brand-50 hover:text-brand-700 text-slate-700">10</button>
                                 <button class="day-btn text-xs py-1.5 rounded-lg hover:bg-brand-50 hover:text-brand-700 text-slate-700">11</button>
                                 <button class="day-btn text-xs py-1.5 rounded-lg hover:bg-brand-50 hover:text-brand-700 text-slate-700">12</button>
+                                <button class="day-btn text-xs py-1.5 rounded-lg hover:bg-brand-50 hover:text-brand-700 text-slate-700">13</button>
+                                <button class="day-btn text-xs py-1.5 rounded-lg hover:bg-brand-50 hover:text-brand-700 text-slate-700">14</button>
                             </div>
                         </div>
 
                         <!-- Time slots -->
                         <div class="mb-5">
-                            <p class="text-xs font-bold text-slate-600 uppercase tracking-wide mb-2.5">Horarios disponibles</p>
-                            <div class="grid grid-cols-3 gap-2">
-                                <button class="time-slot text-xs font-semibold py-2 border border-slate-200 rounded-lg text-slate-600">09:00</button>
-                                <button class="time-slot booked text-xs font-semibold py-2 border border-slate-200 rounded-lg">11:00</button>
-                                <button class="time-slot selected text-xs font-semibold py-2 border rounded-lg">14:00</button>
-                                <button class="time-slot text-xs font-semibold py-2 border border-slate-200 rounded-lg text-slate-600">16:00</button>
-                                <button class="time-slot text-xs font-semibold py-2 border border-slate-200 rounded-lg text-slate-600">18:00</button>
-                                <button class="time-slot booked text-xs font-semibold py-2 border border-slate-200 rounded-lg">20:00</button>
+                            <p class="text-xs font-bold text-slate-600 uppercase tracking-wide mb-2.5">2. Horarios disponibles</p>
+                            <div class="grid grid-cols-3 gap-2" id="timeSlotsContainer">
+                                <button class="time-slot text-xs font-semibold py-2 border border-slate-200 rounded-lg text-slate-600" data-time="09:00 AM">09:00 AM</button>
+                                <button class="time-slot booked text-xs font-semibold py-2 border border-slate-200 rounded-lg">11:00 AM</button>
+                                <button class="time-slot selected text-xs font-semibold py-2 border rounded-lg font-bold" data-time="02:00 PM">02:00 PM</button>
+                                <button class="time-slot text-xs font-semibold py-2 border border-slate-200 rounded-lg text-slate-600" data-time="04:00 PM">04:00 PM</button>
+                                <button class="time-slot text-xs font-semibold py-2 border border-slate-200 rounded-lg text-slate-600" data-time="06:00 PM">06:00 PM</button>
+                                <button class="time-slot booked text-xs font-semibold py-2 border border-slate-200 rounded-lg">08:00 PM</button>
                             </div>
-                            <p class="text-[10px] text-slate-400 mt-2">⬜ Disponible &nbsp; 🔵 Seleccionado &nbsp; ⬛ Ocupado</p>
                         </div>
 
                         <!-- Modality -->
                         <div class="mb-5">
-                            <p class="text-xs font-bold text-slate-600 uppercase tracking-wide mb-2.5">Modalidad</p>
+                            <p class="text-xs font-bold text-slate-600 uppercase tracking-wide mb-2.5">3. Modalidad</p>
                             <div class="grid grid-cols-2 gap-2">
-                                <button class="py-2.5 border-2 border-brand-600 bg-brand-50 text-brand-700 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5"><i class="fa-solid fa-laptop text-sm"></i> En Línea</button>
-                                <button class="py-2.5 border border-slate-200 text-slate-500 text-xs font-bold rounded-xl hover:border-brand-300 transition-all flex items-center justify-center gap-1.5"><i class="fa-solid fa-location-dot text-sm"></i> Presencial</button>
+                                <button id="btnModOnline" onclick="setBookingModality('online')" class="py-2.5 border-2 border-brand-600 bg-brand-50 text-brand-700 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5">
+                                    <i class="fa-solid fa-laptop text-sm"></i> En Línea
+                                </button>
+                                <button id="btnModPresencial" onclick="setBookingModality('presencial')" class="py-2.5 border border-slate-200 text-slate-500 text-xs font-bold rounded-xl hover:border-brand-300 transition-all flex items-center justify-center gap-1.5">
+                                    <i class="fa-solid fa-location-dot text-sm"></i> Presencial
+                                </button>
                             </div>
                         </div>
 
                         <!-- Price Summary -->
                         <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 mb-4 space-y-1.5 text-sm">
-                            <div class="flex justify-between text-slate-600"><span>$25 × 1 hora</span><span>$25.00</span></div>
-                            <div class="flex justify-between text-slate-600"><span>Tarifa de servicio</span><span>$2.50</span></div>
-                            <div class="flex justify-between font-bold text-slate-900 pt-1.5 border-t border-slate-200"><span>Total</span><span>$27.50 USD</span></div>
+                            <div class="flex justify-between text-slate-600">
+                                <span>Clase individual (1 hora)</span>
+                                <span id="summaryBasePrice">$25.00</span>
+                            </div>
+                            <div class="flex justify-between text-slate-600">
+                                <span>Tarifa de servicio y plataforma</span>
+                                <span id="summaryFeePrice">$2.50</span>
+                            </div>
+                            <div class="flex justify-between font-bold text-slate-900 pt-1.5 border-t border-slate-200">
+                                <span>Total estimado</span>
+                                <span id="summaryTotalPrice">$27.50 USD</span>
+                            </div>
                         </div>
 
-                        <a href="login-registro.html" class="block w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-center rounded-xl shadow-lg shadow-brand-500/20 transition-all duration-200 text-sm">
+                        <button id="bookClassBtn" onclick="handleBookAction()" class="block w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-center rounded-xl shadow-lg shadow-brand-500/20 transition-all duration-200 text-sm">
                             Reservar Clase Ahora
-                        </a>
+                        </button>
                         <p class="text-center text-xs text-slate-400 mt-2.5">Sin cargos hasta confirmar. Cancela gratis con 24h de anticipación.</p>
                     </div>
 
-                    <!-- Quick Info -->
+                    <!-- Trust info list -->
                     <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 space-y-3">
-                        <div class="flex items-center gap-3 text-sm"><i class="fa-solid fa-clock text-brand-500 w-4 text-center"></i><span class="text-slate-600">Responde en menos de <strong>1 hora</strong></span></div>
-                        <div class="flex items-center gap-3 text-sm"><i class="fa-solid fa-shield-check text-emerald-500 w-4 text-center"></i><span class="text-slate-600">Perfil <strong>verificado</strong> por EduConnect</span></div>
-                        <div class="flex items-center gap-3 text-sm"><i class="fa-solid fa-rotate-left text-amber-500 w-4 text-center"></i><span class="text-slate-600"><strong>Garantía</strong> en primera clase</span></div>
-                        <div class="flex items-center gap-3 text-sm"><i class="fa-solid fa-language text-purple-500 w-4 text-center"></i><span class="text-slate-600">Clases en <strong>Español</strong> y Inglés</span></div>
+                        <div class="flex items-center gap-3 text-sm">
+                            <i class="fa-solid fa-clock text-brand-500 w-4 text-center"></i>
+                            <span class="text-slate-600">Responde en menos de <strong>1 hora</strong></span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm">
+                            <i class="fa-solid fa-shield-check text-emerald-500 w-4 text-center"></i>
+                            <span class="text-slate-600">Perfil <strong>verificado</strong> por EduConnect</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm">
+                            <i class="fa-solid fa-rotate-left text-amber-500 w-4 text-center"></i>
+                            <span class="text-slate-600"><strong>Garantía</strong> en primera clase</span>
+                        </div>
                     </div>
+
                 </div>
             </div>
+
         </div>
     </div>
 
-    <!-- Toast -->
+    <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-5 right-5 z-50 hidden bg-slate-900 text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 border border-slate-700">
         <i class="fa-solid fa-circle-check text-emerald-400"></i>
         <span id="toastMsg" class="text-sm font-medium"></span>
     </div>
 
     <script>
-        // Tabs
+        // Full database of tutors matching explorar.html
+        const tutorsCatalog = [
+            {
+                id: 1,
+                name: "Dra. Elena Rostova",
+                subject: "Matemáticas & Cálculo",
+                category: "matematicas",
+                categoryLabel: "Matemáticas",
+                degree: "Doctora en Ciencias Matemáticas · Universidad Autónoma de Madrid",
+                rating: 4.9,
+                reviews: 84,
+                price: 25,
+                modality: "online",
+                avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80",
+                bio: "Doctora en Ciencias Matemáticas con más de 8 años preparando alumnos para exámenes universitarios, pruebas de ingreso y cálculo avanzado. Mi método combina teoría conceptual sólida con resolución metódica de problemas tipo examen para erradicar el bloqueo con las matemáticas.",
+                badges: ["Tutor Top", "Verificada"],
+                topics: ["Álgebra Lineal", "Cálculo Diferencial", "Cálculo Integral", "Ecuaciones Diferenciales", "Geometría Analítica", "Estadística Aplicada"],
+                education: [
+                    { title: "Doctorado en Ciencias Matemáticas", institution: "Universidad Autónoma de Madrid · 2015", desc: "Tesis en análisis de ecuaciones diferenciales no lineales." },
+                    { title: "Maestría en Matemáticas Aplicadas", institution: "Universidad Complutense · 2011", desc: "Enfoque en modelado estadístico." }
+                ],
+                experience: [
+                    { title: "Profesora de Cálculo Universitario", place: "Universidad Politécnica · 2016 - 2023", desc: "Cátedra de Cálculo I, II y Métodos Numéricos." },
+                    { title: "Tutora Privada de Alto Rendimiento", place: "EduConnect · 2021 - Presente", desc: "+80 alumnos aprobados con notas sobresalientes." }
+                ],
+                reviewsList: [
+                    { author: "Camila Torres", date: "Hace 2 semanas", rating: 5, text: "Estaba sufriendo con Cálculo Integral. En solo 4 sesiones logré entender conceptos que llevaba meses sin captar. ¡Aprobé mi examen con 9/10!" },
+                    { author: "Diego Herrera", date: "Hace 1 mes", rating: 5, text: "Preparé Álgebra Lineal en 3 semanas antes del examen final con Elena. Tiene una paciencia de oro y material didáctico muy claro." }
+                ]
+            },
+            {
+                id: 2,
+                name: "Ing. Carlos Mendoza",
+                subject: "Programación Python & Web",
+                category: "programacion",
+                categoryLabel: "Programación & TI",
+                degree: "Ingeniero de Software Senior · Universidad Nacional",
+                rating: 5.0,
+                reviews: 112,
+                price: 30,
+                modality: "presencial",
+                avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80",
+                bio: "Desarrollador Senior apasionado con 9+ años creando software en la industria tecnológica. Enseño Python desde cero, estructuras de datos, desarrollo backend con Django/FastAPI y JavaScript/React para construir proyectos reales desde tu primera semana.",
+                badges: ["Respuesta Rápida", "Verificado"],
+                topics: ["Python", "JavaScript", "React.js", "Algoritmos y Estructuras", "Bases de Datos", "APIs REST"],
+                education: [
+                    { title: "Ingeniería en Sistemas Computacionales", institution: "Universidad Nacional · 2014", desc: "Graduado con honores en Arquitectura de Software." },
+                    { title: "Certificación AWS Solutions Architect", institution: "Amazon Web Services · 2020", desc: "Especialización en desarrollo cloud." }
+                ],
+                experience: [
+                    { title: "Tech Lead & Full-Stack Engineer", place: "Tech Innovators · 2018 - Presente", desc: "Liderazgo de equipos de desarrollo y mentoría de juniors." },
+                    { title: "Instructor de Bootcamp de Programación", place: "CodeAcademy LATAM · 2019 - 2022", desc: "Formación intensiva de más de 300 nuevos programadores." }
+                ],
+                reviewsList: [
+                    { author: "Mateo Ríos", date: "Hace 3 días", rating: 5, text: "Carlos me ayudó a preparar mi entrevista técnica para un puesto junior en Python. Sus ejercicios prácticos y consejos sobre la industria fueron clave para que me contrataran." },
+                    { author: "Andrés Silva", date: "Hace 2 semanas", rating: 5, text: "Excelente pedagogía. No te enseña solo a memorizar sintaxis, sino a pensar como ingeniero de software." }
+                ]
+            },
+            {
+                id: 3,
+                name: "Sarah Jenkins",
+                subject: "Inglés Nativo & TOEFL",
+                category: "ingles",
+                categoryLabel: "Idiomas",
+                degree: "Licenciada en Literatura Inglesa · University of Leeds · Certificada CELTA",
+                rating: 4.8,
+                reviews: 65,
+                price: 22,
+                modality: "online",
+                avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80",
+                bio: "Profesora nativa británica certificada por Cambridge (CELTA). Especialista en fluidez conversacional para profesionales, reducción de acento y preparación intensiva para exámenes oficiales TOEFL, IELTS y Cambridge C1 Advanced.",
+                badges: ["Nativa", "Verificada"],
+                topics: ["Inglés Conversacional", "Preparación TOEFL", "IELTS", "Business English", "Pronunciación & Fonética", "Writing Académico"],
+                education: [
+                    { title: "BA English Language & Literature", institution: "University of Leeds · 2016", desc: "Estudios lingüísticos avanzados y pedagogía moderna." },
+                    { title: "Certificate in Teaching English to Speakers of Other Languages (CELTA)", institution: "Cambridge Assessment English · 2017", desc: "Calificación con distinción." }
+                ],
+                experience: [
+                    { title: "Docente de Idiomas Corporativos", place: "Global Language Center · 2018 - Presente", desc: "Capacitación a ejecutivos y profesionales de habla hispana." },
+                    { title: "Examinadora de Pruebas Orales TOEFL", place: "Language Testing Services · 2019 - 2022", desc: "Preparación de candidatos con tasas de aprobación superiores al 95%." }
+                ],
+                reviewsList: [
+                    { author: "Mariana Paz", date: "Hace 1 semana", rating: 5, text: "Tenía mucho pánico de hablar en público en inglés. Con Sarah gané confianza en solo un mes. ¡Obtuve 108 puntos en el TOEFL!" },
+                    { author: "Lucía Morales", date: "Hace 1 mes", rating: 4.8, text: "Clases 100% dinámicas y personalizadas. Corrige tu acento con mucho tacto y diversión." }
+                ]
+            },
+            {
+                id: 4,
+                name: "Prof. Miguel Ángel",
+                subject: "Álgebra y Física Básica",
+                category: "matematicas",
+                categoryLabel: "Matemáticas & Física",
+                degree: "Licenciado en Educación mención Física y Matemática · Universidad Pedagógica",
+                rating: 4.9,
+                reviews: 43,
+                price: 20,
+                modality: "presencial",
+                avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
+                bio: "Docente con vocación y 12 años dedicados a la enseñanza de matemáticas y física en secundaria y primeros semestres universitarios. Empleo analogías cotidianas, simuladores visuales y un ritmo paciente adaptado a cada alumno.",
+                badges: ["Paciencia Garantizada"],
+                topics: ["Álgebra Básica", "Física Mecánica", "Cinemática y Dinámica", "Trigonometría", "Preparación Examen Bachillerato"],
+                education: [
+                    { title: "Licenciatura en Educación (Física y Matemáticas)", institution: "Universidad Pedagógica Nacional · 2011", desc: "Especialización en didáctica de las ciencias exactas." }
+                ],
+                experience: [
+                    { title: "Profesor Titular de Física", place: "Colegio San Martín · 2012 - Presente", desc: "Jefe del departamento de ciencias y tutor de olimpiadas escolares." }
+                ],
+                reviewsList: [
+                    { author: "Sofía Mendoza", date: "Hace 3 semanas", rating: 5, text: "La física siempre fue mi talón de Aquiles. El profesor Miguel me explicó dinámica de una forma tan visual que finalmente lo entendí a la perfección." }
+                ]
+            },
+            {
+                id: 5,
+                name: "Valeria Gómez",
+                subject: "Bases de Datos & SQL",
+                category: "programacion",
+                categoryLabel: "Programación & TI",
+                degree: "Ingeniera de Datos · Cloud & Big Data Specialist",
+                rating: 4.7,
+                reviews: 29,
+                price: 28,
+                modality: "online",
+                avatar: "https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&w=400&q=80",
+                bio: "Ingeniera de Datos con experiencia corporativa administrando petabytes de información. En mis clases aprenderás modelado relacional, SQL avanzado (PostgreSQL, MySQL), optimización de consultas y fundamentos de Big Data.",
+                badges: ["Verificada"],
+                topics: ["SQL Avanzado", "PostgreSQL", "MySQL", "Modelado de Datos", "Data Analytics", "ETL Pipelines"],
+                education: [
+                    { title: "Ingeniería en Informática", institution: "Universidad Central · 2017", desc: "Mención en bases de datos distribuidas." }
+                ],
+                experience: [
+                    { title: "Senior Data Engineer", place: "FinTech Soluciones · 2019 - Presente", desc: "Diseño y optimización de data warehouses." }
+                ],
+                reviewsList: [
+                    { author: "Jorge Peña", date: "Hace 2 semanas", rating: 5, text: "Las consultas complejas con JOINs y Window Functions eran un dolor de cabeza. Valeria las explicó de forma súper concisa." }
+                ]
+            },
+            {
+                id: 6,
+                name: "David Smith",
+                subject: "Inglés Conversacional",
+                category: "ingles",
+                categoryLabel: "Idiomas",
+                degree: "Master in Applied Linguistics · Manchester University",
+                rating: 4.9,
+                reviews: 91,
+                price: 24,
+                modality: "online",
+                avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80",
+                bio: "Coach lingüístico nativo con más de 7 años acompañando a hispanohablantes a derribar la barrera de la timidez al hablar inglés. Sesiones 100% habladas con corrección en tiempo real de modismos, entonación y vocabulario moderno.",
+                badges: ["Tutor Top"],
+                topics: ["Conversación Fluida", "Entrevistas de Trabajo", "Inglés para Viajes", "Slang & Expresiones Cotidianas", "Reducción de Acento"],
+                education: [
+                    { title: "Master in Applied Linguistics", institution: "University of Manchester · 2015", desc: "Adquisición de segundas lenguas en adultos." }
+                ],
+                experience: [
+                    { title: "Language Coach", place: "EduConnect · 2020 - Presente", desc: "+90 valoraciones de cinco estrellas de estudiantes de más de 8 países." }
+                ],
+                reviewsList: [
+                    { author: "Ignacio Vega", date: "Hace 5 días", rating: 5, text: "Hablar con David se siente como charlar con un amigo tomando un café. Cero presión, pero corrigiendo cada detalle." }
+                ]
+            }
+        ];
+
+        // Current state
+        let currentTutor = null;
+        let selectedDay = '5';
+        let selectedTime = '02:00 PM';
+        let selectedModality = 'online';
+
+        // Load Tutor based on query param ?id=
+        (function initTutorProfile() {
+            const params = new URLSearchParams(window.location.search);
+            const tutorId = parseInt(params.get('id')) || 1;
+            currentTutor = tutorsCatalog.find(t => t.id === tutorId) || tutorsCatalog[0];
+
+            // Update Metadata & Title
+            document.getElementById('pageTitle').textContent = `${currentTutor.name} — Tutor de ${currentTutor.subject} | EduConnect`;
+            document.getElementById('pageDesc').setAttribute('content', `${currentTutor.name}: ${currentTutor.bio.substring(0, 140)}... Reserva tu clase desde $${currentTutor.price}/hora.`);
+
+            // Breadcrumbs
+            document.getElementById('crumbCategory').textContent = currentTutor.categoryLabel;
+            document.getElementById('crumbCategory').href = `explorar.html?categoria=${currentTutor.category}`;
+            document.getElementById('crumbName').textContent = currentTutor.name;
+
+            // Profile Header
+            document.getElementById('tutorAvatar').src = currentTutor.avatar;
+            document.getElementById('tutorAvatar').alt = currentTutor.name;
+            document.getElementById('tutorName').textContent = currentTutor.name;
+            document.getElementById('tutorDegree').textContent = currentTutor.degree;
+
+            // Badges
+            const badgesDiv = document.getElementById('tutorBadges');
+            badgesDiv.innerHTML = `<span class="px-2.5 py-0.5 bg-brand-50 text-brand-700 text-xs font-bold rounded-full">${currentTutor.subject}</span>`;
+            currentTutor.badges.forEach(b => {
+                const isTop = b.includes('Top');
+                badgesDiv.innerHTML += `<span class="px-2.5 py-0.5 ${isTop ? 'bg-amber-50 text-amber-700 border border-amber-200' : 'bg-slate-100 text-slate-700'} text-xs font-bold rounded-full">${isTop ? '<i class="fa-solid fa-crown text-[9px] mr-1"></i>' : ''}${b}</span>`;
+            });
+
+            // Stars & Rating
+            const starHTML = '<i class="fa-solid fa-star"></i>'.repeat(Math.floor(currentTutor.rating)) + (currentTutor.rating % 1 >= 0.5 ? '<i class="fa-solid fa-star-half-stroke"></i>' : '');
+            document.getElementById('tutorStars').innerHTML = starHTML;
+            document.getElementById('tutorRatingNum').textContent = currentTutor.rating;
+            document.getElementById('tutorReviewsNum').textContent = `(${currentTutor.reviews} reseñas)`;
+            document.getElementById('tutorModalityText').innerHTML = `<i class="fa-solid ${currentTutor.modality === 'online' ? 'fa-laptop' : 'fa-location-dot'} text-brand-500"></i> ${currentTutor.modality === 'online' ? 'Clases En Línea' : 'Clases Presenciales'}`;
+
+            // Tab: Sobre mí
+            document.getElementById('tutorBio').textContent = currentTutor.bio;
+            const topicsContainer = document.getElementById('tutorTopicsContainer');
+            topicsContainer.innerHTML = currentTutor.topics.map(topic => 
+                `<span class="px-3 py-1.5 bg-slate-100 text-slate-700 text-xs font-semibold rounded-full hover:bg-brand-50 hover:text-brand-600 transition-colors">${topic}</span>`
+            ).join('');
+
+            // Tab: Currículum
+            const eduList = document.getElementById('educationList');
+            eduList.innerHTML = currentTutor.education.map(edu => `
+                <div class="flex gap-4">
+                    <div class="w-2 shrink-0 flex flex-col items-center">
+                        <div class="w-2.5 h-2.5 rounded-full bg-brand-600 mt-1.5"></div>
+                        <div class="flex-1 w-px bg-slate-200"></div>
+                    </div>
+                    <div>
+                        <p class="font-bold text-slate-900 text-sm">${edu.title}</p>
+                        <p class="text-brand-600 text-xs font-semibold mt-0.5">${edu.institution}</p>
+                        <p class="text-slate-500 text-xs mt-1 leading-relaxed">${edu.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            const expList = document.getElementById('experienceList');
+            expList.innerHTML = currentTutor.experience.map(exp => `
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                    <p class="font-bold text-slate-900 text-sm">${exp.title}</p>
+                    <p class="text-xs text-slate-500 mt-0.5 font-medium">${exp.place}</p>
+                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">${exp.desc}</p>
+                </div>
+            `).join('');
+
+            // Tab: Reseñas
+            document.getElementById('tabReviewsTitle').textContent = `Reseñas (${currentTutor.reviews})`;
+            document.getElementById('ratingSummaryNum').textContent = currentTutor.rating;
+            document.getElementById('summaryStars').innerHTML = starHTML;
+            document.getElementById('summaryReviewsText').textContent = `${currentTutor.reviews} evaluaciones verificadas`;
+
+            const reviewsContainer = document.getElementById('reviewsContainer');
+            reviewsContainer.innerHTML = currentTutor.reviewsList.map(rev => `
+                <div class="review-card p-5 border border-slate-200 rounded-xl bg-white">
+                    <div class="flex items-start gap-3">
+                        <div class="w-9 h-9 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-xs shrink-0">
+                            ${rev.author.charAt(0)}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between">
+                                <p class="font-bold text-slate-900 text-sm">${rev.author}</p>
+                                <span class="text-xs text-slate-400">${rev.date}</span>
+                            </div>
+                            <div class="flex text-amber-400 text-xs gap-0.5 mt-0.5">
+                                ${'<i class="fa-solid fa-star"></i>'.repeat(rev.rating)}
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed mt-2.5 italic">"${rev.text}"</p>
+                </div>
+            `).join('');
+
+            // Booking Widget Values
+            document.getElementById('widgetPrice').textContent = '$' + currentTutor.price;
+            document.getElementById('widgetStars').innerHTML = starHTML;
+            document.getElementById('widgetReviews').textContent = `${currentTutor.rating} (${currentTutor.reviews} reseñas)`;
+            
+            const serviceFee = 2.50;
+            const totalPrice = currentTutor.price + serviceFee;
+            document.getElementById('summaryBasePrice').textContent = `$${currentTutor.price.toFixed(2)}`;
+            document.getElementById('summaryFeePrice').textContent = `$${serviceFee.toFixed(2)}`;
+            document.getElementById('summaryTotalPrice').textContent = `$${totalPrice.toFixed(2)} USD`;
+        })();
+
+        // Tab Switching
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 const tab = this.dataset.tab;
-                ['sobre','curriculum','resenas'].forEach(t => {
-                    document.getElementById('tab-' + t).classList.toggle('hidden', t !== tab);
+                ['sobre', 'curriculum', 'resenas'].forEach(t => {
+                    const el = document.getElementById('tab-' + t);
+                    if (el) el.classList.toggle('hidden', t !== tab);
                 });
             });
         });
@@ -279,6 +615,7 @@
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
+                selectedDay = this.textContent.trim();
             });
         });
 
@@ -287,13 +624,77 @@
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.time-slot').forEach(b => b.classList.remove('selected'));
                 this.classList.add('selected');
+                selectedTime = this.dataset.time || this.textContent.trim();
             });
         });
 
-        // Inline subjects
-        document.querySelector('#tab-sobre .flex.flex-wrap.gap-2').innerHTML =
-            ['Álgebra Lineal','Cálculo Diferencial','Cálculo Integral','Geometría Analítica','Estadística y Probabilidad','Trigonometría','Ecuaciones Diferenciales','Cálculo Vectorial']
-            .map(t => `<span class="px-3 py-1.5 bg-slate-100 text-slate-700 text-xs font-semibold rounded-full">${t}</span>`).join('');
+        // Modality selection
+        function setBookingModality(mod) {
+            selectedModality = mod;
+            const btnOnline = document.getElementById('btnModOnline');
+            const btnPresencial = document.getElementById('btnModPresencial');
+            if (mod === 'online') {
+                btnOnline.className = 'py-2.5 border-2 border-brand-600 bg-brand-50 text-brand-700 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5';
+                btnPresencial.className = 'py-2.5 border border-slate-200 text-slate-500 text-xs font-bold rounded-xl hover:border-brand-300 transition-all flex items-center justify-center gap-1.5';
+            } else {
+                btnPresencial.className = 'py-2.5 border-2 border-brand-600 bg-brand-50 text-brand-700 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5';
+                btnOnline.className = 'py-2.5 border border-slate-200 text-slate-500 text-xs font-bold rounded-xl hover:border-brand-300 transition-all flex items-center justify-center gap-1.5';
+            }
+        }
+
+        // Like button toggle
+        let isLiked = false;
+        function toggleLike() {
+            isLiked = !isLiked;
+            const btn = document.getElementById('likeBtn');
+            btn.innerHTML = isLiked ? '<i class="fa-solid fa-heart text-red-500"></i>' : '<i class="fa-regular fa-heart"></i>';
+            showToast(isLiked ? 'Guardado en tus tutores favoritos' : 'Eliminado de tus favoritos');
+        }
+
+        function shareProfile() {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(window.location.href);
+                showToast('Enlace al perfil copiado al portapapeles');
+            } else {
+                showToast('Perfil listo para compartir');
+            }
+        }
+
+        // Action: Book Class
+        function handleBookAction() {
+            if (!currentTutor) return;
+            showToast('Preparando tu reserva...');
+            // Redirect smoothly to login-registro with booking context
+            setTimeout(() => {
+                const params = new URLSearchParams({
+                    action: 'book',
+                    tutorId: currentTutor.id,
+                    tutorName: currentTutor.name,
+                    subject: currentTutor.subject,
+                    price: currentTutor.price,
+                    day: selectedDay,
+                    time: selectedTime,
+                    modality: selectedModality
+                });
+                window.location.href = `login-registro.html?${params.toString()}`;
+            }, 1000);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3500);
+        }
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (mobileBtn && mobileMenu) {
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
     </script>
 </body>
 </html>
