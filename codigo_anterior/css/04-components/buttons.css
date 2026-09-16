@@ -1,0 +1,62 @@
+/**
+ * EDUCONNECT CSS ARCHITECTURE
+ * 04-COMPONENTS / BUTTONS
+ */
+
+/* Button Transitions */
+button,
+a[role="button"],
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-normal);
+  cursor: pointer;
+}
+
+/* Specific filter tabs in tutors section */
+.filter-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--radius-xl);
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all var(--transition-normal);
+  border: 1px solid transparent;
+  cursor: pointer;
+  background-color: var(--color-slate-100);
+  color: var(--color-slate-600);
+}
+
+.filter-tab:hover {
+  background-color: var(--color-slate-200);
+  color: var(--color-slate-900);
+}
+
+.filter-tab.active,
+.filter-btn.active,
+.filter-chip.active,
+.day-btn.active {
+  background-color: var(--color-brand-600) !important;
+  color: #ffffff !important;
+  border-color: var(--color-brand-600) !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+
+.day-btn {
+  transition: all var(--transition-normal);
+}
+
+/* Action button classes from HTML */
+.btn-primary-glow {
+  background-color: var(--color-brand-600);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+}
+
+.btn-primary-glow:hover {
+  background-color: var(--color-brand-700);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}

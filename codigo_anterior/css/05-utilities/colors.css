@@ -1,0 +1,86 @@
+/**
+ * EDUCONNECT CSS ARCHITECTURE
+ * 05-UTILITIES / COLORS
+ */
+
+/* Backgrounds */
+.bg-white { background-color: #ffffff; }
+.bg-white\/90 { background-color: rgba(255, 255, 255, 0.9); }
+.bg-white\/80 { background-color: rgba(255, 255, 255, 0.8); }
+.bg-white\/20 { background-color: rgba(255, 255, 255, 0.2); }
+.bg-white\/10 { background-color: rgba(255, 255, 255, 0.1); }
+
+.bg-brand-50 { background-color: var(--color-brand-50); }
+.bg-brand-100 { background-color: var(--color-brand-100); }
+.bg-brand-500 { background-color: var(--color-brand-500); }
+.bg-brand-600 { background-color: var(--color-brand-600); }
+.bg-brand-700 { background-color: var(--color-brand-700); }
+.bg-brand-accent { background-color: var(--color-brand-accent); }
+
+.bg-slate-50  { background-color: var(--color-slate-50); }
+.bg-slate-100 { background-color: var(--color-slate-100); }
+.bg-slate-200 { background-color: var(--color-slate-200); }
+.bg-slate-700 { background-color: var(--color-slate-700); }
+.bg-slate-800 { background-color: var(--color-slate-800); }
+.bg-slate-800\/80 { background-color: rgba(30, 41, 59, 0.8); }
+.bg-slate-900 { background-color: var(--color-slate-900); }
+.bg-slate-900\/60 { background-color: rgba(15, 23, 42, 0.6); }
+.bg-slate-950 { background-color: var(--color-slate-950); }
+
+.bg-emerald-50  { background-color: var(--color-emerald-50); }
+.bg-emerald-100 { background-color: #d1fae5; }
+.bg-emerald-500 { background-color: var(--color-emerald-500); }
+
+.bg-amber-50  { background-color: var(--color-amber-50); }
+.bg-amber-100 { background-color: #fef3c7; }
+.bg-amber-500 { background-color: var(--color-amber-500); }
+
+.bg-blue-50   { background-color: var(--color-blue-50); }
+.bg-purple-50 { background-color: var(--color-purple-50); }
+
+/* Hover Backgrounds */
+.hover\:bg-brand-700:hover { background-color: var(--color-brand-700); }
+.hover\:bg-brand-800:hover { background-color: #1e3a8a; }
+.hover\:bg-orange-600:hover { background-color: #ea580c; }
+.hover\:bg-slate-50:hover { background-color: var(--color-slate-50); }
+.hover\:bg-slate-100:hover { background-color: var(--color-slate-100); }
+.hover\:bg-slate-200:hover { background-color: var(--color-slate-200); }
+
+/* Text Colors */
+.text-white { color: #ffffff; }
+.text-brand-100 { color: var(--color-brand-100); }
+.text-brand-500 { color: var(--color-brand-500); }
+.text-brand-600 { color: var(--color-brand-600); }
+.text-brand-700 { color: var(--color-brand-700); }
+.text-brand-accent { color: var(--color-brand-accent); }
+
+.text-slate-400 { color: var(--color-slate-400); }
+.text-slate-500 { color: var(--color-slate-500); }
+.text-slate-600 { color: var(--color-slate-600); }
+.text-slate-700 { color: var(--color-slate-700); }
+.text-slate-800 { color: var(--color-slate-800); }
+.text-slate-900 { color: var(--color-slate-900); }
+
+.text-emerald-400 { color: #34d399; }
+.text-emerald-500 { color: var(--color-emerald-500); }
+.text-emerald-600 { color: var(--color-emerald-600); }
+
+.text-amber-400 { color: var(--color-amber-400); }
+.text-amber-500 { color: var(--color-amber-500); }
+.text-amber-600 { color: var(--color-amber-600); }
+
+.text-blue-500 { color: var(--color-blue-500); }
+.text-blue-600 { color: var(--color-brand-600); }
+.text-purple-600 { color: var(--color-purple-600); }
+
+/* Hover Text Colors */
+.hover\:text-white:hover { color: #ffffff; }
+.hover\:text-brand-600:hover { color: var(--color-brand-600); }
+.hover\:text-slate-900:hover { color: var(--color-slate-900); }
+
+/* Opacity */
+.opacity-10 { opacity: 0.1; }
+.opacity-20 { opacity: 0.2; }
+.opacity-50 { opacity: 0.5; }
+.opacity-75 { opacity: 0.75; }
+.opacity-100 { opacity: 1; }

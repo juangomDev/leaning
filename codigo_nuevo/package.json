@@ -1,0 +1,13 @@
+{
+  "name": "educonnect-mvp",
+  "version": "1.0.0",
+  "private": true,
+  "description": "EduConnect - Plataforma de Tutorías y Clases Privadas (Nuevo Código)",
+  "scripts": {
+    "dev": "npm run dev --prefix client",
+    "build": "npm run build --prefix client",
+    "preview": "npm run preview --prefix client",
+    "server": "node server/src/server.js",
+    "server:dev": "node --watch server/src/server.js"
+  }
+}
