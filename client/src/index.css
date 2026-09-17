@@ -1,0 +1,40 @@
+/**
+ * EDUCONNECT MODULAR CSS ARCHITECTURE
+ * Master Client Stylesheet
+ */
+
+/* 01 - SETTINGS */
+@import "./styles/01-settings/variables.css";
+
+/* 02 - BASE */
+@import "./styles/02-base/reset.css";
+@import "./styles/02-base/typography.css";
+
+/* 03 - LAYOUT */
+@import "./styles/03-layout/container.css";
+@import "./styles/03-layout/flex.css";
+@import "./styles/03-layout/grid.css";
+@import "./styles/03-layout/header.css";
+@import "./styles/03-layout/footer.css";
+
+/* 04 - COMPONENTS */
+@import "./styles/04-components/header.css";
+@import "./styles/04-components/footer.css";
+@import "./styles/04-components/badges.css";
+@import "./styles/04-components/buttons.css";
+@import "./styles/04-components/cards.css";
+@import "./styles/04-components/forms.css";
+@import "./styles/04-components/hero.css";
+@import "./styles/04-components/modals.css";
+@import "./styles/04-components/classroom.css";
+@import "./styles/04-components/home.css";
+@import "./styles/04-components/tutors.css";
+@import "./styles/04-components/dashboard.css";
+@import "./styles/04-components/auth.css";
+
+/* 05 - UTILITIES */
+@import "./styles/05-utilities/spacing.css";
+@import "./styles/05-utilities/sizing.css";
+@import "./styles/05-utilities/borders.css";
+@import "./styles/05-utilities/colors.css";
+@import "./styles/05-utilities/effects.css";

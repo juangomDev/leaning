@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorar Tutores — EduConnect | Catálogo de Profesores</title>
+    <meta name="description" content="Busca y filtra entre más de 1,500 tutores verificados. Filtra por materia, modalidad, precio y rating. Encuentra al tutor perfecto para ti.">
+    <!-- EduConnect CSS Architecture -->
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .filter-modality-btn.active { background-color: var(--color-brand-600); color: white; border-color: var(--color-brand-600); }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: var(--color-brand-600); border-radius: 50%; cursor: pointer; }
+        input[type=range] { -webkit-appearance: none; height: 4px; background: #e2e8f0; border-radius: 4px; outline: none; }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <!-- Navbar Component -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-brand">
+                <div class="navbar-brand-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                <span class="navbar-brand-text">Edu<span class="navbar-brand-accent">Connect</span></span>
+            </a>
+            <!-- Search Bar Inline -->
+            <div class="hidden md:flex flex-1 max-w-md mx-8 relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                <input id="navSearch" type="text" placeholder="Buscar tutor, materia..." class="w-full pl-10 pr-4 py-2 bg-slate-100 rounded-xl text-sm font-medium focus:outline-none focus:bg-white border border-transparent transition-all">
+            </div>
+            <div class="navbar-actions">
+                <a href="login-registro.html" class="navbar-btn-login">Iniciar Sesión</a>
+                <a href="login-registro.html" class="navbar-btn-search">Registrarse</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="catalog-page">
+        <div class="catalog-container">
+
+            <!-- Page Header -->
+            <div class="catalog-header">
+                <h1 class="catalog-title">Explorar Tutores</h1>
+                <p class="catalog-subtitle">Mostrando <span id="resultCount" class="catalog-count-highlight">6</span> tutores disponibles</p>
+            </div>
+
+            <div class="catalog-layout">
+
+                <!-- ======= SIDEBAR FILTERS ======= -->
+                <aside class="catalog-sidebar">
+                    <div class="catalog-filters-card">
+                        <div class="filters-header">
+                            <h2 class="filters-title">Filtros</h2>
+                            <button id="clearFilters" class="filters-clear-btn">Limpiar todo</button>
+                        </div>
+
+                        <!-- Search -->
+                        <div class="filter-group">
+                            <label class="filter-label">Buscar</label>
+                            <div class="filter-search-box">
+                                <i class="fa-solid fa-magnifying-glass filter-search-icon"></i>
+                                <input id="searchFilter" type="text" placeholder="Ej. Álgebra, Python..." class="filter-search-input">
+                            </div>
+                        </div>
+
+                        <!-- Category -->
+                        <div class="filter-group">
+                            <label class="filter-label">Materia</label>
+                            <div class="filter-options-list">
+                                <label class="filter-radio-item">
+                                    <input type="radio" name="categoria" value="" style="accent-color: var(--color-brand-600);" checked>
+                                    <span>Todas las materias</span>
+                                </label>
+                                <label class="filter-radio-item">
+                                    <input type="radio" name="categoria" value="matematicas" style="accent-color: var(--color-brand-600);">
+                                    <span>Matemáticas</span>
+                                    <span class="filter-radio-count">320</span>
+                                </label>
+                                <label class="filter-radio-item">
+                                    <input type="radio" name="categoria" value="programacion" style="accent-color: var(--color-brand-600);">
+                                    <span>Programación</span>
+                                    <span class="filter-radio-count">210</span>
+                                </label>
+                                <label class="filter-radio-item">
+                                    <input type="radio" name="categoria" value="ingles" style="accent-color: var(--color-brand-600);">
+                                    <span>Idiomas</span>
+                                    <span class="filter-radio-count">450</span>
+                                </label>
+                                <label class="filter-radio-item">
+                                    <input type="radio" name="categoria" value="ciencias" style="accent-color: var(--color-brand-600);">
+                                    <span>Ciencias</span>
+                                    <span class="filter-radio-count">180</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Modality -->
+                        <div class="filter-group">
+                            <label class="filter-label">Modalidad</label>
+                            <div class="filter-modality-tabs">
+                                <button class="filter-modality-btn active" data-modal="todas">Todas</button>
+                                <button class="filter-modality-btn" data-modal="online"><i class="fa-solid fa-laptop"></i>Online</button>
+                                <button class="filter-modality-btn" data-modal="presencial"><i class="fa-solid fa-location-dot"></i>Presencial</button>
+                            </div>
+                        </div>
+
+                        <!-- Price Range -->
+                        <div class="filter-group">
+                            <label class="filter-label">
+                                Precio por hora — hasta <span id="priceDisplay" style="color: var(--color-brand-600);">$50 USD</span>
+                            </label>
+                            <input id="priceRange" type="range" min="10" max="100" value="50" step="5" style="width: 100%; accent-color: var(--color-brand-600);">
+                            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--color-slate-400); margin-top: 0.375rem;">
+                                <span>$10</span><span>$100</span>
+                            </div>
+                        </div>
+
+                        <!-- Rating -->
+                        <div class="filter-group">
+                            <label class="filter-label">Calificación mínima</label>
+                            <div class="filter-options-list">
+                                <label class="filter-radio-item">
+                                    <input type="radio" name="rating" value="" style="accent-color: var(--color-brand-600);" checked>
+                                    <span>Cualquier calificación</span>
+                                </label>
+                                <label class="filter-radio-item">
+                                    <input type="radio" name="rating" value="4.5" style="accent-color: var(--color-brand-600);">
+                                    <span style="display: flex; color: #fbbf24; font-size: 0.75rem; gap: 2px;">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                                    </span>
+                                    <span>4.5+</span>
+                                </label>
+                                <label class="filter-radio-item">
+                                    <input type="radio" name="rating" value="4" style="accent-color: var(--color-brand-600);">
+                                    <span style="display: flex; color: #fbbf24; font-size: 0.75rem; gap: 2px;">
+                                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                                    </span>
+                                    <span>4.0+</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button id="applyFilters" class="btn btn-primary btn-block">
+                            Aplicar Filtros
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- ======= MAIN CONTENT ======= -->
+                <main class="catalog-main">
+
+                    <!-- Sort Bar -->
+                    <div class="catalog-toolbar">
+                        <div class="catalog-sort-group">
+                            <span class="sort-label">Ordenar:</span>
+                            <button class="sort-btn active">Recomendados</button>
+                            <button class="sort-btn">Mejor valorados</button>
+                            <button class="sort-btn">Precio: menor a mayor</button>
+                            <button class="sort-btn">Precio: mayor a menor</button>
+                        </div>
+                        <div class="catalog-view-group">
+                            <button id="viewGrid" class="view-btn active" aria-label="Vista cuadrícula"><i class="fa-solid fa-grip"></i></button>
+                            <button id="viewList" class="view-btn" aria-label="Vista lista"><i class="fa-solid fa-list"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Tutor Grid -->
+                    <div id="tutorGrid" class="catalog-tutor-grid">
+                        <!-- Cards generated by JS -->
+                    </div>
+
+                    <!-- Pagination -->
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 2.5rem;">
+                        <button class="btn btn-secondary btn-sm" style="width: 2.25rem; height: 2.25rem; padding: 0; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <button class="btn btn-primary btn-sm" style="width: 2.25rem; height: 2.25rem; padding: 0; display: flex; align-items: center; justify-content: center;">1</button>
+                        <button class="btn btn-secondary btn-sm" style="width: 2.25rem; height: 2.25rem; padding: 0; display: flex; align-items: center; justify-content: center;">2</button>
+                        <button class="btn btn-secondary btn-sm" style="width: 2.25rem; height: 2.25rem; padding: 0; display: flex; align-items: center; justify-content: center;">3</button>
+                        <span style="color: var(--color-slate-400); font-size: 0.875rem;">...</span>
+                        <button class="btn btn-secondary btn-sm" style="width: 2.25rem; height: 2.25rem; padding: 0; display: flex; align-items: center; justify-content: center;">12</button>
+                        <button class="btn btn-secondary btn-sm" style="width: 2.25rem; height: 2.25rem; padding: 0; display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Site Footer Component -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 1rem; width: 100%;">
+                <div class="footer-bottom-bar" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+                    <p class="footer-copyright">© 2026 <span class="footer-brand-name">EduConnect</span>. Todos los derechos reservados.</p>
+                    <div style="display: flex; gap: 1.25rem; font-size: 0.875rem;">
+                        <a href="#" style="color: var(--color-slate-500); text-decoration: none;">Privacidad</a>
+                        <a href="#" style="color: var(--color-slate-500); text-decoration: none;">Términos</a>
+                        <a href="#" style="color: var(--color-slate-500); text-decoration: none;">Contacto</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const tutorsData = [
+            { id:1, name:"Dra. Elena Rostova", subject:"Matemáticas & Cálculo", category:"matematicas", rating:4.9, reviews:84, price:25, modality:"online", avatar:"https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80", bio:"Doctora en Ciencias Matemáticas con 8+ años preparando alumnos para exámenes universitarios.", badges:["Tutor Top","Verificada"] },
+            { id:2, name:"Ing. Carlos Mendoza", subject:"Programación Python & Web", category:"programacion", rating:5.0, reviews:112, price:30, modality:"presencial", avatar:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80", bio:"Desarrollador Senior apasionado. Clases prácticas de JavaScript, React y Python.", badges:["Respuesta Rápida","Verificado"] },
+            { id:3, name:"Sarah Jenkins", subject:"Inglés Nativo & TOEFL", category:"ingles", rating:4.8, reviews:65, price:22, modality:"online", avatar:"https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80", bio:"Profesora nativa del Reino Unido. Especialista en conversación para negocios y TOEFL.", badges:["Nativa","Verificada"] },
+            { id:4, name:"Prof. Miguel Ángel", subject:"Álgebra y Física Básica", category:"matematicas", rating:4.9, reviews:43, price:20, modality:"presencial", avatar:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80", bio:"Licenciado en Educación. Métodos visuales y paciencia para estudiantes de bachillerato.", badges:["Paciencia Garantizada"] },
+            { id:5, name:"Valeria Gómez", subject:"Bases de Datos & SQL", category:"programacion", rating:4.7, reviews:29, price:28, modality:"online", avatar:"https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&w=300&q=80", bio:"Ingeniera de datos. Aprende SQL, bases relacionales e introducción a Data Science.", badges:["Verificada"] },
+            { id:6, name:"David Smith", subject:"Inglés Conversacional", category:"ingles", rating:4.9, reviews:91, price:24, modality:"online", avatar:"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80", bio:"Supera el miedo a hablar inglés con sesiones dinámicas de fluidez y pronunciación.", badges:["Tutor Top"] },
+        ];
+
+        function renderCards(list) {
+            const grid = document.getElementById('tutorGrid');
+            document.getElementById('resultCount').textContent = list.length;
+            grid.innerHTML = '';
+            if (list.length === 0) {
+                grid.innerHTML = '<div class="catalog-empty-state" style="grid-column: 1 / -1;"><i class="fa-solid fa-magnifying-glass-slash empty-state-icon"></i><p class="empty-state-title">No encontramos tutores con esos filtros</p></div>';
+                return;
+            }
+            list.forEach(t => {
+                const stars = '<i class="fa-solid fa-star"></i>'.repeat(Math.floor(t.rating)) + (t.rating % 1 >= 0.5 ? '<i class="fa-solid fa-star-half-stroke"></i>' : '');
+                const badgesHTML = t.badges.map(b => `<span class="badge badge-blue">${b}</span>`).join('');
+                grid.innerHTML += `
+                <div class="tutor-catalog-card">
+                    <div class="tutor-catalog-body">
+                        <div class="tutor-catalog-header">
+                            <div class="tutor-avatar-container">
+                                <img src="${t.avatar}" class="tutor-avatar-img" alt="${t.name}">
+                                <span class="tutor-status-badge"></span>
+                            </div>
+                            <div class="tutor-header-details">
+                                <h3 class="tutor-card-name">${t.name}</h3>
+                                <p class="tutor-card-subject">${t.subject}</p>
+                                <div class="tutor-card-rating">
+                                    <div class="tutor-star-icons">${stars}</div>
+                                    <span class="tutor-rating-num">${t.rating}</span>
+                                    <span class="tutor-reviews-count">(${t.reviews})</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="tutor-card-bio">${t.bio}</p>
+                        <div class="tutor-badges-row">
+                            <span class="badge badge-slate"><i class="fa-solid ${t.modality==='online'?'fa-laptop':'fa-location-dot'}" style="color: var(--color-brand-600); margin-right: 0.25rem;"></i>${t.modality==='online'?'En Línea':'Presencial'}</span>
+                            ${badgesHTML}
+                        </div>
+                    </div>
+                    <div class="tutor-catalog-footer">
+                        <div>
+                            <p class="tutor-price-meta">Precio/hora</p>
+                            <p class="tutor-price-value">$${t.price} <span class="tutor-price-currency">USD</span></p>
+                        </div>
+                        <a href="tutor-perfil.html?id=${t.id}" class="btn btn-primary btn-sm">Ver Perfil</a>
+                    </div>
+                </div>`;
+            });
+        }
+
+        document.getElementById('priceRange').addEventListener('input', function() {
+            document.getElementById('priceDisplay').textContent = '$' + this.value + ' USD';
+        });
+
+        document.querySelectorAll('.filter-modality-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-modality-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        document.getElementById('applyFilters').addEventListener('click', () => {
+            const q = document.getElementById('searchFilter').value.toLowerCase();
+            const cat = document.querySelector('input[name=categoria]:checked').value;
+            const rating = parseFloat(document.querySelector('input[name=rating]:checked').value || 0);
+            const maxPrice = parseInt(document.getElementById('priceRange').value);
+            const filtered = tutorsData.filter(t =>
+                (!q || t.name.toLowerCase().includes(q) || t.subject.toLowerCase().includes(q)) &&
+                (!cat || t.category === cat) &&
+                t.rating >= rating &&
+                t.price <= maxPrice
+            );
+            renderCards(filtered);
+        });
+
+        document.getElementById('clearFilters').addEventListener('click', () => {
+            document.getElementById('searchFilter').value = '';
+            document.querySelector('input[name=categoria][value=""]').checked = true;
+            document.querySelector('input[name=rating][value=""]').checked = true;
+            document.getElementById('priceRange').value = 50;
+            document.getElementById('priceDisplay').textContent = '$50 USD';
+            renderCards(tutorsData);
+        });
+
+        document.getElementById('navSearch').addEventListener('input', function() {
+            const q = this.value.toLowerCase();
+            renderCards(tutorsData.filter(t => t.name.toLowerCase().includes(q) || t.subject.toLowerCase().includes(q)));
+        });
+
+        renderCards(tutorsData);
+    </script>
+</body>
+</html>

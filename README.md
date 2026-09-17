@@ -1,47 +1,47 @@
 # 🎓 EduConnect
 
-El proyecto ha sido organizado en dos carpetas principales:
+Plataforma de Tutorías y Clases Privadas.
 
 ---
 
 ## 📁 Estructura del Proyecto
 
-### 1. `codigo_anterior/` (Prototipos Estáticos Originales)
-Contiene las maquetas y documentación técnica iniciales:
-- **`index.html`**: Landing page estática original (~959 líneas).
-- **`Paginas Publicas/`**: Vistas HTML estáticas (`explorar.html`, `login-registro.html`, `tutor-perfil.html`, etc.).
-- **`estudiantes/`**: Prototipos del panel de estudiante (`dashboard.html`, `mis-clases.html`, `aula-virtual.html`, etc.).
-- **`profesor/`**: Prototipo del panel del profesor.
-- **`imagenes/`**: Recursos visuales.
-- **`detalles_pagina.md` & `plan_migracion.md`**: Especificación de diseño y análisis de migración.
+La raíz del proyecto contiene exactamente 3 carpetas principales y este `README.md`:
+
+```text
+.
+├── client/     # Frontend interactivo (React 19 + Vite + Vanilla CSS Modular)
+├── server/     # Backend y base de datos (Node.js + Express + TypeScript + Supabase)
+├── legacy/     # Maquetas y prototipos HTML/CSS originales de referencia
+└── README.md   # Documentación del repositorio
+```
 
 ---
 
-### 2. `codigo_nuevo/` (MVP Full-Stack con Supabase & React)
-Contiene la aplicación interactiva moderna:
-- **`client/`**:
-  - React 18 + Vite + TailwindCSS.
-  - Vistas: Landing, Catálogo con filtros avanzados, Perfil de Tutor, Modal de Reserva interactivo, Auth con roles (`Estudiante` y `Tutor`), y Dashboards funcionales.
-  - Conexión a Supabase con modo local/demo resiliente.
-- **`supabase/`**:
-  - `schema.sql`: DDL de PostgreSQL, triggers de perfil y políticas RLS.
-  - `seed.sql`: Carga de los 6 tutores de demostración reales.
+## 🚀 Proyectos Independientes
 
----
+Cada proyecto es autónomo y gestiona sus propias dependencias y scripts:
 
-## 🚀 Cómo Ejecutar el Nuevo Código
-
-Desde la raíz del proyecto:
+### 1. Frontend (`client/`)
+Desarrollado con React 19, Vite, Vanilla CSS Modular (ITCSS) y Lucide Icons.
 
 ```bash
-# Inicia el cliente React en codigo_nuevo/client
-npm run dev
+cd client
+npm install     # Instalar dependencias (si es necesario)
+npm run dev     # Iniciar servidor de desarrollo en http://localhost:5173
+npm run build   # Compilar para producción
 ```
 
-O entrando directamente a la carpeta del nuevo código:
+### 2. Backend (`server/`)
+API REST desarrollada con Node.js, Express, TypeScript y arquitectura limpia. Incluye la carpeta `server/supabase/` con los scripts de base de datos (`schema.sql` y `seed.sql`).
 
 ```bash
-cd codigo_nuevo/client
-npm run dev
+cd server
+npm install     # Instalar dependencias (si es necesario)
+npm run dev     # Iniciar en modo desarrollo con recarga automática
+npm run build   # Compilar TypeScript a JavaScript
+npm start       # Iniciar servidor en producción
 ```
-Abre en tu navegador `http://localhost:5173`.
+
+### 3. Prototipos Originales (`legacy/`)
+Contiene las maquetas estáticas iniciales en HTML y CSS, diagramas de migración y documentación histórica del diseño original.
