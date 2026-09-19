@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { UnauthorizedError } from '../../../domain/shared/errors/DomainError.js';
-import { supabase } from '../../../infrastructure/database/supabaseClient.js';
+import { supabase } from '../../../infrastructure/database/supabase/client.js';
 
 export interface AuthenticatedUser {
   id: string;

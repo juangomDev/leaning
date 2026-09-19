@@ -1,1 +1,1 @@
-export { IReviewRepository, ReviewRepository } from '../../../domain/review/ReviewRepository.js';
+export type { IReviewRepository, ReviewRepository } from '../../../domain/review/ReviewRepository.js';

@@ -1,5 +1,5 @@
-import { IBookingRepository } from '../../domain/booking/BookingRepository.js';
-import { Booking, BookingStatus } from '../../domain/booking/Booking.js';
+import { IBookingRepository } from '../../../domain/booking/BookingRepository.js';
+import { Booking, BookingStatus } from '../../../domain/booking/Booking.js';
 
 export class InMemoryBookingRepository implements IBookingRepository {
   private bookings: Booking[];
@@ -11,8 +11,8 @@ export class InMemoryBookingRepository implements IBookingRepository {
         studentId: 'student-demo-id',
         tutorId: '2',
         tutorSubjectId: 'subj-2',
-        subject: 'Programación Python & Lógica',
-        scheduledAt: new Date(Date.now() + 15 * 60 * 1000), // in 15 mins
+        subject: 'Programación Python & Web',
+        scheduledAt: new Date(Date.now() + 15 * 60 * 1000), // en 15 mins
         durationHours: 1,
         modality: 'online',
         status: 'confirmed',
@@ -27,7 +27,7 @@ export class InMemoryBookingRepository implements IBookingRepository {
         tutorId: '1',
         tutorSubjectId: 'subj-1',
         subject: 'Cálculo Integral & Series',
-        scheduledAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // tomorrow
+        scheduledAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // mañana
         durationHours: 1,
         modality: 'online',
         status: 'confirmed',
@@ -45,7 +45,8 @@ export class InMemoryBookingRepository implements IBookingRepository {
   }
 
   async findById(id: string): Promise<Booking | null> {
-    return this.bookings.find((b) => b.id === id) || null;
+    const booking = this.bookings.find((b) => b.id === id);
+    return booking || null;
   }
 
   async findByStudentId(studentId: string): Promise<Booking[]> {
@@ -57,10 +58,13 @@ export class InMemoryBookingRepository implements IBookingRepository {
   }
 
   async updateStatus(id: string, status: BookingStatus, notes?: string): Promise<Booking> {
-    const booking = await this.findById(id);
+    const booking = this.bookings.find((b) => b.id === id);
     if (!booking) throw new Error('Reserva no encontrada');
+
     booking.status = status;
-    if (notes !== undefined) booking.notes = notes;
+    if (notes !== undefined) {
+      booking.notes = notes;
+    }
     return booking;
   }
 }

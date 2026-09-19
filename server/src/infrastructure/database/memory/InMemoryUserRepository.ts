@@ -1,6 +1,6 @@
-import { IUserRepository, AuthResult } from '../../domain/user/UserRepository.js';
-import { User } from '../../domain/user/User.js';
-import { UnauthorizedError } from '../../domain/shared/errors/DomainError.js';
+import { IUserRepository, AuthResult } from '../../../domain/user/UserRepository.js';
+import { User, UserRole } from '../../../domain/user/User.js';
+import { UnauthorizedError } from '../../../domain/shared/errors/DomainError.js';
 
 interface UserRecord {
   user: User;
@@ -68,9 +68,10 @@ export class InMemoryUserRepository implements IUserRepository {
     if (!record) {
       throw new UnauthorizedError('Credenciales incorrectas');
     }
+
     return {
       user: record.user,
-      token: `mock-jwt-token-${record.user.id}`,
+      token: `mock-jwt-token-${record.user.id}-${Date.now()}`,
     };
   }
 }

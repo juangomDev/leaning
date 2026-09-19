@@ -1,1 +1,1 @@
-export { IBookingRepository, BookingRepository } from '../../../domain/booking/BookingRepository.js';
+export type { IBookingRepository, BookingRepository } from '../../../domain/booking/BookingRepository.js';

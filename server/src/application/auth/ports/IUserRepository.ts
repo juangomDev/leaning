@@ -1,1 +1,1 @@
-export { IUserRepository, AuthResult } from '../../../domain/user/UserRepository.js';
+export type { IUserRepository, AuthResult } from '../../../domain/user/UserRepository.js';

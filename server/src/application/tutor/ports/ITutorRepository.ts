@@ -1,1 +1,1 @@
-export { ITutorRepository, TutorRepository } from '../../../domain/tutor/TutorRepository.js';
+export type { ITutorRepository, TutorRepository } from '../../../domain/tutor/TutorRepository.js';
