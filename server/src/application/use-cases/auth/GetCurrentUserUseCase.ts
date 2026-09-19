@@ -1,6 +1,6 @@
-import { User } from '../../../domain/entities/User.js';
-import { NotFoundError } from '../../../domain/errors/DomainError.js';
-import { IUserRepository } from '../../../domain/repositories/IUserRepository.js';
+import { User } from '../../../domain/user/User.js';
+import { NotFoundError } from '../../../domain/shared/errors/DomainError.js';
+import { IUserRepository } from '../../../domain/user/UserRepository.js';
 
 export class GetCurrentUserUseCase {
   private userRepository: IUserRepository;

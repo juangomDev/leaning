@@ -1,27 +1,23 @@
-import { IBookingRepository } from '../../../domain/repositories/IBookingRepository.js';
-import { Booking, BookingModality, BookingStatus } from '../../../domain/entities/Booking.js';
+import { IBookingRepository } from '../../../domain/booking/BookingRepository.js';
+import { Booking, BookingStatus, BookingModality } from '../../../domain/booking/Booking.js';
 import { supabase } from '../supabaseClient.js';
 
 export class SupabaseBookingRepository implements IBookingRepository {
   async create(booking: Booking): Promise<Booking> {
     if (!supabase) return booking;
 
-    const { error } = await supabase
-      .from('bookings')
-      .insert({
-        id: booking.id,
-        student_id: booking.studentId,
-        tutor_id: booking.tutorId,
-        subject: booking.subject,
-        scheduled_at: booking.scheduledAt.toISOString(),
-        duration_hours: booking.durationHours,
-        modality: booking.modality,
-        status: booking.status,
-        total_price: booking.totalPrice,
-        notes: booking.notes,
-      })
-      .select()
-      .single();
+    const { error } = await supabase.from('bookings').insert({
+      id: booking.id,
+      student_id: booking.studentId,
+      tutor_id: booking.tutorId,
+      subject: booking.subject,
+      scheduled_at: booking.scheduledAt.toISOString(),
+      duration_hours: booking.durationHours,
+      modality: booking.modality,
+      status: booking.status,
+      total_price: booking.totalPrice,
+      notes: booking.notes,
+    });
 
     if (error) throw new Error(error.message);
     return booking;
@@ -33,17 +29,23 @@ export class SupabaseBookingRepository implements IBookingRepository {
     const { data, error } = await supabase.from('bookings').select('*').eq('id', id).single();
     if (error || !data) return null;
 
+    const dur = Number(data.duration_hours) || 1;
+    const tot = Number(data.total_price) || 0;
+    const rate = dur > 0 ? tot / dur : 25;
+
     return new Booking({
       id: data.id,
       studentId: data.student_id,
       tutorId: data.tutor_id,
+      tutorSubjectId: data.tutor_subject_id || `subj-${data.tutor_id}`,
       subject: data.subject,
-      scheduledAt: data.scheduled_at,
-      durationHours: data.duration_hours,
+      scheduledAt: new Date(data.scheduled_at),
+      durationHours: dur,
       modality: data.modality as BookingModality,
       status: data.status as BookingStatus,
-      totalPrice: data.total_price,
-      notes: data.notes,
+      hourlyRate: rate,
+      totalPrice: tot,
+      notes: data.notes || null,
       createdAt: data.created_at ? new Date(data.created_at) : new Date(),
     });
   }
@@ -66,27 +68,32 @@ export class SupabaseBookingRepository implements IBookingRepository {
 
     if (error) throw new Error(error.message);
 
-    return (data || []).map(
-      (b: any) =>
-        new Booking({
-          id: b.id,
-          studentId: b.student_id,
-          tutorId: b.tutor_id,
-          subject: b.subject,
-          scheduledAt: b.scheduled_at,
-          durationHours: b.duration_hours,
-          modality: b.modality as BookingModality,
-          status: b.status as BookingStatus,
-          totalPrice: b.total_price,
-          notes: b.notes,
-          createdAt: b.created_at ? new Date(b.created_at) : new Date(),
-          tutor: {
-            id: b.tutor?.id,
-            name: b.tutor?.profiles?.full_name,
-            avatar: b.tutor?.profiles?.avatar_url,
-          },
-        })
-    );
+    return (data || []).map((b: any) => {
+      const dur = Number(b.duration_hours) || 1;
+      const tot = Number(b.total_price) || 0;
+      const rate = dur > 0 ? tot / dur : 25;
+
+      return new Booking({
+        id: b.id,
+        studentId: b.student_id,
+        tutorId: b.tutor_id,
+        tutorSubjectId: b.tutor_subject_id || `subj-${b.tutor_id}`,
+        subject: b.subject,
+        scheduledAt: new Date(b.scheduled_at),
+        durationHours: dur,
+        modality: b.modality as BookingModality,
+        status: b.status as BookingStatus,
+        hourlyRate: rate,
+        totalPrice: tot,
+        notes: b.notes || null,
+        createdAt: b.created_at ? new Date(b.created_at) : new Date(),
+        tutor: {
+          id: b.tutor?.id,
+          name: b.tutor?.profiles?.full_name,
+          avatar: b.tutor?.profiles?.avatar_url,
+        },
+      });
+    });
   }
 
   async findByTutorId(tutorId: string): Promise<Booking[]> {
@@ -107,27 +114,32 @@ export class SupabaseBookingRepository implements IBookingRepository {
 
     if (error) throw new Error(error.message);
 
-    return (data || []).map(
-      (b: any) =>
-        new Booking({
-          id: b.id,
-          studentId: b.student_id,
-          tutorId: b.tutor_id,
-          subject: b.subject,
-          scheduledAt: b.scheduled_at,
-          durationHours: b.duration_hours,
-          modality: b.modality as BookingModality,
-          status: b.status as BookingStatus,
-          totalPrice: b.total_price,
-          notes: b.notes,
-          createdAt: b.created_at ? new Date(b.created_at) : new Date(),
-          student: {
-            id: b.student?.id,
-            name: b.student?.full_name,
-            avatar: b.student?.avatar_url,
-          },
-        })
-    );
+    return (data || []).map((b: any) => {
+      const dur = Number(b.duration_hours) || 1;
+      const tot = Number(b.total_price) || 0;
+      const rate = dur > 0 ? tot / dur : 25;
+
+      return new Booking({
+        id: b.id,
+        studentId: b.student_id,
+        tutorId: b.tutor_id,
+        tutorSubjectId: b.tutor_subject_id || `subj-${b.tutor_id}`,
+        subject: b.subject,
+        scheduledAt: new Date(b.scheduled_at),
+        durationHours: dur,
+        modality: b.modality as BookingModality,
+        status: b.status as BookingStatus,
+        hourlyRate: rate,
+        totalPrice: tot,
+        notes: b.notes || null,
+        createdAt: b.created_at ? new Date(b.created_at) : new Date(),
+        student: {
+          id: b.student?.id,
+          name: b.student?.full_name,
+          avatar: b.student?.avatar_url,
+        },
+      });
+    });
   }
 
   async updateStatus(id: string, status: BookingStatus, notes?: string): Promise<Booking> {
@@ -151,17 +163,23 @@ export class SupabaseBookingRepository implements IBookingRepository {
 
     if (error) throw new Error(error.message);
 
+    const dur = Number(data.duration_hours) || 1;
+    const tot = Number(data.total_price) || 0;
+    const rate = dur > 0 ? tot / dur : 25;
+
     return new Booking({
       id: data.id,
       studentId: data.student_id,
       tutorId: data.tutor_id,
+      tutorSubjectId: data.tutor_subject_id || `subj-${data.tutor_id}`,
       subject: data.subject,
-      scheduledAt: data.scheduled_at,
-      durationHours: data.duration_hours,
+      scheduledAt: new Date(data.scheduled_at),
+      durationHours: dur,
       modality: data.modality as BookingModality,
       status: data.status as BookingStatus,
-      totalPrice: data.total_price,
-      notes: data.notes,
+      hourlyRate: rate,
+      totalPrice: tot,
+      notes: data.notes || null,
       createdAt: data.created_at ? new Date(data.created_at) : new Date(),
     });
   }

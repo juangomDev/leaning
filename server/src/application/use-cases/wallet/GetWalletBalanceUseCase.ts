@@ -1,5 +1,5 @@
-import { WalletTransaction } from '../../../domain/entities/WalletTransaction.js';
-import { IWalletRepository } from '../../../domain/repositories/IWalletRepository.js';
+import { WalletTransaction } from '../../../domain/wallet/WalletTransaction.js';
+import { IWalletRepository } from '../../../domain/wallet/WalletRepository.js';
 
 export interface WalletBalanceResult {
   balance: number;

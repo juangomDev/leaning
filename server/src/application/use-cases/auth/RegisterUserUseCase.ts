@@ -1,6 +1,6 @@
-import { User, UserRole } from '../../../domain/entities/User.js';
-import { ConflictError } from '../../../domain/errors/DomainError.js';
-import { IUserRepository } from '../../../domain/repositories/IUserRepository.js';
+import { User, UserRole } from '../../../domain/user/User.js';
+import { ConflictError } from '../../../domain/shared/errors/DomainError.js';
+import { IUserRepository } from '../../../domain/user/UserRepository.js';
 import crypto from 'node:crypto';
 
 export interface RegisterUserDTO {
@@ -28,8 +28,10 @@ export class RegisterUserUseCase {
       id: crypto.randomUUID(),
       email,
       fullName,
-      role,
-      phone,
+      roles: [role],
+      avatarUrl: null,
+      phone: phone || null,
+      createdAt: new Date(),
     });
 
     return await this.userRepository.create(user, password);

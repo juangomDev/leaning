@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { UnauthorizedError } from '../../../domain/errors/DomainError.js';
+import { UnauthorizedError } from '../../../domain/shared/errors/DomainError.js';
 import { supabase } from '../../../infrastructure/database/supabaseClient.js';
 
 export interface AuthenticatedUser {

@@ -1,6 +1,6 @@
-import { Booking, BookingStatus } from '../../../domain/entities/Booking.js';
-import { NotFoundError } from '../../../domain/errors/DomainError.js';
-import { IBookingRepository } from '../../../domain/repositories/IBookingRepository.js';
+import { Booking, BookingStatus } from '../../../domain/booking/Booking.js';
+import { NotFoundError } from '../../../domain/shared/errors/DomainError.js';
+import { IBookingRepository } from '../../../domain/booking/BookingRepository.js';
 
 export interface UpdateBookingStatusDTO {
   bookingId: string;

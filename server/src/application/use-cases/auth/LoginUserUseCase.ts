@@ -1,4 +1,4 @@
-import { IUserRepository, AuthResult } from '../../../domain/repositories/IUserRepository.js';
+import { IUserRepository, AuthResult } from '../../../domain/user/UserRepository.js';
 
 export interface LoginUserDTO {
   email: string;

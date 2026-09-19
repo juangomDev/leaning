@@ -1,5 +1,5 @@
-import { IWalletRepository } from '../../domain/repositories/IWalletRepository.js';
-import { WalletTransaction } from '../../domain/entities/WalletTransaction.js';
+import { IWalletRepository } from '../../domain/wallet/WalletRepository.js';
+import { WalletTransaction } from '../../domain/wallet/WalletTransaction.js';
 
 export class InMemoryWalletRepository implements IWalletRepository {
   private balances: Map<string, number>;
@@ -14,19 +14,25 @@ export class InMemoryWalletRepository implements IWalletRepository {
     this.transactions = [
       new WalletTransaction({
         id: 'REC-9021',
+        walletId: 'wal-student',
         userId: 'student-demo-id',
-        amount: -25.0,
+        bookingId: 'bk-demo-1',
+        amount: 25.0,
         type: 'class_payment',
         concept: 'Clase de Cálculo Integral (Dra. Elena Rostova)',
         status: 'completed',
+        createdAt: new Date(),
       }),
       new WalletTransaction({
         id: 'REC-8842',
+        walletId: 'wal-student',
         userId: 'student-demo-id',
+        bookingId: null,
         amount: 100.0,
         type: 'recharge',
         concept: 'Recarga de Saldo con Tarjeta Visa (•••• 4022)',
         status: 'completed',
+        createdAt: new Date(),
       }),
     ];
   }

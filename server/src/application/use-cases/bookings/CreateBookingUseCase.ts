@@ -1,8 +1,8 @@
-import { Booking, BookingModality } from '../../../domain/entities/Booking.js';
-import { NotFoundError } from '../../../domain/errors/DomainError.js';
-import { IBookingRepository } from '../../../domain/repositories/IBookingRepository.js';
-import { ITutorRepository } from '../../../domain/repositories/ITutorRepository.js';
-import { IWalletRepository } from '../../../domain/repositories/IWalletRepository.js';
+import { Booking, BookingModality } from '../../../domain/booking/Booking.js';
+import { NotFoundError } from '../../../domain/shared/errors/DomainError.js';
+import { IBookingRepository } from '../../../domain/booking/BookingRepository.js';
+import { ITutorRepository } from '../../../domain/tutor/TutorRepository.js';
+import { IWalletRepository } from '../../../domain/wallet/WalletRepository.js';
 import crypto from 'node:crypto';
 
 export interface CreateBookingDTO {
@@ -53,17 +53,21 @@ export class CreateBookingUseCase {
     const totalPrice = Number(tutor.pricePerHour) * Number(durationHours);
 
     // 3. Create booking entity
+    const parsedScheduledAt = scheduledAt instanceof Date ? scheduledAt : new Date(scheduledAt);
     const booking = new Booking({
       id: crypto.randomUUID(),
       studentId,
       tutorId: tutor.id,
+      tutorSubjectId: tutor.subjects[0]?.id || `subj-${tutor.id}`,
       subject: subject || tutor.subjectName,
-      scheduledAt,
+      scheduledAt: parsedScheduledAt,
       durationHours,
       modality,
       status: 'pending',
+      hourlyRate: Number(tutor.pricePerHour),
       totalPrice,
-      notes,
+      notes: notes || null,
+      createdAt: new Date(),
       tutor: {
         id: tutor.id,
         name: tutor.fullName,

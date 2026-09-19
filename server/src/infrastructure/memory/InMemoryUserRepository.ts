@@ -1,6 +1,6 @@
-import { IUserRepository, AuthResult } from '../../domain/repositories/IUserRepository.js';
-import { User } from '../../domain/entities/User.js';
-import { UnauthorizedError } from '../../domain/errors/DomainError.js';
+import { IUserRepository, AuthResult } from '../../domain/user/UserRepository.js';
+import { User } from '../../domain/user/User.js';
+import { UnauthorizedError } from '../../domain/shared/errors/DomainError.js';
 
 interface UserRecord {
   user: User;
@@ -17,9 +17,10 @@ export class InMemoryUserRepository implements IUserRepository {
           id: 'student-demo-id',
           email: 'alumno@educonnect.com',
           fullName: 'Alejandro Silva',
-          role: 'student',
+          roles: ['student'],
           avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80',
           phone: '+52 55 9876 5432',
+          createdAt: new Date(),
         }),
         password: 'password123',
       },
@@ -28,9 +29,10 @@ export class InMemoryUserRepository implements IUserRepository {
           id: 'tutor-demo-id',
           email: 'carlos@educonnect.com',
           fullName: 'Ing. Carlos Mendoza',
-          role: 'tutor',
+          roles: ['tutor'],
           avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80',
           phone: '+52 55 1234 5678',
+          createdAt: new Date(),
         }),
         password: 'password123',
       },

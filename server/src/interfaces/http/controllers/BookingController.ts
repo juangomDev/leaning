@@ -3,7 +3,7 @@ import { CreateBookingUseCase } from '../../../application/use-cases/bookings/Cr
 import { GetUserBookingsUseCase } from '../../../application/use-cases/bookings/GetUserBookingsUseCase.js';
 import { UpdateBookingStatusUseCase } from '../../../application/use-cases/bookings/UpdateBookingStatusUseCase.js';
 import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
-import { BookingStatus } from '../../../domain/entities/Booking.js';
+import { BookingStatus } from '../../../domain/booking/Booking.js';
 
 export class BookingController {
   private createBookingUseCase: CreateBookingUseCase;

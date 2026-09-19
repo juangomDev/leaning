@@ -1,5 +1,5 @@
-import { Tutor, TutorFilterOptions } from '../../../domain/entities/Tutor.js';
-import { ITutorRepository } from '../../../domain/repositories/ITutorRepository.js';
+import { Tutor, TutorFilterOptions } from '../../../domain/tutor/Tutor.js';
+import { ITutorRepository } from '../../../domain/tutor/TutorRepository.js';
 
 export class GetTutorsListUseCase {
   private tutorRepository: ITutorRepository;

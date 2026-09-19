@@ -1,5 +1,5 @@
-import { IUserRepository, AuthResult } from '../../../domain/repositories/IUserRepository.js';
-import { User, UserRole } from '../../../domain/entities/User.js';
+import { IUserRepository, AuthResult } from '../../../domain/user/UserRepository.js';
+import { User, UserRole } from '../../../domain/user/User.js';
 import { supabase } from '../supabaseClient.js';
 
 export class SupabaseUserRepository implements IUserRepository {
@@ -13,9 +13,9 @@ export class SupabaseUserRepository implements IUserRepository {
       id: data.id,
       email: data.email || 'user@educonnect.com',
       fullName: data.full_name,
-      role: data.role as UserRole,
-      avatarUrl: data.avatar_url,
-      phone: data.phone,
+      roles: [data.role as UserRole],
+      avatarUrl: data.avatar_url || null,
+      phone: data.phone || null,
       createdAt: data.created_at ? new Date(data.created_at) : new Date(),
     });
   }
@@ -69,9 +69,9 @@ export class SupabaseUserRepository implements IUserRepository {
       id: data.id,
       email: data.email || 'user@educonnect.com',
       fullName: data.full_name,
-      role: data.role as UserRole,
-      avatarUrl: data.avatar_url,
-      phone: data.phone,
+      roles: [data.role as UserRole],
+      avatarUrl: data.avatar_url || null,
+      phone: data.phone || null,
       createdAt: data.created_at ? new Date(data.created_at) : new Date(),
     });
   }
@@ -94,7 +94,10 @@ export class SupabaseUserRepository implements IUserRepository {
           id: data.user.id,
           email: data.user.email || email,
           fullName: (data.user.user_metadata?.full_name as string) || 'Usuario',
-          role: (data.user.user_metadata?.role as UserRole) || 'student',
+          roles: [(data.user.user_metadata?.role as UserRole) || 'student'],
+          avatarUrl: (data.user.user_metadata?.avatar_url as string) || null,
+          phone: (data.user.user_metadata?.phone as string) || null,
+          createdAt: new Date(),
         }),
       token: data.session?.access_token || '',
     };

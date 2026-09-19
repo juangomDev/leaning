@@ -1,5 +1,5 @@
-import { Booking } from '../../../domain/entities/Booking.js';
-import { IBookingRepository } from '../../../domain/repositories/IBookingRepository.js';
+import { Booking } from '../../../domain/booking/Booking.js';
+import { IBookingRepository } from '../../../domain/booking/BookingRepository.js';
 
 export interface GetUserBookingsDTO {
   userId: string;

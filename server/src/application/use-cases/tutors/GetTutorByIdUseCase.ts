@@ -1,6 +1,6 @@
-import { Tutor } from '../../../domain/entities/Tutor.js';
-import { NotFoundError } from '../../../domain/errors/DomainError.js';
-import { ITutorRepository } from '../../../domain/repositories/ITutorRepository.js';
+import { Tutor } from '../../../domain/tutor/Tutor.js';
+import { NotFoundError } from '../../../domain/shared/errors/DomainError.js';
+import { ITutorRepository } from '../../../domain/tutor/TutorRepository.js';
 
 export class GetTutorByIdUseCase {
   private tutorRepository: ITutorRepository;

@@ -1,10 +1,10 @@
 import { config } from '../config/env.js';
 
 // Repositories Ports
-import { IUserRepository } from '../domain/repositories/IUserRepository.js';
-import { ITutorRepository } from '../domain/repositories/ITutorRepository.js';
-import { IBookingRepository } from '../domain/repositories/IBookingRepository.js';
-import { IWalletRepository } from '../domain/repositories/IWalletRepository.js';
+import { IUserRepository } from '../domain/user/UserRepository.js';
+import { ITutorRepository } from '../domain/tutor/TutorRepository.js';
+import { IBookingRepository } from '../domain/booking/BookingRepository.js';
+import { IWalletRepository } from '../domain/wallet/WalletRepository.js';
 
 // In-Memory Repositories
 import { InMemoryUserRepository } from './memory/InMemoryUserRepository.js';

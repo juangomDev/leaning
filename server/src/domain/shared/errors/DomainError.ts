@@ -37,3 +37,15 @@ export class ConflictError extends DomainError {
     super(message, 409);
   }
 }
+
+export class InvalidStateTransitionError extends DomainError {
+  constructor(message: string) {
+    super(message, 422);
+  }
+}
+
+export class InsufficientFundsError extends DomainError {
+  constructor(message = 'Saldo insuficiente en la billetera') {
+    super(message, 400);
+  }
+}

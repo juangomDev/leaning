@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { DomainError } from '../../../domain/errors/DomainError.js';
+import { DomainError } from '../../../domain/shared/errors/DomainError.js';
 
 export const errorHandler = (
   err: Error,

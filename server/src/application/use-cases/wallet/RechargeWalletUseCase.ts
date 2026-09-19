@@ -1,6 +1,6 @@
-import { WalletTransaction } from '../../../domain/entities/WalletTransaction.js';
-import { ValidationError } from '../../../domain/errors/DomainError.js';
-import { IWalletRepository } from '../../../domain/repositories/IWalletRepository.js';
+import { WalletTransaction } from '../../../domain/wallet/WalletTransaction.js';
+import { ValidationError } from '../../../domain/shared/errors/DomainError.js';
+import { IWalletRepository } from '../../../domain/wallet/WalletRepository.js';
 
 export interface RechargeWalletDTO {
   userId: string;
@@ -28,11 +28,14 @@ export class RechargeWalletUseCase {
 
     const transaction = new WalletTransaction({
       id: `REC-${Math.floor(1000 + Math.random() * 9000)}`,
+      walletId: userId,
       userId,
+      bookingId: null,
       amount: numAmount,
       type: 'recharge',
       concept: `Recarga de Saldo con ${method}`,
       status: 'completed',
+      createdAt: new Date(),
     });
 
     await this.walletRepository.addTransaction(transaction);
