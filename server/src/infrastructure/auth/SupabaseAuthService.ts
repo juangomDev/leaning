@@ -51,23 +51,37 @@ export class SupabaseAuthService implements IAuthService {
     }
   }
 
-  async signInWithSupabase(email: string, password: string):Promise<{ token: string; user: any }> {
+  async login(
+    email: string,
+    password?: string
+  ): Promise<{ token: string; userId: string; role?: string; email?: string }> {
     if (!supabase) {
-      throw new Error('Supabase no está configurado');
+      return this.fallbackAuthService.login(email, password);
     }
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
-      password,
+      password: password || '',
     });
 
-    if (error || !data.session) {
+    if (error || !data.session || !data.user) {
       throw new UnauthorizedError(error?.message || 'Error en autenticación con Supabase');
     }
 
     return {
       token: data.session.access_token,
-      user: data.user,
+      userId: data.user.id,
+      email: data.user.email,
+      role: (data.user.user_metadata?.role as string) || 'student',
+    };
+  }
+
+  async signInWithSupabase(email: string, password: string): Promise<{ token: string; user: any }> {
+    const result = await this.login(email, password);
+    return {
+      token: result.token,
+      user: { id: result.userId, email: result.email, role: result.role },
     };
   }
 }
+

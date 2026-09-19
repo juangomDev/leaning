@@ -33,15 +33,29 @@ npm run build   # Compilar para producción
 ```
 
 ### 2. Backend (`server/`)
-API REST desarrollada con Node.js, Express, TypeScript y arquitectura limpia. Incluye la carpeta `server/supabase/` con los scripts de base de datos (`schema.sql` y `seed.sql`).
+API REST desarrollada con Node.js, Express, TypeScript y Clean Architecture (DDD). Cuenta con persistencia dual (Supabase & In-Memory) y 72 tests automatizados.
 
 ```bash
 cd server
-npm install     # Instalar dependencias (si es necesario)
-npm run dev     # Iniciar en modo desarrollo con recarga automática
+npm install     # Instalar dependencias
+npm run dev     # Iniciar en modo desarrollo (http://localhost:5000)
+npm test        # Ejecutar suite de pruebas (72 tests)
 npm run build   # Compilar TypeScript a JavaScript
 npm start       # Iniciar servidor en producción
 ```
 
+#### Resumen de Endpoints Disponibles (`/api/v1`):
+- **Autenticación**: `POST /api/v1/auth/register`, `POST /api/v1/auth/login`, `GET /api/v1/auth/me`
+- **Estudiantes**: `POST /api/v1/students`, `GET /api/v1/students/profile`, `GET /api/v1/students/:id`, `PUT /api/v1/students/:id`
+- **Tutores**: `GET /api/v1/tutors` (con filtros `?q=`, `?categoria=`, `?modalidad=`), `GET /api/v1/tutors/:id`, `POST /api/v1/tutors/apply`
+- **Reservas**: `POST /api/v1/bookings`, `GET /api/v1/bookings/my-bookings`, `PATCH /api/v1/bookings/:id/status`
+- **Reseñas**: `POST /api/v1/reviews`, `GET /api/v1/reviews/tutor/:tutorId`
+- **Billetera**: `GET /api/v1/wallet/balance`, `POST /api/v1/wallet/recharge`
+- **Administración**: `POST /api/v1/admin/tutors/:id/approve`, `POST /api/v1/admin/users/:id/ban`, `POST /api/v1/admin/reviews/:id/moderate`
+- **Diagnóstico**: `GET /api/v1/health`
+
+👉 *Para ver los esquemas de datos JSON detallados de cada petición y respuesta, consulta el [README del Backend](server/README.md).*
+
 ### 3. Prototipos Originales (`legacy/`)
 Contiene las maquetas estáticas iniciales en HTML y CSS, diagramas de migración y documentación histórica del diseño original.
+

@@ -2,7 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert';
 import { GetCurrentUserUseCase } from './GetCurrentUserUseCase.js';
 import { User } from '../../../domain/user/User.js';
-import { IUserRepository, AuthResult } from '../ports/IUserRepository.js';
+import { IUserRepository } from '../ports/IUserRepository.js';
 import { NotFoundError } from '../../shared/errors/NotFoundError.js';
 
 class MockFindUserRepository implements IUserRepository {
@@ -22,7 +22,6 @@ class MockFindUserRepository implements IUserRepository {
   async findByEmail(_email: string): Promise<User | null> { return null; }
   async create(user: User): Promise<User> { return user; }
   async update(_id: string): Promise<User> { throw new Error('Not implemented'); }
-  async authenticate(): Promise<AuthResult> { throw new Error('Not implemented'); }
 }
 
 describe('Auth UseCase: GetCurrentUserUseCase', () => {

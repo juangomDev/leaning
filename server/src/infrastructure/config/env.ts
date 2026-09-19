@@ -10,6 +10,7 @@ export interface AppConfig {
   supabaseAnonKey: string;
   jwtSecret: string;
   resendApiKey: string;
+  clientUrl: string;
   isSupabaseConfigured(): boolean;
   isResendConfigured(): boolean;
 }
@@ -23,6 +24,7 @@ export const config: AppConfig = {
   supabaseAnonKey: process.env.SUPABASE_ANON_KEY || '',
   jwtSecret: process.env.JWT_SECRET || 'educonnect_dev_secret_key_2026',
   resendApiKey: process.env.RESEND_API_KEY || '',
+  clientUrl: process.env.CLIENT_URL || process.env.CORS_ORIGIN || 'http://localhost:5173',
 
   isSupabaseConfigured(): boolean {
     return Boolean(

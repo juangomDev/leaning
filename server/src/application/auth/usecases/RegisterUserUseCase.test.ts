@@ -2,7 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert';
 import { RegisterUserUseCase } from './RegisterUserUseCase.js';
 import { User } from '../../../domain/user/User.js';
-import { IUserRepository, AuthResult } from '../ports/IUserRepository.js';
+import { IUserRepository } from '../ports/IUserRepository.js';
 import { UserAlreadyExistsError } from '../errors/index.js';
 import { IClock } from '../../shared/ports/IClock.js';
 
@@ -30,10 +30,6 @@ class MockUserRepository implements IUserRepository {
     if (!existing) throw new Error('Not found');
     Object.assign(existing, updates);
     return existing;
-  }
-
-  async authenticate(_email: string, _pass?: string): Promise<AuthResult> {
-    throw new Error('Not implemented in mock');
   }
 }
 

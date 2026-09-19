@@ -3,6 +3,9 @@ import authRoutes from './authRoutes.js';
 import tutorRoutes from './tutorRoutes.js';
 import bookingRoutes from './bookingRoutes.js';
 import walletRoutes from './walletRoutes.js';
+import studentRoutes from './studentRoutes.js';
+import reviewRoutes from './reviewRoutes.js';
+import adminRoutes from './adminRoutes.js';
 
 const apiRouter = Router();
 
@@ -19,8 +22,11 @@ apiRouter.get('/health', (_req: Request, res: Response) => {
 
 // Domain Module Routes
 apiRouter.use('/auth', authRoutes);
+apiRouter.use('/students', studentRoutes);
 apiRouter.use('/tutors', tutorRoutes);
 apiRouter.use('/bookings', bookingRoutes);
+apiRouter.use('/reviews', reviewRoutes);
 apiRouter.use('/wallet', walletRoutes);
+apiRouter.use('/admin', adminRoutes);
 
 export default apiRouter;

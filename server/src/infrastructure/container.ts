@@ -94,11 +94,13 @@ import {
   ModerateReviewUseCase,
 } from '../application/admin/index.js';
 
-// Controllers
 import { AuthController } from '../interfaces/http/controllers/AuthController.js';
 import { TutorController } from '../interfaces/http/controllers/TutorController.js';
 import { BookingController } from '../interfaces/http/controllers/BookingController.js';
 import { WalletController } from '../interfaces/http/controllers/WalletController.js';
+import { StudentController } from '../interfaces/http/controllers/StudentController.js';
+import { ReviewController } from '../interfaces/http/controllers/ReviewController.js';
+import { AdminController } from '../interfaces/http/controllers/AdminController.js';
 
 export class Container {
   // Shared Infrastructure & Services
@@ -153,11 +155,13 @@ export class Container {
   public banUserUseCase: BanUserUseCase;
   public moderateReviewUseCase: ModerateReviewUseCase;
 
-  // Controllers
   public authController: AuthController;
   public tutorController: TutorController;
   public bookingController: BookingController;
   public walletController: WalletController;
+  public studentController: StudentController;
+  public reviewController: ReviewController;
+  public adminController: AdminController;
 
   constructor() {
     const isSupabase = config.isSupabaseConfigured();
@@ -185,7 +189,10 @@ export class Container {
       userRepository: this.userRepository,
       clock: this.clock,
     });
-    this.loginUserUseCase = new LoginUserUseCase({ userRepository: this.userRepository });
+    this.loginUserUseCase = new LoginUserUseCase({
+      userRepository: this.userRepository,
+      authService: this.authService,
+    });
     this.getCurrentUserUseCase = new GetCurrentUserUseCase({ userRepository: this.userRepository });
 
     // 5. Use Cases - Student
@@ -264,6 +271,23 @@ export class Container {
     this.walletController = new WalletController({
       getWalletBalanceUseCase: this.getWalletBalanceUseCase,
       rechargeWalletUseCase: this.rechargeWalletUseCase,
+    });
+
+    this.studentController = new StudentController({
+      createStudentProfileUseCase: this.createStudentProfileUseCase,
+      getStudentProfileUseCase: this.getStudentProfileUseCase,
+      updateStudentProfileUseCase: this.updateStudentProfileUseCase,
+    });
+
+    this.reviewController = new ReviewController({
+      createReviewUseCase: this.createReviewUseCase,
+      getTutorReviewsUseCase: this.getTutorReviewsUseCase,
+    });
+
+    this.adminController = new AdminController({
+      approveTutorUseCase: this.approveTutorUseCase,
+      banUserUseCase: this.banUserUseCase,
+      moderateReviewUseCase: this.moderateReviewUseCase,
     });
   }
 }

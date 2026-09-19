@@ -1,6 +1,5 @@
-import { IUserRepository, AuthResult } from '../../../domain/user/UserRepository.js';
+import { IUserRepository } from '../../../domain/user/UserRepository.js';
 import { User, UserRole } from '../../../domain/user/User.js';
-import { UnauthorizedError } from '../../../domain/shared/errors/DomainError.js';
 
 interface UserRecord {
   user: User;
@@ -60,18 +59,5 @@ export class InMemoryUserRepository implements IUserRepository {
     Object.assign(record.user, updates);
     return record.user;
   }
-
-  async authenticate(email: string, password?: string): Promise<AuthResult> {
-    const record = this.users.find(
-      (u) => u.user.email.toLowerCase() === email.toLowerCase() && u.password === password
-    );
-    if (!record) {
-      throw new UnauthorizedError('Credenciales incorrectas');
-    }
-
-    return {
-      user: record.user,
-      token: `mock-jwt-token-${record.user.id}-${Date.now()}`,
-    };
-  }
 }
+

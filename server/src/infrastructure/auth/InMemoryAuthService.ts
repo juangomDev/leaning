@@ -64,4 +64,41 @@ export class InMemoryAuthService implements IAuthService {
       throw new UnauthorizedError('Token de autenticación inválido o expirado');
     }
   }
+
+  async login(
+    email: string,
+    password?: string
+  ): Promise<{ token: string; userId: string; role?: string; email?: string }> {
+    const normalizedEmail = email.toLowerCase().trim();
+
+    if (password && password.length < 6) {
+      throw new UnauthorizedError('Credenciales inválidas: contraseña demasiado corta');
+    }
+
+    const mockUsers: Record<string, { id: string; role: string }> = {
+      'student@educonnect.com': { id: 'usr-student-1', role: 'student' },
+      'tutor@educonnect.com': { id: 'usr-tutor-1', role: 'tutor' },
+      'admin@educonnect.com': { id: 'usr-admin-1', role: 'admin' },
+    };
+
+    const user = mockUsers[normalizedEmail] || {
+      id: `usr-${normalizedEmail.replace(/[^a-zA-Z0-9]/g, '-')}`,
+      role: normalizedEmail.includes('tutor') ? 'tutor' : normalizedEmail.includes('admin') ? 'admin' : 'student',
+    };
+
+    const token = this.generateToken({
+      id: user.id,
+      email: normalizedEmail,
+      role: user.role,
+      roles: [user.role],
+    });
+
+    return {
+      token,
+      userId: user.id,
+      role: user.role,
+      email: normalizedEmail,
+    };
+  }
 }
+

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { UnauthorizedError } from '../../../domain/shared/errors/DomainError.js';
-import { supabase } from '../../../infrastructure/database/supabase/client.js';
+import { container } from '../../../infrastructure/container.js';
 
 export interface AuthenticatedUser {
   id: string;
@@ -20,7 +20,7 @@ export const authMiddleware = async (
   try {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      // For development/demo convenience: allow a simulated user if header provided
+      // Soporte para desarrollo / pruebas con header demo
       const demoUserId = req.headers['x-demo-user-id'] as string;
       if (demoUserId) {
         req.user = {
@@ -34,34 +34,19 @@ export const authMiddleware = async (
 
     const token = authHeader.split(' ')[1];
 
-    // Mock token support
-    if (token.startsWith('mock-jwt-token-')) {
-      const userId = token.replace('mock-jwt-token-', '');
-      req.user = {
-        id: userId,
-        role: userId.includes('tutor') ? 'tutor' : 'student',
-      };
-      return next();
+    // Validación desacoplada a través del puerto IAuthService
+    const payload = container.authService.verifyToken(token);
+    req.user = {
+      id: payload.id,
+      email: payload.email,
+      role: payload.role || payload.roles?.[0] || 'student',
+    };
+    return next();
+  } catch (err: any) {
+    if (err instanceof UnauthorizedError) {
+      return next(err);
     }
-
-    // Supabase token verification
-    if (supabase) {
-      const { data: { user }, error } = await supabase.auth.getUser(token);
-      if (error || !user) {
-        throw new UnauthorizedError('Token inválido o expirado');
-      }
-      req.user = {
-        id: user.id,
-        email: user.email,
-        role: (user.user_metadata?.role as string) || 'student',
-      };
-      return next();
-    }
-
-    // Fallback
-    req.user = { id: 'student-demo-id', role: 'student' };
-    next();
-  } catch (err) {
-    next(err);
+    return next(new UnauthorizedError(err.message || 'Token de autorización inválido o expirado'));
   }
 };
+

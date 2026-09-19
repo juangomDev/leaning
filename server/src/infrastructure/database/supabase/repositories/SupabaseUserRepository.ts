@@ -1,8 +1,7 @@
-import { IUserRepository, AuthResult } from '../../../../domain/user/UserRepository.js';
+import { IUserRepository } from '../../../../domain/user/UserRepository.js';
 import { User } from '../../../../domain/user/User.js';
 import { supabase } from '../client.js';
 import { UserMapper } from '../mappers/UserMapper.js';
-import { UnauthorizedError } from '../../../../domain/shared/errors/DomainError.js';
 
 export class SupabaseUserRepository implements IUserRepository {
   async findById(id: string): Promise<User | null> {
@@ -73,29 +72,5 @@ export class SupabaseUserRepository implements IUserRepository {
     if (error) throw new Error(error.message);
     return UserMapper.toDomain(data);
   }
-
-  async authenticate(email: string, password?: string): Promise<AuthResult> {
-    if (!supabase) {
-      throw new UnauthorizedError('Base de datos no configurada');
-    }
-
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password: password || '',
-    });
-
-    if (error || !data.user || !data.session) {
-      throw new UnauthorizedError('Credenciales incorrectas');
-    }
-
-    const user = await this.findById(data.user.id);
-    if (!user) {
-      throw new UnauthorizedError('Perfil no encontrado tras autenticar');
-    }
-
-    return {
-      user,
-      token: data.session.access_token,
-    };
-  }
 }
+

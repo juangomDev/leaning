@@ -3,7 +3,7 @@ import assert from 'node:assert';
 import { Tutor } from '../../../domain/tutor/Tutor.js';
 import { ITutorRepository } from '../../tutor/ports/ITutorRepository.js';
 import { User } from '../../../domain/user/User.js';
-import { IUserRepository, AuthResult } from '../../auth/ports/IUserRepository.js';
+import { IUserRepository } from '../../auth/ports/IUserRepository.js';
 import { Review } from '../../../domain/review/Review.js';
 import { IReviewRepository } from '../../review/ports/IReviewRepository.js';
 import { ApproveTutorUseCase } from './ApproveTutorUseCase.js';
@@ -30,7 +30,6 @@ class MockAdminUserRepo implements IUserRepository {
     Object.assign(u, updates);
     return u;
   }
-  async authenticate(): Promise<AuthResult> { throw new Error('Not implemented'); }
 }
 
 class MockAdminReviewRepo implements IReviewRepository {
