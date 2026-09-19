@@ -1,7 +1,9 @@
 import { Response, NextFunction } from 'express';
-import { GetTutorsListUseCase } from '../../../application/use-cases/tutors/GetTutorsListUseCase.js';
-import { GetTutorByIdUseCase } from '../../../application/use-cases/tutors/GetTutorByIdUseCase.js';
-import { RegisterTutorUseCase } from '../../../application/use-cases/tutors/RegisterTutorUseCase.js';
+import {
+  GetTutorsListUseCase,
+  GetTutorByIdUseCase,
+  RegisterTutorUseCase,
+} from '../../../application/tutor/index.js';
 import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
 
 export class TutorController {

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { DomainError } from '../../../domain/shared/errors/DomainError.js';
+import { ApplicationError } from '../../../application/shared/errors/ApplicationError.js';
 
 export const errorHandler = (
   err: Error,
@@ -9,7 +10,7 @@ export const errorHandler = (
 ): Response | void => {
   console.error(`[Error] ${req.method} ${req.originalUrl}:`, err.message);
 
-  if (err instanceof DomainError) {
+  if (err instanceof DomainError || err instanceof ApplicationError) {
     return res.status(err.statusCode).json({
       success: false,
       error: {

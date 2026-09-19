@@ -1,7 +1,9 @@
 import { Response, NextFunction } from 'express';
-import { CreateBookingUseCase } from '../../../application/use-cases/bookings/CreateBookingUseCase.js';
-import { GetUserBookingsUseCase } from '../../../application/use-cases/bookings/GetUserBookingsUseCase.js';
-import { UpdateBookingStatusUseCase } from '../../../application/use-cases/bookings/UpdateBookingStatusUseCase.js';
+import {
+  CreateBookingUseCase,
+  GetUserBookingsUseCase,
+  UpdateBookingStatusUseCase,
+} from '../../../application/booking/index.js';
 import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
 import { BookingStatus } from '../../../domain/booking/Booking.js';
 

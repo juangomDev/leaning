@@ -1,6 +1,5 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { Tutor } from './Tutor.js';
 import { TutorSubject } from './TutorSubject.js';
 import { TutorFactory } from './TutorFactory.js';
 import { SubjectCategory } from './value-objects/SubjectCategory.js';

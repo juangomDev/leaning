@@ -18,23 +18,31 @@ import { SupabaseTutorRepository } from './database/repositories/SupabaseTutorRe
 import { SupabaseBookingRepository } from './database/repositories/SupabaseBookingRepository.js';
 
 // Use Cases - Auth
-import { RegisterUserUseCase } from '../application/use-cases/auth/RegisterUserUseCase.js';
-import { LoginUserUseCase } from '../application/use-cases/auth/LoginUserUseCase.js';
-import { GetCurrentUserUseCase } from '../application/use-cases/auth/GetCurrentUserUseCase.js';
+import {
+  RegisterUserUseCase,
+  LoginUserUseCase,
+  GetCurrentUserUseCase,
+} from '../application/auth/index.js';
 
 // Use Cases - Tutors
-import { GetTutorsListUseCase } from '../application/use-cases/tutors/GetTutorsListUseCase.js';
-import { GetTutorByIdUseCase } from '../application/use-cases/tutors/GetTutorByIdUseCase.js';
-import { RegisterTutorUseCase } from '../application/use-cases/tutors/RegisterTutorUseCase.js';
+import {
+  GetTutorsListUseCase,
+  GetTutorByIdUseCase,
+  RegisterTutorUseCase,
+} from '../application/tutor/index.js';
 
 // Use Cases - Bookings
-import { CreateBookingUseCase } from '../application/use-cases/bookings/CreateBookingUseCase.js';
-import { GetUserBookingsUseCase } from '../application/use-cases/bookings/GetUserBookingsUseCase.js';
-import { UpdateBookingStatusUseCase } from '../application/use-cases/bookings/UpdateBookingStatusUseCase.js';
+import {
+  CreateBookingUseCase,
+  GetUserBookingsUseCase,
+  UpdateBookingStatusUseCase,
+} from '../application/booking/index.js';
 
 // Use Cases - Wallet
-import { GetWalletBalanceUseCase } from '../application/use-cases/wallet/GetWalletBalanceUseCase.js';
-import { RechargeWalletUseCase } from '../application/use-cases/wallet/RechargeWalletUseCase.js';
+import {
+  GetWalletBalanceUseCase,
+  RechargeWalletUseCase,
+} from '../application/wallet/index.js';
 
 // Controllers
 import { AuthController } from '../interfaces/http/controllers/AuthController.js';
@@ -92,7 +100,6 @@ export class Container {
     this.createBookingUseCase = new CreateBookingUseCase({
       bookingRepository: this.bookingRepository,
       tutorRepository: this.tutorRepository,
-      walletRepository: this.walletRepository,
     });
     this.getUserBookingsUseCase = new GetUserBookingsUseCase({ bookingRepository: this.bookingRepository });
     this.updateBookingStatusUseCase = new UpdateBookingStatusUseCase({ bookingRepository: this.bookingRepository });

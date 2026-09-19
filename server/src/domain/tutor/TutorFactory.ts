@@ -15,6 +15,7 @@ export interface CreateTutorDTO {
   pricePerHour?: number;
   description?: string;
   badges?: string[];
+  createdAt?: Date;
 }
 
 export class TutorFactory {
@@ -30,9 +31,10 @@ export class TutorFactory {
     pricePerHour = 25,
     description = 'Clases particulares',
     badges = ['Nuevo Tutor'],
+    createdAt = new Date(),
   }: CreateTutorDTO): Tutor {
     const tutorId = id || crypto.randomUUID();
-    const now = new Date();
+    const now = createdAt;
 
     const primarySubject = new TutorSubject({
       id: crypto.randomUUID(),

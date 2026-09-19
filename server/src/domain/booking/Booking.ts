@@ -29,8 +29,6 @@ export interface BookingProps {
   totalPrice: number;
   notes: string | null;
   createdAt: Date;
-  tutor?: any;
-  student?: any;
 }
 
 export class Booking {
@@ -47,8 +45,6 @@ export class Booking {
   public totalPrice: number;
   public notes: string | null;
   public readonly createdAt: Date;
-  public tutor?: any;
-  public student?: any;
 
   constructor({
     id,
@@ -64,8 +60,6 @@ export class Booking {
     totalPrice,
     notes,
     createdAt,
-    tutor = null,
-    student = null,
   }: BookingProps) {
     this.validateRequired(id, 'id');
     this.validateRequired(studentId, 'studentId');
@@ -119,8 +113,6 @@ export class Booking {
     this.totalPrice = Number(price.toFixed(2));
     this.notes = notes ? notes.trim() : null;
     this.createdAt = createdAt;
-    this.tutor = tutor;
-    this.student = student;
   }
 
   private validateRequired(val: any, fieldName: string): void {

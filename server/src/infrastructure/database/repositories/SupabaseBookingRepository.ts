@@ -87,11 +87,6 @@ export class SupabaseBookingRepository implements IBookingRepository {
         totalPrice: tot,
         notes: b.notes || null,
         createdAt: b.created_at ? new Date(b.created_at) : new Date(),
-        tutor: {
-          id: b.tutor?.id,
-          name: b.tutor?.profiles?.full_name,
-          avatar: b.tutor?.profiles?.avatar_url,
-        },
       });
     });
   }
@@ -101,14 +96,7 @@ export class SupabaseBookingRepository implements IBookingRepository {
 
     const { data, error } = await supabase
       .from('bookings')
-      .select(`
-        *,
-        student:student_id (
-          id,
-          full_name,
-          avatar_url
-        )
-      `)
+      .select(`*`)
       .eq('tutor_id', tutorId)
       .order('scheduled_at', { ascending: true });
 
@@ -133,11 +121,6 @@ export class SupabaseBookingRepository implements IBookingRepository {
         totalPrice: tot,
         notes: b.notes || null,
         createdAt: b.created_at ? new Date(b.created_at) : new Date(),
-        student: {
-          id: b.student?.id,
-          name: b.student?.full_name,
-          avatar: b.student?.avatar_url,
-        },
       });
     });
   }

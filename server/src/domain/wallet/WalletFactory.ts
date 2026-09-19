@@ -36,6 +36,7 @@ export class WalletFactory {
     amount,
     type,
     concept,
+    createdAt = new Date(),
   }: {
     id?: string;
     walletId: string;
@@ -44,6 +45,7 @@ export class WalletFactory {
     amount: number;
     type: TransactionType;
     concept: string;
+    createdAt?: Date;
   }): WalletTransaction {
     return new WalletTransaction({
       id: id || crypto.randomUUID(),
@@ -54,7 +56,7 @@ export class WalletFactory {
       type,
       concept,
       status: 'completed',
-      createdAt: new Date(),
+      createdAt,
     });
   }
 

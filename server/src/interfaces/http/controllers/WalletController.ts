@@ -1,6 +1,8 @@
 import { Response, NextFunction } from 'express';
-import { GetWalletBalanceUseCase } from '../../../application/use-cases/wallet/GetWalletBalanceUseCase.js';
-import { RechargeWalletUseCase } from '../../../application/use-cases/wallet/RechargeWalletUseCase.js';
+import {
+  GetWalletBalanceUseCase,
+  RechargeWalletUseCase,
+} from '../../../application/wallet/index.js';
 import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
 
 export class WalletController {

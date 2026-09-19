@@ -20,11 +20,6 @@ export class InMemoryBookingRepository implements IBookingRepository {
         totalPrice: 30,
         notes: null,
         createdAt: new Date(),
-        tutor: {
-          id: '2',
-          name: 'Ing. Carlos Mendoza',
-          avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80',
-        },
       }),
       new Booking({
         id: 'b-002',
@@ -40,11 +35,6 @@ export class InMemoryBookingRepository implements IBookingRepository {
         totalPrice: 25,
         notes: null,
         createdAt: new Date(),
-        tutor: {
-          id: '1',
-          name: 'Dra. Elena Rostova',
-          avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80',
-        },
       }),
     ];
   }

@@ -1,7 +1,9 @@
 import { Response, NextFunction } from 'express';
-import { RegisterUserUseCase } from '../../../application/use-cases/auth/RegisterUserUseCase.js';
-import { LoginUserUseCase } from '../../../application/use-cases/auth/LoginUserUseCase.js';
-import { GetCurrentUserUseCase } from '../../../application/use-cases/auth/GetCurrentUserUseCase.js';
+import {
+  RegisterUserUseCase,
+  LoginUserUseCase,
+  GetCurrentUserUseCase,
+} from '../../../application/auth/index.js';
 import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
 
 export class AuthController {

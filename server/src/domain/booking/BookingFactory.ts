@@ -12,6 +12,7 @@ export interface CreateBookingDTO {
   modality?: BookingModality;
   hourlyRate: number;
   notes?: string | null;
+  createdAt?: Date;
 }
 
 export class BookingFactory {
@@ -26,6 +27,7 @@ export class BookingFactory {
     modality = 'online',
     hourlyRate,
     notes = null,
+    createdAt = new Date(),
   }: CreateBookingDTO): Booking {
     const bookingId = id || crypto.randomUUID();
     const duration = Number(durationHours);
@@ -46,7 +48,7 @@ export class BookingFactory {
       hourlyRate: rate,
       totalPrice,
       notes: notes || null,
-      createdAt: new Date(),
+      createdAt,
     });
   }
 
@@ -64,8 +66,6 @@ export class BookingFactory {
     totalPrice: number;
     notes: string | null;
     createdAt: Date | string;
-    tutor?: any;
-    student?: any;
   }): Booking {
     return new Booking({
       id: raw.id,
@@ -81,8 +81,6 @@ export class BookingFactory {
       totalPrice: raw.totalPrice,
       notes: raw.notes,
       createdAt: raw.createdAt instanceof Date ? raw.createdAt : new Date(raw.createdAt),
-      tutor: raw.tutor,
-      student: raw.student,
     });
   }
 }
