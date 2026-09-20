@@ -5,3 +5,8 @@ export * from './mappers/UserMapper.js';
 export * from './usecases/RegisterUserUseCase.js';
 export * from './usecases/LoginUserUseCase.js';
 export * from './usecases/GetCurrentUserUseCase.js';
+export * from './usecases/RequestPasswordResetUseCase.js';
+export * from './usecases/ResetPasswordUseCase.js';
+export * from './usecases/SendEmailVerificationUseCase.js';
+export * from './usecases/VerifyEmailUseCase.js';
+export * from './usecases/CompleteOnboardingUseCase.js';

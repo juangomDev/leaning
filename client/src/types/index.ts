@@ -4,6 +4,7 @@ export interface UserProfile {
   id: string;
   full_name: string;
   role: UserRole;
+  roles?: string[];
   avatar_url?: string;
   phone?: string;
   email?: string;
@@ -13,9 +14,11 @@ export interface UserProfile {
 export interface AppUser {
   id: string;
   email?: string;
+  roles?: string[];
   user_metadata?: {
     full_name?: string;
     role?: UserRole;
+    roles?: string[];
     phone?: string;
     [key: string]: any;
   };
@@ -91,7 +94,11 @@ export interface AuthContextType {
   user: AppUser | any | null;
   profile: UserProfile | null;
   role: string | null;
+  roles: string[];
+  activeRole: string;
   loading: boolean;
+  switchActiveRole: (newRole: string) => void;
+  refreshProfile: () => Promise<void>;
   signIn: (email: string, password: string) => Promise<any>;
   signUp: (
     paramsOrEmail: SignUpParams | string,

@@ -4,6 +4,9 @@ import { User, UserRole } from '../../../domain/user/User.js';
 interface UserRecord {
   user: User;
   password?: string;
+  resetToken?: string;
+  resetExpires?: Date;
+  verificationToken?: string;
 }
 
 export class InMemoryUserRepository implements IUserRepository {
@@ -21,6 +24,8 @@ export class InMemoryUserRepository implements IUserRepository {
           avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80',
           phone: '+52 55 9876 5432',
           createdAt: now,
+          isEmailVerified: true,
+          onboardingCompleted: true,
         }),
         password: 'password123',
       },
@@ -33,6 +38,8 @@ export class InMemoryUserRepository implements IUserRepository {
           avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80',
           phone: '+52 55 9876 5432',
           createdAt: now,
+          isEmailVerified: true,
+          onboardingCompleted: true,
         }),
         password: 'password123',
       },
@@ -45,6 +52,8 @@ export class InMemoryUserRepository implements IUserRepository {
           avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80',
           phone: '+52 55 1234 5678',
           createdAt: now,
+          isEmailVerified: true,
+          onboardingCompleted: true,
         }),
         password: 'password123',
       },
@@ -57,6 +66,8 @@ export class InMemoryUserRepository implements IUserRepository {
           avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80',
           phone: '+52 55 1234 5678',
           createdAt: now,
+          isEmailVerified: true,
+          onboardingCompleted: true,
         }),
         password: 'password123',
       },
@@ -69,6 +80,8 @@ export class InMemoryUserRepository implements IUserRepository {
           avatarUrl: null,
           phone: '+52 55 0000 0000',
           createdAt: now,
+          isEmailVerified: true,
+          onboardingCompleted: true,
         }),
         password: 'password123',
       },
@@ -112,7 +125,7 @@ export class InMemoryUserRepository implements IUserRepository {
   async create(user: User, password?: string): Promise<User> {
     const existingIndex = this.users.findIndex((u) => u.user.email.toLowerCase() === user.email.toLowerCase());
     if (existingIndex >= 0) {
-      this.users[existingIndex] = { user, password };
+      this.users[existingIndex] = { ...this.users[existingIndex], user, password: password || this.users[existingIndex].password };
     } else {
       this.users.push({ user, password });
     }
@@ -124,6 +137,57 @@ export class InMemoryUserRepository implements IUserRepository {
     if (!record) throw new Error('Usuario no encontrado');
     Object.assign(record.user, updates);
     return record.user;
+  }
+
+  async savePasswordResetToken(userId: string, token: string, expiresAt: Date): Promise<void> {
+    const record = this.users.find((u) => u.user.id === userId);
+    if (record) {
+      record.resetToken = token;
+      record.resetExpires = expiresAt;
+    }
+  }
+
+  async findByPasswordResetToken(token: string): Promise<{ user: User; expiresAt: Date } | null> {
+    const record = this.users.find((u) => u.resetToken === token && u.resetExpires);
+    if (!record || !record.resetExpires) return null;
+    return {
+      user: record.user,
+      expiresAt: record.resetExpires,
+    };
+  }
+
+  async clearPasswordResetToken(userId: string): Promise<void> {
+    const record = this.users.find((u) => u.user.id === userId);
+    if (record) {
+      record.resetToken = undefined;
+      record.resetExpires = undefined;
+    }
+  }
+
+  async updatePassword(userId: string, newHashedPassword: string): Promise<void> {
+    const record = this.users.find((u) => u.user.id === userId);
+    if (record) {
+      record.password = newHashedPassword;
+    }
+  }
+
+  async saveEmailVerificationToken(userId: string, token: string): Promise<void> {
+    const record = this.users.find((u) => u.user.id === userId);
+    if (record) {
+      record.verificationToken = token;
+    }
+  }
+
+  async findByEmailVerificationToken(token: string): Promise<User | null> {
+    const record = this.users.find((u) => u.verificationToken === token);
+    return record ? record.user : null;
+  }
+
+  async clearEmailVerificationToken(userId: string): Promise<void> {
+    const record = this.users.find((u) => u.user.id === userId);
+    if (record) {
+      record.verificationToken = undefined;
+    }
   }
 }
 

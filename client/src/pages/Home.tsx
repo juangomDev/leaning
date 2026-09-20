@@ -482,6 +482,80 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
+      {/* About EduConnect Section (Consolidated into /) */}
+      <section id="about" className="py-20 bg-white border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-brand-600 text-xs font-extrabold uppercase tracking-widest">
+              Sobre Nosotros
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-2 tracking-tight">
+              Transformando la educación particular con propósito e impacto
+            </h2>
+            <p className="mt-4 text-slate-600 text-lg leading-relaxed">
+              EduConnect nació con una convicción clara: todo estudiante tiene un potencial extraordinario
+              que se desbloquea con la guía personalizada y humana del tutor indicado.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <div className="p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-200 transition-all">
+              <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl mb-6">
+                <i className="fa-solid fa-bullseye"></i>
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Nuestra Misión</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                Democratizar el acceso a educación de primer nivel, conectando a estudiantes y tutores
+                expertos mediante una plataforma transparente, segura y orientada a resultados reales.
+              </p>
+            </div>
+
+            <div className="p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-200 transition-all">
+              <div className="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl mb-6">
+                <i className="fa-solid fa-eye"></i>
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Nuestra Visión</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                Convertirnos en el estándar iberoamericano de tutorías académicas y profesionales,
+                donde la excelencia pedagógica y la tecnología inteligente potencien el aprendizaje constante.
+              </p>
+            </div>
+
+            <div className="p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-200 transition-all">
+              <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl mb-6">
+                <i className="fa-solid fa-gem"></i>
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">Nuestros Valores</h3>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                Transparencia total en reseñas y tarifas, rigor en la verificación académica de tutores,
+                y un compromiso inquebrantable con la satisfacción y seguridad de cada alumno.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-r from-brand-600 to-indigo-700 rounded-3xl p-8 sm:p-12 text-white shadow-xl">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+              <div>
+                <p className="text-4xl sm:text-5xl font-extrabold tracking-tight">+50k</p>
+                <p className="text-brand-100 text-xs sm:text-sm font-medium mt-1">Horas de Clase Impartidas</p>
+              </div>
+              <div>
+                <p className="text-4xl sm:text-5xl font-extrabold tracking-tight">98.4%</p>
+                <p className="text-brand-100 text-xs sm:text-sm font-medium mt-1">Calificaciones Positivas</p>
+              </div>
+              <div>
+                <p className="text-4xl sm:text-5xl font-extrabold tracking-tight">1,500+</p>
+                <p className="text-brand-100 text-xs sm:text-sm font-medium mt-1">Tutores Verificados</p>
+              </div>
+              <div>
+                <p className="text-4xl sm:text-5xl font-extrabold tracking-tight">15+</p>
+                <p className="text-brand-100 text-xs sm:text-sm font-medium mt-1">Países Activos</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Tutor CTA */}
       <section className="tutor-cta-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

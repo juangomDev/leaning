@@ -1,64 +1,49 @@
-import { supabase, isSupabaseConfigured } from '../api/supabaseClient';
-import { backendClient } from '../api/backendClient';
+import { apiClient } from '../api/apiClient';
 import { INITIAL_TUTORS } from '../data/initialTutors';
 import { Tutor } from '../types';
 
+export interface TutorFilters {
+  q?: string;
+  categoria?: string;
+  modalidad?: string;
+  maxPrice?: number;
+  minRating?: number;
+}
+
 export const tutorsService = {
-  async getTutors(): Promise<Tutor[]> {
-    if (isSupabaseConfigured && supabase) {
-      try {
-        const { data, error } = await supabase
-          .from('tutors')
-          .select(`
-            *,
-            profiles:id (
-              full_name,
-              avatar_url,
-              phone
-            )
-          `);
+  async getTutors(filters?: TutorFilters): Promise<Tutor[]> {
+    try {
+      const params: Record<string, any> = {};
+      if (filters?.q) params.q = filters.q;
+      if (filters?.categoria && filters.categoria !== 'todas') params.categoria = filters.categoria;
+      if (filters?.modalidad && filters.modalidad !== 'todas') params.modalidad = filters.modalidad;
+      if (filters?.maxPrice) params.maxPrice = filters.maxPrice;
+      if (filters?.minRating) params.minRating = filters.minRating;
 
-        if (!error && data && data.length > 0) {
-          return data.map((item: any): Tutor => ({
-            id: item.id,
-            full_name: item.profiles?.full_name || 'Tutor',
-            avatar_url: item.profiles?.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
-            subject_name: item.subject_name,
-            subject_category: item.subject_category,
-            bio: item.bio,
-            price_per_hour: item.price_per_hour,
-            modality: item.modality,
-            rating: item.rating,
-            reviews_count: item.reviews_count,
-            badges: item.badges || [],
-            is_available: item.is_available,
-          }));
-        }
-      } catch (err) {
-        console.warn('Error fetching tutors from Supabase, using fallback:', err);
+      const res = await apiClient.get('/tutors', { params });
+      const data = res.data?.data || res.data;
+
+      if (Array.isArray(data) && data.length > 0) {
+        return data.map((t: any): Tutor => ({
+          id: String(t.id),
+          full_name: t.fullName || t.full_name || 'Tutor',
+          avatar_url: t.avatarUrl || t.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
+          subject_name: t.subjectName || t.subject_name || (t.subjects?.[0]?.subjectName) || 'Tutoría General',
+          subject_category: t.subjectCategory || t.subject_category || (t.subjects?.[0]?.category) || 'otro',
+          bio: t.bio || '',
+          price_per_hour: Number(t.pricePerHour || t.price_per_hour || t.subjects?.[0]?.pricePerHour || 25),
+          modality: t.modality || 'online',
+          rating: Number(t.rating || 5.0),
+          reviews_count: Number(t.reviewsCount || t.reviews_count || 0),
+          badges: t.badges || ['Verificado'],
+          is_available: t.isAvailable ?? t.is_available ?? true,
+        }));
       }
+    } catch (err: any) {
+      console.warn('[tutorsService] Error al consultar API backend, usando fallback:', err?.message);
     }
 
-    // Query Clean Architecture Backend
-    const backendRes = await backendClient.get<{ success?: boolean; data?: any[] }>('/tutors');
-    if (backendRes && backendRes.success && backendRes.data && backendRes.data.length > 0) {
-      return backendRes.data.map((t: any): Tutor => ({
-        id: t.id,
-        full_name: t.fullName,
-        avatar_url: t.avatarUrl,
-        subject_name: t.subjectName,
-        subject_category: t.subjectCategory,
-        bio: t.bio,
-        price_per_hour: t.pricePerHour,
-        modality: t.modality,
-        rating: t.rating,
-        reviews_count: t.reviewsCount,
-        badges: t.badges || [],
-        is_available: t.isAvailable,
-      }));
-    }
-
-    // Fallback local persistence
+    // Fallback local
     const saved = localStorage.getItem('educonnect_tutors');
     if (saved) {
       try {
@@ -72,14 +57,36 @@ export const tutorsService = {
   },
 
   async getTutorById(id: string | number | undefined): Promise<Tutor> {
-    const tutors = await this.getTutors();
-    if (!id) return tutors[0];
-    const match = tutors.find(t => t.id === id || String(t.id).startsWith(String(id)));
-    if (match) return match;
-    const num = typeof id === 'number' ? id : parseInt(id, 10);
-    if (!isNaN(num) && num > 0 && num <= tutors.length) {
-      return tutors[num - 1];
+    if (!id) {
+      const all = await this.getTutors();
+      return all[0];
     }
-    return tutors[0];
+
+    try {
+      const res = await apiClient.get(`/tutors/${id}`);
+      const t = res.data?.data || res.data;
+      if (t && t.id) {
+        return {
+          id: String(t.id),
+          full_name: t.fullName || t.full_name,
+          avatar_url: t.avatarUrl || t.avatar_url,
+          subject_name: t.subjectName || t.subject_name || (t.subjects?.[0]?.subjectName) || 'Tutoría General',
+          subject_category: t.subjectCategory || t.subject_category || (t.subjects?.[0]?.category) || 'otro',
+          bio: t.bio || '',
+          price_per_hour: Number(t.pricePerHour || t.price_per_hour || t.subjects?.[0]?.pricePerHour || 25),
+          modality: t.modality || 'online',
+          rating: Number(t.rating || 5.0),
+          reviews_count: Number(t.reviewsCount || t.reviews_count || 0),
+          badges: t.badges || [],
+          is_available: t.isAvailable ?? true,
+        };
+      }
+    } catch (err: any) {
+      console.warn(`[tutorsService] Error consultando tutor ${id}, buscando en catálogo local:`, err?.message);
+    }
+
+    const tutors = await this.getTutors();
+    const match = tutors.find(t => String(t.id) === String(id));
+    return match || tutors[0];
   }
 };

@@ -72,5 +72,55 @@ export class SupabaseUserRepository implements IUserRepository {
     if (error) throw new Error(error.message);
     return UserMapper.toDomain(data);
   }
+
+  async savePasswordResetToken(userId: string, token: string, expiresAt: Date): Promise<void> {
+    if (!supabase) return;
+    await supabase.from('profiles').update({
+      reset_token: token,
+      reset_expires: expiresAt.toISOString(),
+    }).eq('id', userId);
+  }
+
+  async findByPasswordResetToken(token: string): Promise<{ user: User; expiresAt: Date } | null> {
+    if (!supabase) return null;
+    const { data } = await supabase.from('profiles').select('*').eq('reset_token', token).maybeSingle();
+    if (!data || !data.reset_expires) return null;
+    return {
+      user: UserMapper.toDomain(data),
+      expiresAt: new Date(data.reset_expires),
+    };
+  }
+
+  async clearPasswordResetToken(userId: string): Promise<void> {
+    if (!supabase) return;
+    await supabase.from('profiles').update({
+      reset_token: null,
+      reset_expires: null,
+    }).eq('id', userId);
+  }
+
+  async updatePassword(_userId: string, _newHashedPassword: string): Promise<void> {
+    // Supabase auth handles its own passwords via auth API
+  }
+
+  async saveEmailVerificationToken(userId: string, token: string): Promise<void> {
+    if (!supabase) return;
+    await supabase.from('profiles').update({
+      verification_token: token,
+    }).eq('id', userId);
+  }
+
+  async findByEmailVerificationToken(token: string): Promise<User | null> {
+    if (!supabase) return null;
+    const { data } = await supabase.from('profiles').select('*').eq('verification_token', token).maybeSingle();
+    return data ? UserMapper.toDomain(data) : null;
+  }
+
+  async clearEmailVerificationToken(userId: string): Promise<void> {
+    if (!supabase) return;
+    await supabase.from('profiles').update({
+      verification_token: null,
+    }).eq('id', userId);
+  }
 }
 

@@ -13,6 +13,8 @@ export interface UserProps {
   avatarUrl: string | null;
   phone: Phone | string | null;
   createdAt: Date;
+  isEmailVerified?: boolean;
+  onboardingCompleted?: boolean;
 }
 
 export interface CreateUserDTO {
@@ -24,4 +26,6 @@ export interface CreateUserDTO {
   avatarUrl?: string | null;
   phone?: string | null;
   createdAt?: Date;
+  isEmailVerified?: boolean;
+  onboardingCompleted?: boolean;
 }

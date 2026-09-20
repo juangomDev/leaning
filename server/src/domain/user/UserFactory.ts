@@ -6,26 +6,25 @@ import { CreateUserDTO, UserRole } from './UserProps.js';
 
 export class UserFactory {
   public static create({
-
-    id, email, fullName, roles, role, 
-    avatarUrl = null, phone = null, createdAt = new Date(),
-
+    id,
+    email,
+    fullName,
+    roles,
+    role,
+    avatarUrl = null,
+    phone = null,
+    createdAt = new Date(),
+    isEmailVerified = false,
+    onboardingCompleted = false,
   }: CreateUserDTO): User {
-
     const finalRoles: UserRole[] = [];
-    
+
     if (roles && Array.isArray(roles) && roles.length > 0) {
-      
       finalRoles.push(...roles);
-    
     } else if (role) {
-      
       finalRoles.push(role);
-      
     } else {
-
       finalRoles.push('student');
-
     }
 
     return new User({
@@ -36,6 +35,8 @@ export class UserFactory {
       avatarUrl: avatarUrl || null,
       phone: Phone.create(phone || null),
       createdAt,
+      isEmailVerified: Boolean(isEmailVerified),
+      onboardingCompleted: Boolean(onboardingCompleted),
     });
   }
 
@@ -48,6 +49,8 @@ export class UserFactory {
     avatarUrl?: string | null;
     phone?: string | null;
     createdAt: Date | string;
+    isEmailVerified?: boolean;
+    onboardingCompleted?: boolean;
   }): User {
     const roles = raw.roles && raw.roles.length > 0
       ? raw.roles
@@ -61,6 +64,8 @@ export class UserFactory {
       avatarUrl: raw.avatarUrl || null,
       phone: Phone.create(raw.phone || null),
       createdAt: raw.createdAt instanceof Date ? raw.createdAt : new Date(raw.createdAt),
+      isEmailVerified: Boolean(raw.isEmailVerified),
+      onboardingCompleted: Boolean(raw.onboardingCompleted),
     });
   }
 }

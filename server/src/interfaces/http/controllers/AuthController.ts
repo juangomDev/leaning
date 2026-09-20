@@ -3,6 +3,11 @@ import {
   RegisterUserUseCase,
   LoginUserUseCase,
   GetCurrentUserUseCase,
+  RequestPasswordResetUseCase,
+  ResetPasswordUseCase,
+  SendEmailVerificationUseCase,
+  VerifyEmailUseCase,
+  CompleteOnboardingUseCase,
 } from '../../../application/auth/index.js';
 import { AuthenticatedRequest } from '../middlewares/authMiddleware.js';
 import { config } from '../../../infrastructure/config/env.js';
@@ -11,19 +16,39 @@ export class AuthController {
   private registerUserUseCase: RegisterUserUseCase;
   private loginUserUseCase: LoginUserUseCase;
   private getCurrentUserUseCase: GetCurrentUserUseCase;
+  private requestPasswordResetUseCase: RequestPasswordResetUseCase;
+  private resetPasswordUseCase: ResetPasswordUseCase;
+  private sendEmailVerificationUseCase: SendEmailVerificationUseCase;
+  private verifyEmailUseCase: VerifyEmailUseCase;
+  private completeOnboardingUseCase: CompleteOnboardingUseCase;
 
   constructor({
     registerUserUseCase,
     loginUserUseCase,
     getCurrentUserUseCase,
+    requestPasswordResetUseCase,
+    resetPasswordUseCase,
+    sendEmailVerificationUseCase,
+    verifyEmailUseCase,
+    completeOnboardingUseCase,
   }: {
     registerUserUseCase: RegisterUserUseCase;
     loginUserUseCase: LoginUserUseCase;
     getCurrentUserUseCase: GetCurrentUserUseCase;
+    requestPasswordResetUseCase: RequestPasswordResetUseCase;
+    resetPasswordUseCase: ResetPasswordUseCase;
+    sendEmailVerificationUseCase: SendEmailVerificationUseCase;
+    verifyEmailUseCase: VerifyEmailUseCase;
+    completeOnboardingUseCase: CompleteOnboardingUseCase;
   }) {
     this.registerUserUseCase = registerUserUseCase;
     this.loginUserUseCase = loginUserUseCase;
     this.getCurrentUserUseCase = getCurrentUserUseCase;
+    this.requestPasswordResetUseCase = requestPasswordResetUseCase;
+    this.resetPasswordUseCase = resetPasswordUseCase;
+    this.sendEmailVerificationUseCase = sendEmailVerificationUseCase;
+    this.verifyEmailUseCase = verifyEmailUseCase;
+    this.completeOnboardingUseCase = completeOnboardingUseCase;
   }
 
   register = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
@@ -98,6 +123,59 @@ export class AuthController {
         success: true,
         data: user,
       });
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  forgotPassword = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const { email } = req.body;
+      const result = await this.requestPasswordResetUseCase.execute({ email });
+      res.status(200).json(result);
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  resetPassword = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const { token, newPassword } = req.body;
+      const result = await this.resetPasswordUseCase.execute({ token, newPassword });
+      res.status(200).json(result);
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  verifyEmail = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const token = (req.body?.token || req.query?.token) as string;
+      const result = await this.verifyEmailUseCase.execute({ token });
+      res.status(200).json(result);
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  resendVerification = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const emailOrUserId = req.body?.email || req.user?.id;
+      const result = await this.sendEmailVerificationUseCase.execute({ emailOrUserId });
+      res.status(200).json(result);
+    } catch (err) {
+      next(err);
+    }
+  };
+
+  onboarding = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userId = req.user?.id || 'student-demo-id';
+      const result = await this.completeOnboardingUseCase.execute({
+        userId,
+        ...req.body,
+      });
+      res.status(200).json(result);
     } catch (err) {
       next(err);
     }

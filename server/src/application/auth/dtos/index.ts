@@ -21,6 +21,8 @@ export interface UserResponseDTO {
   avatarUrl: string | null;
   phone: string | null;
   createdAt: string;
+  isEmailVerified?: boolean;
+  onboardingCompleted?: boolean;
 }
 
 export interface AuthResponseDTO {

@@ -430,11 +430,20 @@ export const TutorPerfil: React.FC = () => {
                   ) : (
                     <>
                       <i className="fa-solid fa-calendar-check" style={{ marginRight: '0.5rem' }}></i>
-                      Reservar Sesión
+                      Reservar Sesión Rápida
                     </>
                   )}
                 </button>
               )}
+
+              <Link
+                to={`/tutors/${tutor.id}/book`}
+                className="btn btn-outline btn-block text-xs"
+                style={{ textAlign: 'center', marginTop: '0.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              >
+                <i className="fa-solid fa-sliders" style={{ marginRight: '0.5rem' }}></i>
+                Configurar y Desglose Completo
+              </Link>
 
               <p style={{ fontSize: '0.625rem', color: 'var(--color-slate-400)', textAlign: 'center', margin: 0 }}>
                 Cancelación gratuita hasta 12 horas antes de la sesión.

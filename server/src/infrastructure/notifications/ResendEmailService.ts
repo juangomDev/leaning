@@ -53,6 +53,43 @@ export class ResendEmailService implements INotificationService {
     await this.sendEmail(recipientEmail, title, html);
   }
 
+  async sendPasswordReset(recipientEmail: string, token: string, userName?: string): Promise<void> {
+    if (!config.isResendConfigured()) {
+      return await this.fallbackService.sendPasswordReset(recipientEmail, token, userName);
+    }
+
+    const resetUrl = `http://localhost:5173/reset-password?token=${encodeURIComponent(token)}`;
+    const html = `
+      <h2>Recuperación de Contraseña - EduConnect</h2>
+      <p>Hola <strong>${userName || 'Usuario'}</strong>,</p>
+      <p>Has solicitado restablecer tu contraseña. Haz clic en el siguiente enlace para continuar:</p>
+      <p><a href="${resetUrl}" style="padding: 10px 18px; background-color: #2563eb; color: #fff; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Restablecer Contraseña</a></p>
+      <p>O copia y pega este enlace en tu navegador:</p>
+      <p><a href="${resetUrl}">${resetUrl}</a></p>
+      <p><small>Este enlace expirará en 1 hora. Si no solicitaste este cambio, puedes ignorar este mensaje de forma segura.</small></p>
+    `;
+
+    await this.sendEmail(recipientEmail, 'Restablecer contraseña - EduConnect', html);
+  }
+
+  async sendEmailVerification(recipientEmail: string, token: string, userName?: string): Promise<void> {
+    if (!config.isResendConfigured()) {
+      return await this.fallbackService.sendEmailVerification(recipientEmail, token, userName);
+    }
+
+    const verifyUrl = `http://localhost:5173/verify-email?token=${encodeURIComponent(token)}`;
+    const html = `
+      <h2>Verifica tu Correo Electrónico - EduConnect</h2>
+      <p>Hola <strong>${userName || 'Usuario'}</strong>,</p>
+      <p>Gracias por unirte a EduConnect. Por favor confirma tu dirección de correo electrónico:</p>
+      <p><a href="${verifyUrl}" style="padding: 10px 18px; background-color: #059669; color: #fff; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Verificar mi Correo</a></p>
+      <p>O copia este enlace en tu navegador:</p>
+      <p><a href="${verifyUrl}">${verifyUrl}</a></p>
+    `;
+
+    await this.sendEmail(recipientEmail, 'Verifica tu cuenta en EduConnect', html);
+  }
+
   private async sendEmail(to: string, subject: string, html: string): Promise<void> {
     try {
       const response = await fetch('https://api.resend.com/emails', {

@@ -11,6 +11,8 @@ export class UserMapper {
       avatarUrl: user.avatarUrl,
       phone: user.phone,
       createdAt: user.createdAt.toISOString(),
+      isEmailVerified: user.isEmailVerified,
+      onboardingCompleted: user.onboardingCompleted,
     };
   }
 }

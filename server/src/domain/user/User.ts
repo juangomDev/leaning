@@ -14,6 +14,8 @@ export class User {
   public avatarUrl: string | null;
   private _phone: Phone | null;
   public readonly createdAt: Date;
+  private _isEmailVerified: boolean;
+  private _onboardingCompleted: boolean;
 
   constructor({
     id,
@@ -23,6 +25,8 @@ export class User {
     avatarUrl,
     phone,
     createdAt,
+    isEmailVerified = false,
+    onboardingCompleted = false,
   }: UserProps) {
     if (!id || typeof id !== 'string' || id.trim() === '') {
       throw new ValidationError('El id del usuario es requerido');
@@ -52,6 +56,8 @@ export class User {
     this.avatarUrl = avatarUrl;
     this._phone = phoneVO;
     this.createdAt = createdAt;
+    this._isEmailVerified = Boolean(isEmailVerified);
+    this._onboardingCompleted = Boolean(onboardingCompleted);
 
     this._roles = new Set<UserRole>();
     for (const r of roles) {
@@ -113,6 +119,22 @@ export class User {
 
   public isAdmin(): boolean {
     return this._roles.has('admin');
+  }
+
+  public get isEmailVerified(): boolean {
+    return this._isEmailVerified;
+  }
+
+  public get onboardingCompleted(): boolean {
+    return this._onboardingCompleted;
+  }
+
+  public markEmailAsVerified(): void {
+    this._isEmailVerified = true;
+  }
+
+  public completeOnboarding(): void {
+    this._onboardingCompleted = true;
   }
 
   private validateRole(role: string): void {

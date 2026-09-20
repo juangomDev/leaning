@@ -10,11 +10,13 @@ export const errorHandler = (
 ): Response | void => {
   console.error(`[Error] ${req.method} ${req.originalUrl}:`, err.message);
 
-  if (err instanceof DomainError || err instanceof ApplicationError) {
-    return res.status(err.statusCode).json({
+  const statusCode = (err as any).statusCode || (err instanceof DomainError || err instanceof ApplicationError ? err.statusCode : null);
+
+  if (statusCode) {
+    return res.status(statusCode).json({
       success: false,
       error: {
-        type: err.name,
+        type: err.name || 'ApplicationError',
         message: err.message,
       },
     });

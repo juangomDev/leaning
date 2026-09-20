@@ -31,6 +31,8 @@
 @import "./styles/04-components/tutors.css";
 @import "./styles/04-components/dashboard.css";
 @import "./styles/04-components/auth.css";
+@import "./styles/04-components/admin.css";
+@import "./styles/04-components/errors.css";
 
 /* 05 - UTILITIES */
 @import "./styles/05-utilities/spacing.css";

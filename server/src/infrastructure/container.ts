@@ -44,6 +44,11 @@ import {
   RegisterUserUseCase,
   LoginUserUseCase,
   GetCurrentUserUseCase,
+  RequestPasswordResetUseCase,
+  ResetPasswordUseCase,
+  SendEmailVerificationUseCase,
+  VerifyEmailUseCase,
+  CompleteOnboardingUseCase,
 } from '../application/auth/index.js';
 
 // Use Cases - Student
@@ -120,6 +125,11 @@ export class Container {
   public registerUserUseCase: RegisterUserUseCase;
   public loginUserUseCase: LoginUserUseCase;
   public getCurrentUserUseCase: GetCurrentUserUseCase;
+  public requestPasswordResetUseCase: RequestPasswordResetUseCase;
+  public resetPasswordUseCase: ResetPasswordUseCase;
+  public sendEmailVerificationUseCase: SendEmailVerificationUseCase;
+  public verifyEmailUseCase: VerifyEmailUseCase;
+  public completeOnboardingUseCase: CompleteOnboardingUseCase;
 
   // Use Cases - Student
   public createStudentProfileUseCase: CreateStudentProfileUseCase;
@@ -196,6 +206,28 @@ export class Container {
       authService: this.authService,
     });
     this.getCurrentUserUseCase = new GetCurrentUserUseCase({ userRepository: this.userRepository });
+    this.requestPasswordResetUseCase = new RequestPasswordResetUseCase({
+      userRepository: this.userRepository,
+      notificationService: this.notificationService,
+      clock: this.clock,
+    });
+    this.resetPasswordUseCase = new ResetPasswordUseCase({
+      userRepository: this.userRepository,
+      authService: this.authService,
+      clock: this.clock,
+    });
+    this.sendEmailVerificationUseCase = new SendEmailVerificationUseCase({
+      userRepository: this.userRepository,
+      notificationService: this.notificationService,
+    });
+    this.verifyEmailUseCase = new VerifyEmailUseCase({
+      userRepository: this.userRepository,
+    });
+    this.completeOnboardingUseCase = new CompleteOnboardingUseCase({
+      userRepository: this.userRepository,
+      studentRepository: this.studentRepository,
+      tutorRepository: this.tutorRepository,
+    });
 
     // 5. Use Cases - Student
     this.createStudentProfileUseCase = new CreateStudentProfileUseCase({ studentRepository: this.studentRepository });
@@ -256,6 +288,11 @@ export class Container {
       registerUserUseCase: this.registerUserUseCase,
       loginUserUseCase: this.loginUserUseCase,
       getCurrentUserUseCase: this.getCurrentUserUseCase,
+      requestPasswordResetUseCase: this.requestPasswordResetUseCase,
+      resetPasswordUseCase: this.resetPasswordUseCase,
+      sendEmailVerificationUseCase: this.sendEmailVerificationUseCase,
+      verifyEmailUseCase: this.verifyEmailUseCase,
+      completeOnboardingUseCase: this.completeOnboardingUseCase,
     });
 
     this.tutorController = new TutorController({

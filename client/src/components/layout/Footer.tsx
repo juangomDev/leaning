@@ -35,13 +35,16 @@ export const Footer: React.FC = () => {
             <h4 className="footer-col-title">Estudiantes</h4>
             <ul className="footer-nav">
               <li>
-                <Link to="/explorar" className="footer-link">Buscar Tutores</Link>
+                <Link to="/tutors" className="footer-link">Buscar Tutores</Link>
               </li>
               <li>
-                <Link to="/explorar?categoria=matematicas" className="footer-link">Categorías</Link>
+                <Link to="/subjects" className="footer-link">Materias y Áreas</Link>
               </li>
               <li>
-                <a href="#como-funciona" className="footer-link">Garantía de Clase</a>
+                <Link to="/pricing" className="footer-link">Planes y Precios</Link>
+              </li>
+              <li>
+                <a href="/#como-funciona" className="footer-link">¿Cómo funciona?</a>
               </li>
               <li>
                 <Link to="/dashboard" className="footer-link">Portal de Alumno</Link>
@@ -57,7 +60,7 @@ export const Footer: React.FC = () => {
                 <Link to="/registro-tutor" className="footer-link">Convertirme en Tutor</Link>
               </li>
               <li>
-                <Link to="/registro-tutor#requisitos" className="footer-link">Requisitos</Link>
+                <Link to="/registro-tutor#requisitos" className="footer-link">Requisitos de Ingreso</Link>
               </li>
               <li>
                 <Link to="/dashboard/tutor" className="footer-link">Panel Docente</Link>
@@ -67,11 +70,12 @@ export const Footer: React.FC = () => {
 
           {/* Column: Support */}
           <div>
-            <h4 className="footer-col-title">Soporte</h4>
+            <h4 className="footer-col-title">Soporte & Legal</h4>
             <ul className="footer-nav">
-              <li><a href="#" className="footer-link">FAQ & Ayuda</a></li>
-              <li><a href="#" className="footer-link">Contacto</a></li>
-              <li><a href="#" className="footer-link">Privacidad y Términos</a></li>
+              <li><Link to="/help" className="footer-link">FAQ & Preguntas</Link></li>
+              <li><Link to="/contact" className="footer-link">Contacto Directo</Link></li>
+              <li><Link to="/legal/terms" className="footer-link">Términos de Servicio</Link></li>
+              <li><Link to="/legal/privacy" className="footer-link">Política de Privacidad</Link></li>
             </ul>
           </div>
         </div>

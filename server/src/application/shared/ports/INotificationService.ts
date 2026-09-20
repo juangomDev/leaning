@@ -15,4 +15,6 @@ export interface INotificationService {
   sendBookingConfirmation(payload: BookingNotificationPayload): Promise<void>;
   sendBookingCancellation(payload: BookingNotificationPayload): Promise<void>;
   sendNotification(recipientEmail: string, title: string, message: string): Promise<void>;
+  sendPasswordReset(recipientEmail: string, token: string, userName?: string): Promise<void>;
+  sendEmailVerification(recipientEmail: string, token: string, userName?: string): Promise<void>;
 }

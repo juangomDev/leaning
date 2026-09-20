@@ -1,17 +1,21 @@
-const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000/api/v1';
+import { apiClient } from './apiClient';
 
+/**
+ * Adaptador de compatibilidad para backendClient que delega en Axios
+ * manteniendo soporte para withCredentials: true y manejo unificado
+ */
 export const backendClient = {
   async get<T = any>(
     endpoint: string,
     token: string | null = null,
     customHeaders: Record<string, string> = {}
   ): Promise<T | null> {
-    const headers: Record<string, string> = { 'Content-Type': 'application/json', ...customHeaders };
+    const headers: Record<string, string> = { ...customHeaders };
     if (token) headers['Authorization'] = `Bearer ${token}`;
+
     try {
-      const res = await fetch(`${API_BASE_URL}${endpoint}`, { headers });
-      if (!res.ok) throw new Error(`HTTP error ${res.status}`);
-      return (await res.json()) as T;
+      const res = await apiClient.get<T>(endpoint, { headers });
+      return res.data;
     } catch (err: any) {
       console.warn(`[backendClient] GET ${endpoint} error, fallback active:`, err?.message);
       return null;
@@ -24,16 +28,12 @@ export const backendClient = {
     token: string | null = null,
     customHeaders: Record<string, string> = {}
   ): Promise<T | null> {
-    const headers: Record<string, string> = { 'Content-Type': 'application/json', ...customHeaders };
+    const headers: Record<string, string> = { ...customHeaders };
     if (token) headers['Authorization'] = `Bearer ${token}`;
+
     try {
-      const res = await fetch(`${API_BASE_URL}${endpoint}`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(body),
-      });
-      if (!res.ok) throw new Error(`HTTP error ${res.status}`);
-      return (await res.json()) as T;
+      const res = await apiClient.post<T>(endpoint, body, { headers });
+      return res.data;
     } catch (err: any) {
       console.warn(`[backendClient] POST ${endpoint} error, fallback active:`, err?.message);
       return null;
@@ -46,19 +46,17 @@ export const backendClient = {
     token: string | null = null,
     customHeaders: Record<string, string> = {}
   ): Promise<T | null> {
-    const headers: Record<string, string> = { 'Content-Type': 'application/json', ...customHeaders };
+    const headers: Record<string, string> = { ...customHeaders };
     if (token) headers['Authorization'] = `Bearer ${token}`;
+
     try {
-      const res = await fetch(`${API_BASE_URL}${endpoint}`, {
-        method: 'PATCH',
-        headers,
-        body: JSON.stringify(body),
-      });
-      if (!res.ok) throw new Error(`HTTP error ${res.status}`);
-      return (await res.json()) as T;
+      const res = await apiClient.patch<T>(endpoint, body, { headers });
+      return res.data;
     } catch (err: any) {
       console.warn(`[backendClient] PATCH ${endpoint} error, fallback active:`, err?.message);
       return null;
     }
   },
 };
+
+export { apiClient } from './apiClient';

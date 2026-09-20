@@ -474,3 +474,134 @@
   border: 2px solid rgba(37, 99, 235, 0.3);
   background-color: rgba(239, 246, 255, 0.5);
 }
+
+/* ================= TUTOR SPECIFIC COMPONENTS ================= */
+
+/* Tutor Tabs Navigation */
+.tutor-tabs-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--color-slate-200);
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+}
+
+.tutor-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-slate-500);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.tutor-tab-btn:hover {
+  color: var(--color-slate-800);
+}
+
+.tutor-tab-btn.active {
+  color: var(--color-brand-600);
+  border-bottom-color: var(--color-brand-600);
+}
+
+/* Tutor Schedule Grid & Blocks */
+.schedule-grid-container {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(130px, 1fr));
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.schedule-day-column {
+  background-color: #ffffff;
+  border-radius: var(--radius-2xl);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  padding: 0.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.schedule-day-header {
+  text-align: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-slate-100);
+}
+
+.schedule-day-title {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--color-slate-800);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.schedule-slot-pill {
+  width: 100%;
+  padding: 0.5rem 0.625rem;
+  border-radius: var(--radius-xl);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: 1px solid transparent;
+}
+
+.schedule-slot-pill.available {
+  background-color: #f0fdf4;
+  color: #15803d;
+  border-color: #bbf7d0;
+}
+
+.schedule-slot-pill.available:hover {
+  background-color: #dcfce7;
+}
+
+.schedule-slot-pill.booked {
+  background-color: #eff6ff;
+  color: var(--color-brand-700);
+  border-color: #bfdbfe;
+}
+
+.schedule-slot-pill.inactive {
+  background-color: var(--color-slate-100);
+  color: var(--color-slate-400);
+  border-color: transparent;
+}
+
+/* Status Badges */
+.badge-status-pending {
+  background-color: #fefce8;
+  color: #a16207;
+  border: 1px solid #fef08a;
+}
+
+.badge-status-confirmed {
+  background-color: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.badge-status-completed {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.badge-status-cancelled {
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}

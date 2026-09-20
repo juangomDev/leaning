@@ -189,4 +189,87 @@ describe('HTTP: HttpOnly Cookie Authentication & Logout', () => {
     assert.strictEqual(meCode, 200);
     assert.strictEqual(meData.data.email, 'juan@example.com');
   });
+
+  it('flujo HTTP: forgotPassword -> resetPassword -> verifyEmail -> onboarding', async () => {
+    // 1. forgotPassword
+    let forgotData: any = null;
+    let forgotCode = 0;
+    const forgotRes: any = {
+      status(code: number) { forgotCode = code; return this; },
+      json(data: any) { forgotData = data; return this; },
+    };
+    await container.authController.forgotPassword(
+      { body: { email: 'alumno@educonnect.com' } } as any,
+      forgotRes,
+      () => {}
+    );
+    assert.strictEqual(forgotCode, 200);
+    assert.strictEqual(forgotData.success, true);
+
+    // Obtener token emitido por el servicio de notificaciones
+    const notif = (container.notificationService as any).history;
+    const resetToken = notif?.find((h: any) => h.type === 'password_reset')?.payload?.token;
+    assert.ok(resetToken);
+
+    // 2. resetPassword con el token
+    let resetData: any = null;
+    let resetCode = 0;
+    const resetRes: any = {
+      status(code: number) { resetCode = code; return this; },
+      json(data: any) { resetData = data; return this; },
+    };
+    await container.authController.resetPassword(
+      { body: { token: resetToken, newPassword: 'newPassword2026!' } } as any,
+      resetRes,
+      () => {}
+    );
+    assert.strictEqual(resetCode, 200);
+    assert.strictEqual(resetData.success, true);
+
+    // 3. resendVerification y verifyEmail (usando juan@example.com que no está verificado aún)
+    await container.authController.resendVerification(
+      { body: { email: 'juan@example.com' } } as any,
+      { status: () => ({ json: () => {} }) } as any,
+      () => {}
+    );
+    const verifyToken = notif?.filter((h: any) => h.type === 'email_verification').pop()?.payload?.token;
+    assert.ok(verifyToken);
+
+    let verifyData: any = null;
+    let verifyCode = 0;
+    const verifyRes: any = {
+      status(code: number) { verifyCode = code; return this; },
+      json(data: any) { verifyData = data; return this; },
+    };
+    await container.authController.verifyEmail(
+      { body: { token: verifyToken } } as any,
+      verifyRes,
+      () => {}
+    );
+    assert.strictEqual(verifyCode, 200);
+    assert.strictEqual(verifyData.success, true);
+
+    // 4. onboarding
+    let onboardData: any = null;
+    let onboardCode = 0;
+    const onboardRes: any = {
+      status(code: number) { onboardCode = code; return this; },
+      json(data: any) { onboardData = data; return this; },
+    };
+    await container.authController.onboarding(
+      {
+        user: { id: 'student-demo-id', role: 'student' },
+        body: {
+          educationLevel: 'Universidad',
+          learningGoals: ['Matemáticas', 'Física'],
+          schedulePreference: 'tardes',
+        },
+      } as any,
+      onboardRes,
+      () => {}
+    );
+    assert.strictEqual(onboardCode, 200);
+    assert.strictEqual(onboardData.success, true);
+    assert.strictEqual(onboardData.user.onboardingCompleted, true);
+  });
 });

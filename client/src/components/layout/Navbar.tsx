@@ -52,12 +52,21 @@ export const Navbar: React.FC = () => {
 
         {/* Desktop Nav */}
         <nav className="navbar-nav">
-          <Link to="/explorar" className="navbar-link">
-            <i className="fa-solid fa-compass text-xs"></i> Explorar
+          <Link to="/tutors" className="navbar-link">
+            <i className="fa-solid fa-compass text-xs"></i> Tutores
+          </Link>
+          <Link to="/subjects" className="navbar-link">
+            <i className="fa-solid fa-shapes text-xs"></i> Materias
+          </Link>
+          <Link to="/pricing" className="navbar-link">
+            <i className="fa-solid fa-tag text-xs"></i> Precios
           </Link>
           <a href="/#como-funciona" className="navbar-link">
             ¿Cómo funciona?
           </a>
+          <Link to="/help" className="navbar-link">
+            Ayuda
+          </Link>
           <Link to="/registro-tutor" className="navbar-link">
             Enseñar
           </Link>
@@ -121,13 +130,13 @@ export const Navbar: React.FC = () => {
           ) : (
             <>
               <Link 
-                to="/login-registro" 
+                to="/login" 
                 className="navbar-btn-login"
               >
                 Iniciar Sesión
               </Link>
               <Link 
-                to="/explorar" 
+                to="/tutors" 
                 className="navbar-btn-search"
               >
                 <i className="fa-solid fa-magnifying-glass text-xs"></i> Buscar Tutor
@@ -150,11 +159,25 @@ export const Navbar: React.FC = () => {
       {mobileMenuOpen && (
         <div className="navbar-mobile-menu">
           <Link 
-            to="/explorar" 
+            to="/tutors" 
             onClick={() => setMobileMenuOpen(false)}
             className="navbar-mobile-link flex items-center gap-2"
           >
             <i className="fa-solid fa-compass text-xs text-brand-600"></i> Explorar Tutores
+          </Link>
+          <Link 
+            to="/subjects" 
+            onClick={() => setMobileMenuOpen(false)}
+            className="navbar-mobile-link flex items-center gap-2"
+          >
+            <i className="fa-solid fa-shapes text-xs text-brand-600"></i> Materias
+          </Link>
+          <Link 
+            to="/pricing" 
+            onClick={() => setMobileMenuOpen(false)}
+            className="navbar-mobile-link flex items-center gap-2"
+          >
+            <i className="fa-solid fa-tag text-xs text-brand-600"></i> Precios
           </Link>
           <a 
             href="/#como-funciona" 
@@ -163,6 +186,13 @@ export const Navbar: React.FC = () => {
           >
             <i className="fa-solid fa-circle-question text-xs text-brand-600"></i> ¿Cómo funciona?
           </a>
+          <Link 
+            to="/help" 
+            onClick={() => setMobileMenuOpen(false)}
+            className="navbar-mobile-link flex items-center gap-2"
+          >
+            <i className="fa-solid fa-circle-info text-xs text-brand-600"></i> Centro de Ayuda
+          </Link>
           <Link 
             to="/registro-tutor" 
             onClick={() => setMobileMenuOpen(false)}
@@ -190,14 +220,14 @@ export const Navbar: React.FC = () => {
           ) : (
             <div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
               <Link 
-                to="/login-registro" 
+                to="/login" 
                 onClick={() => setMobileMenuOpen(false)}
                 className="navbar-mobile-link"
               >
                 Iniciar Sesión
               </Link>
               <Link 
-                to="/explorar" 
+                to="/tutors" 
                 onClick={() => setMobileMenuOpen(false)}
                 className="navbar-btn-search text-center justify-center w-full"
               >

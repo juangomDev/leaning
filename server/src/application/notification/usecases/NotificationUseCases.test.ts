@@ -31,6 +31,12 @@ class MockNotificationService implements INotificationService {
   async sendNotification(recipientEmail: string, title: string, message: string): Promise<void> {
     this.notifications.push({ email: recipientEmail, title, message });
   }
+  async sendPasswordReset(recipientEmail: string, token: string, userName?: string): Promise<void> {
+    this.notifications.push({ email: recipientEmail, title: 'Password Reset', message: `Token: ${token}` });
+  }
+  async sendEmailVerification(recipientEmail: string, token: string, userName?: string): Promise<void> {
+    this.notifications.push({ email: recipientEmail, title: 'Email Verification', message: `Token: ${token}` });
+  }
 }
 
 describe('Notification UseCases', () => {
