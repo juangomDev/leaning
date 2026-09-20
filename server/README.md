@@ -13,7 +13,7 @@ npm install
 # Modo desarrollo con recarga automática
 npm run dev
 
-# Ejecutar pruebas automatizadas (72 tests)
+# Ejecutar pruebas automatizadas (77 tests)
 npm test
 
 # Verificación estricta de tipos TypeScript
@@ -26,18 +26,46 @@ npm start
 
 ---
 
-## 🔐 Autenticación y Encabezados Globales
+## 🔐 Autenticación y Manejo de Sesión (HttpOnly Cookies)
 
-Para rutas protegidas se debe enviar el token JWT en el encabezado `Authorization`:
-```http
-Authorization: Bearer <tu_token_jwt>
-```
+La API utiliza una arquitectura de autenticación segura basada en **Cookies HttpOnly**:
 
-Para pruebas locales y entornos de desarrollo, también se soporta el encabezado de simulación:
-```http
-x-demo-user-id: usr-student-1
-x-demo-role: student (o tutor / admin)
-```
+1. **Al iniciar sesión (`POST /api/v1/auth/login`)**:
+   - El token JWT se almacena directamente en la cookie `auth_token`.
+   - Propiedades de la cookie: `httpOnly: true` (inaccesible desde JavaScript para prevenir XSS), `sameSite: 'lax'`, `path: '/'`, y `secure: true` en entornos de producción.
+   - El cuerpo JSON de la respuesta **NO** expone el token JWT, garantizando que no se almacene en `localStorage` o `sessionStorage`.
+2. **Consumo desde el cliente (Frontend)**:
+   Para que el navegador almacene y envíe automáticamente la cookie `auth_token` en solicitudes entre orígenes (CORS), es **indispensable** habilitar las credenciales en el cliente:
+   
+   - **Con `fetch`**:
+     ```javascript
+     // Login o peticiones autenticadas
+     const res = await fetch('http://localhost:5000/api/v1/auth/login', {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ email, password }),
+       credentials: 'include' // 👈 OBLIGATORIO para enviar y recibir cookies
+     });
+     ```
+   
+   - **Con `axios`**:
+     ```javascript
+     import axios from 'axios';
+
+     // Configuración global o en instancia
+     const api = axios.create({
+       baseURL: 'http://localhost:5000/api/v1',
+       withCredentials: true // 👈 OBLIGATORIO para enviar y recibir cookies
+     });
+     ```
+
+3. **Compatibilidad con Postman / Pruebas / Mobile**:
+   - También se soporta el encabezado estándar `Authorization: Bearer <tu_token_jwt>` como fallback.
+4. **Simulación en desarrollo**:
+   ```http
+   x-demo-user-id: usr-student-1
+   x-demo-role: student (o tutor / admin)
+   ```
 
 ---
 
@@ -84,7 +112,7 @@ Registra un nuevo usuario en la plataforma.
 ```
 
 #### `POST /api/v1/auth/login`
-Inicia sesión y genera el token JWT.
+Inicia sesión, inyecta la cookie de sesión segura `auth_token` y retorna los datos del usuario.
 - **Acceso:** Público
 - **Cuerpo de la petición (JSON):**
 ```json
@@ -92,6 +120,10 @@ Inicia sesión y genera el token JWT.
   "email": "juan@example.com",
   "password": "miPasswordSeguro123"
 }
+```
+- **Cabeceras de respuesta:**
+```http
+Set-Cookie: auth_token=<jwt_token>; Max-Age=604800; Path=/; HttpOnly; SameSite=Lax
 ```
 - **Respuesta (200 OK):**
 ```json
@@ -103,15 +135,30 @@ Inicia sesión y genera el token JWT.
       "email": "juan@example.com",
       "fullName": "Juan Perez",
       "roles": ["student"]
-    },
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    }
   }
 }
 ```
 
+#### `POST /api/v1/auth/logout`
+Cierra la sesión del usuario eliminando la cookie de autenticación `auth_token`.
+- **Acceso:** Público / Autenticado
+- **Cuerpo de la petición:** Ninguno.
+- **Cabeceras de respuesta:**
+```http
+Set-Cookie: auth_token=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+```
+- **Respuesta (200 OK):**
+```json
+{
+  "success": true,
+  "message": "Sesión cerrada correctamente"
+}
+```
+
 #### `GET /api/v1/auth/me`
-Obtiene los datos del usuario autenticado en la sesión actual.
-- **Acceso:** Protegido (`Authorization: Bearer <token>`)
+Obtiene los datos del usuario autenticado en la sesión actual (vía cookie `auth_token` o header Bearer).
+- **Acceso:** Protegido
 - **Datos requeridos:** Ninguno en el cuerpo.
 - **Respuesta (200 OK):** Perfil del usuario autenticado.
 
@@ -377,3 +424,4 @@ Modera el estado de una reseña reportada.
 4. **Protección DoS**: Tamaño máximo de payload restringido a `200kb` para evitar ataques por sobrecarga de memoria.
 5. **Cierre Ordenado (Graceful Shutdown)**: Captura de señales `SIGINT` y `SIGTERM` con cierre limpio de conexiones y protección contra fallos con timeout de 10s.
 6. **Manejo Centralizado de Errores**: Códigos de estado HTTP acordes al dominio (`400`, `401`, `403`, `404`, `409`) y respuestas estructuradas en formato JSON.
+7. **Cookies Seguras (HttpOnly & SameSite)**: Tokens de sesión emitidos en cookie `auth_token` protegida contra robo por XSS (`httpOnly: true`) y mitigación de CSRF (`sameSite: 'lax'`).

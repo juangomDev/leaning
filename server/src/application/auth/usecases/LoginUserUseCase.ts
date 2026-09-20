@@ -32,9 +32,19 @@ export class LoginUserUseCase implements IUseCase<LoginUserInputDTO, AuthRespons
         throw new InvalidCredentialsError('No se encontró el perfil del usuario');
       }
 
+      // Asegurar que el token contenga siempre el ID canónico del usuario en el repositorio
+      const token = (auth.token && auth.userId === user.id)
+        ? auth.token
+        : this.authService.generateToken({
+            id: user.id,
+            email: user.email,
+            roles: user.roles,
+            role: user.roles[0] || 'student',
+          });
+
       return {
         user: UserMapper.toDTO(user),
-        token: auth.token,
+        token,
       };
     } catch (err: any) {
       if (err instanceof InvalidCredentialsError) {

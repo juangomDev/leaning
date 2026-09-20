@@ -18,8 +18,15 @@ export const authMiddleware = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    // 1. Extraer token de cookie HttpOnly o del header Authorization (fallback)
+    const tokenFromCookie = req.cookies?.auth_token;
+    const tokenFromHeader = req.headers.authorization?.startsWith('Bearer ')
+      ? req.headers.authorization.split(' ')[1]
+      : null;
+
+    const token = tokenFromCookie || tokenFromHeader;
+
+    if (!token) {
       // Soporte para desarrollo / pruebas con header demo
       const demoUserId = req.headers['x-demo-user-id'] as string;
       if (demoUserId) {
@@ -29,10 +36,8 @@ export const authMiddleware = async (
         };
         return next();
       }
-      throw new UnauthorizedError('Token de autorización no proporcionado');
+      throw new UnauthorizedError('Token de autenticación no proporcionado (cookie o header)');
     }
-
-    const token = authHeader.split(' ')[1];
 
     // Validación desacoplada a través del puerto IAuthService
     const payload = container.authService.verifyToken(token);

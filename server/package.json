@@ -9,13 +9,15 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc -p tsconfig.build.json",
     "start": "node dist/server.js",
-    "test": "npm run test:domain && npm run test:application && npm run test:infrastructure",
+    "test": "npm run test:domain && npm run test:application && npm run test:infrastructure && npm run test:interfaces",
     "test:domain": "tsx --test src/domain/**/*.test.ts",
     "test:application": "tsx --test src/application/**/*.test.ts",
-    "test:infrastructure": "tsx --test src/infrastructure/**/*.test.ts"
+    "test:infrastructure": "tsx --test src/infrastructure/**/*.test.ts",
+    "test:interfaces": "tsx --test src/interfaces/**/*.test.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
@@ -23,6 +25,7 @@
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.8",

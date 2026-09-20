@@ -33,19 +33,19 @@ npm run build   # Compilar para producción
 ```
 
 ### 2. Backend (`server/`)
-API REST desarrollada con Node.js, Express, TypeScript y Clean Architecture (DDD). Cuenta con persistencia dual (Supabase & In-Memory) y 72 tests automatizados.
+API REST desarrollada con Node.js, Express, TypeScript y Clean Architecture (DDD). Cuenta con persistencia dual (Supabase & In-Memory) y 77 tests automatizados.
 
 ```bash
 cd server
 npm install     # Instalar dependencias
 npm run dev     # Iniciar en modo desarrollo (http://localhost:5000)
-npm test        # Ejecutar suite de pruebas (72 tests)
+npm test        # Ejecutar suite de pruebas (77 tests)
 npm run build   # Compilar TypeScript a JavaScript
 npm start       # Iniciar servidor en producción
 ```
 
 #### Resumen de Endpoints Disponibles (`/api/v1`):
-- **Autenticación**: `POST /api/v1/auth/register`, `POST /api/v1/auth/login`, `GET /api/v1/auth/me`
+- **Autenticación**: `POST /api/v1/auth/register`, `POST /api/v1/auth/login`, `POST /api/v1/auth/logout`, `GET /api/v1/auth/me`
 - **Estudiantes**: `POST /api/v1/students`, `GET /api/v1/students/profile`, `GET /api/v1/students/:id`, `PUT /api/v1/students/:id`
 - **Tutores**: `GET /api/v1/tutors` (con filtros `?q=`, `?categoria=`, `?modalidad=`), `GET /api/v1/tutors/:id`, `POST /api/v1/tutors/apply`
 - **Reservas**: `POST /api/v1/bookings`, `GET /api/v1/bookings/my-bookings`, `PATCH /api/v1/bookings/:id/status`
@@ -53,6 +53,8 @@ npm start       # Iniciar servidor en producción
 - **Billetera**: `GET /api/v1/wallet/balance`, `POST /api/v1/wallet/recharge`
 - **Administración**: `POST /api/v1/admin/tutors/:id/approve`, `POST /api/v1/admin/users/:id/ban`, `POST /api/v1/admin/reviews/:id/moderate`
 - **Diagnóstico**: `GET /api/v1/health`
+
+> **Nota para el Frontend (`client/`)**: El backend gestiona la sesión mediante cookies seguras `HttpOnly`. Para enviar y recibir la cookie de sesión en peticiones cross-origin, es indispensable incluir `credentials: 'include'` en `fetch()` o `withCredentials: true` en `axios`.
 
 👉 *Para ver los esquemas de datos JSON detallados de cada petición y respuesta, consulta el [README del Backend](server/README.md).*
 

@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
 import apiRouter from './interfaces/http/routes/index.js';
 import { errorHandler } from './interfaces/http/middlewares/errorHandler.js';
 import { config } from './infrastructure/config/env.js';
@@ -51,7 +52,8 @@ app.use(
   })
 );
 
-// 4. Límite de tamaño de Payload contra ataques DoS
+// 4. Procesamiento de Cookies y Límite de tamaño de Payload
+app.use(cookieParser());
 app.use(express.json({ limit: '200kb' }));
 app.use(express.urlencoded({ extended: true, limit: '200kb' }));
 

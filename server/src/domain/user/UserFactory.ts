@@ -6,22 +6,26 @@ import { CreateUserDTO, UserRole } from './UserProps.js';
 
 export class UserFactory {
   public static create({
-    id,
-    email,
-    fullName,
-    roles,
-    role,
-    avatarUrl = null,
-    phone = null,
-    createdAt = new Date(),
+
+    id, email, fullName, roles, role, 
+    avatarUrl = null, phone = null, createdAt = new Date(),
+
   }: CreateUserDTO): User {
+
     const finalRoles: UserRole[] = [];
+    
     if (roles && Array.isArray(roles) && roles.length > 0) {
+      
       finalRoles.push(...roles);
+    
     } else if (role) {
+      
       finalRoles.push(role);
+      
     } else {
+
       finalRoles.push('student');
+
     }
 
     return new User({

@@ -1,14 +1,17 @@
 import crypto from 'node:crypto';
 import jwt from 'jsonwebtoken';
 import { IAuthService, TokenPayload } from '../../application/shared/ports/IAuthService.js';
+import { IUserRepository } from '../../domain/user/UserRepository.js';
 import { config } from '../config/env.js';
 import { UnauthorizedError } from '../../application/shared/errors/UnauthorizedError.js';
 
 export class InMemoryAuthService implements IAuthService {
   private readonly secret: string;
+  private readonly userRepository?: IUserRepository;
 
-  constructor(secret = config.jwtSecret) {
+  constructor(secret = config.jwtSecret, userRepository?: IUserRepository) {
     this.secret = secret;
+    this.userRepository = userRepository;
   }
 
   async hashPassword(password: string): Promise<string> {
@@ -75,16 +78,25 @@ export class InMemoryAuthService implements IAuthService {
       throw new UnauthorizedError('Credenciales inválidas: contraseña demasiado corta');
     }
 
+    let existingUser: any = null;
+    if (this.userRepository) {
+      existingUser = await this.userRepository.findByEmail(normalizedEmail);
+    }
+
     const mockUsers: Record<string, { id: string; role: string }> = {
       'student@educonnect.com': { id: 'usr-student-1', role: 'student' },
+      'alumno@educonnect.com': { id: 'student-demo-id', role: 'student' },
       'tutor@educonnect.com': { id: 'usr-tutor-1', role: 'tutor' },
+      'carlos@educonnect.com': { id: 'tutor-demo-id', role: 'tutor' },
       'admin@educonnect.com': { id: 'usr-admin-1', role: 'admin' },
     };
 
-    const user = mockUsers[normalizedEmail] || {
-      id: `usr-${normalizedEmail.replace(/[^a-zA-Z0-9]/g, '-')}`,
-      role: normalizedEmail.includes('tutor') ? 'tutor' : normalizedEmail.includes('admin') ? 'admin' : 'student',
-    };
+    const user = existingUser
+      ? { id: existingUser.id, role: existingUser.roles[0] || 'student' }
+      : (mockUsers[normalizedEmail] || {
+          id: `usr-${normalizedEmail.replace(/[^a-zA-Z0-9]/g, '-')}`,
+          role: normalizedEmail.includes('tutor') ? 'tutor' : normalizedEmail.includes('admin') ? 'admin' : 'student',
+        });
 
     const token = this.generateToken({
       id: user.id,

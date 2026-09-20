@@ -10,6 +10,7 @@ export class InMemoryUserRepository implements IUserRepository {
   private users: UserRecord[];
 
   constructor() {
+    const now = new Date();
     this.users = [
       {
         user: new User({
@@ -19,7 +20,19 @@ export class InMemoryUserRepository implements IUserRepository {
           roles: ['student'],
           avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80',
           phone: '+52 55 9876 5432',
-          createdAt: new Date(),
+          createdAt: now,
+        }),
+        password: 'password123',
+      },
+      {
+        user: new User({
+          id: 'usr-student-1',
+          email: 'student@educonnect.com',
+          fullName: 'Alejandro Silva',
+          roles: ['student'],
+          avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80',
+          phone: '+52 55 9876 5432',
+          createdAt: now,
         }),
         password: 'password123',
       },
@@ -31,7 +44,31 @@ export class InMemoryUserRepository implements IUserRepository {
           roles: ['tutor'],
           avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80',
           phone: '+52 55 1234 5678',
-          createdAt: new Date(),
+          createdAt: now,
+        }),
+        password: 'password123',
+      },
+      {
+        user: new User({
+          id: 'usr-tutor-1',
+          email: 'tutor@educonnect.com',
+          fullName: 'Dra. Elena Rostova',
+          roles: ['tutor'],
+          avatarUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80',
+          phone: '+52 55 1234 5678',
+          createdAt: now,
+        }),
+        password: 'password123',
+      },
+      {
+        user: new User({
+          id: 'usr-admin-1',
+          email: 'admin@educonnect.com',
+          fullName: 'Administrador EduConnect',
+          roles: ['admin'],
+          avatarUrl: null,
+          phone: '+52 55 0000 0000',
+          createdAt: now,
         }),
         password: 'password123',
       },
@@ -40,16 +77,45 @@ export class InMemoryUserRepository implements IUserRepository {
 
   async findById(id: string): Promise<User | null> {
     const record = this.users.find((u) => u.user.id === id);
-    return record ? record.user : null;
+    if (record) return record.user;
+
+    // 1. Mapeo de alias de desarrollo (student-demo-id <-> usr-student-1, tutor-demo-id <-> usr-tutor-1)
+    const aliases: Record<string, string> = {
+      'usr-student-1': 'student-demo-id',
+      'student-demo-id': 'usr-student-1',
+      'usr-tutor-1': 'tutor-demo-id',
+      'tutor-demo-id': 'usr-tutor-1',
+    };
+    if (aliases[id]) {
+      const aliasRecord = this.users.find((u) => u.user.id === aliases[id]);
+      if (aliasRecord) return aliasRecord.user;
+    }
+
+    // 2. Soporte para IDs con formato de slug generado (usr-<email-slug>)
+    if (id.startsWith('usr-')) {
+      const slug = id.replace(/^usr-/, '').toLowerCase();
+      const bySlug = this.users.find(
+        (u) => u.user.email.toLowerCase().replace(/[^a-zA-Z0-9]/g, '-') === slug
+      );
+      if (bySlug) return bySlug.user;
+    }
+
+    return null;
   }
 
   async findByEmail(email: string): Promise<User | null> {
-    const record = this.users.find((u) => u.user.email.toLowerCase() === email.toLowerCase());
+    const normalized = email.toLowerCase().trim();
+    const record = this.users.find((u) => u.user.email.toLowerCase().trim() === normalized);
     return record ? record.user : null;
   }
 
   async create(user: User, password?: string): Promise<User> {
-    this.users.push({ user, password });
+    const existingIndex = this.users.findIndex((u) => u.user.email.toLowerCase() === user.email.toLowerCase());
+    if (existingIndex >= 0) {
+      this.users[existingIndex] = { user, password };
+    } else {
+      this.users.push({ user, password });
+    }
     return user;
   }
 

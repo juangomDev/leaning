@@ -170,19 +170,21 @@ export class Container {
     // 1. Clock
     this.clock = new SystemClock();
 
-    // 2. Auth Service & Notification Service
-    this.authService = isSupabase ? new SupabaseAuthService() : new InMemoryAuthService();
-    this.notificationService = config.isResendConfigured()
-      ? new ResendEmailService()
-      : new ConsoleNotificationService();
-
-    // 3. Repositories
+    // 2. Repositories
     this.userRepository = isSupabase ? new SupabaseUserRepository() : new InMemoryUserRepository();
     this.studentRepository = isSupabase ? new SupabaseStudentRepository() : new InMemoryStudentRepository();
     this.tutorRepository = isSupabase ? new SupabaseTutorRepository() : new InMemoryTutorRepository();
     this.bookingRepository = isSupabase ? new SupabaseBookingRepository() : new InMemoryBookingRepository();
     this.reviewRepository = isSupabase ? new SupabaseReviewRepository() : new InMemoryReviewRepository();
     this.walletRepository = isSupabase ? new SupabaseWalletRepository() : new InMemoryWalletRepository();
+
+    // 3. Auth Service & Notification Service
+    this.authService = isSupabase
+      ? new SupabaseAuthService()
+      : new InMemoryAuthService(config.jwtSecret, this.userRepository);
+    this.notificationService = config.isResendConfigured()
+      ? new ResendEmailService()
+      : new ConsoleNotificationService();
 
     // 4. Use Cases - Auth
     this.registerUserUseCase = new RegisterUserUseCase({
