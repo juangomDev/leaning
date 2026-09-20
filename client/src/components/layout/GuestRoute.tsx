@@ -21,7 +21,8 @@ export const GuestRoute: React.FC<GuestRouteProps> = ({ children }) => {
   }
 
   if (user) {
-    return <Navigate to={role === 'tutor' ? '/dashboard/tutor' : '/dashboard'} replace />;
+    const destination = role === 'admin' ? '/admin' : (role === 'tutor' ? '/tutor' : '/student');
+    return <Navigate to={destination} replace />;
   }
 
   return <>{children}</>;

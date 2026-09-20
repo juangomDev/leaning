@@ -39,12 +39,15 @@ export class SupabaseAuthService implements IAuthService {
 
   verifyToken(token: string): TokenPayload {
     try {
-      const decoded = jwt.verify(token, this.secret) as TokenPayload;
+      const decoded = jwt.verify(token, this.secret) as any;
+      const role = decoded.role || decoded.user_metadata?.role || (Array.isArray(decoded.roles) ? decoded.roles[0] : 'student');
+      const roles = decoded.roles || (decoded.user_metadata?.roles ? decoded.user_metadata.roles : [role]);
+
       return {
-        id: decoded.id,
+        id: decoded.id || decoded.sub,
         email: decoded.email,
-        role: decoded.role,
-        roles: decoded.roles,
+        role: role,
+        roles: roles,
       };
     } catch {
       throw new UnauthorizedError('Token de Supabase inválido o expirado');

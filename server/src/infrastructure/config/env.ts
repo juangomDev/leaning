@@ -19,14 +19,22 @@ export const config: AppConfig = {
   port: Number(process.env.PORT) || 5000,
   nodeEnv: process.env.NODE_ENV || 'development',
   supabaseUrl: process.env.SUPABASE_URL || '',
-  supabaseKey: process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || '',
-  supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
-  supabaseAnonKey: process.env.SUPABASE_ANON_KEY || '',
+  supabaseKey: process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_ANON_KEY || '',
+  supabaseServiceRoleKey: process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || '',
+  supabaseAnonKey: process.env.SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_ANON_KEY || '',
   jwtSecret: process.env.JWT_SECRET || 'educonnect_dev_secret_key_2026',
   resendApiKey: process.env.RESEND_API_KEY || '',
   clientUrl: process.env.CLIENT_URL || process.env.CORS_ORIGIN || 'http://localhost:5173',
 
   isSupabaseConfigured(): boolean {
+    const isTestEnvironment =
+      process.env.NODE_ENV === 'test' ||
+      process.argv.some((arg) => arg.includes('.test.') || arg.includes('--test'));
+
+    if (isTestEnvironment && process.env.ENABLE_SUPABASE_TESTS !== 'true') {
+      return false;
+    }
+
     return Boolean(
       this.supabaseUrl &&
       this.supabaseKey &&

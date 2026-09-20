@@ -3,6 +3,7 @@ import { IWalletRepository } from '../ports/IWalletRepository.js';
 import { IUseCase } from '../../shared/IUseCase.js';
 import { IClock, SystemClock } from '../../shared/ports/IClock.js';
 import { Money } from '../../../domain/shared/value-objects/Money.js';
+import { ValidationError } from '../../../domain/shared/errors/DomainError.js';
 import { RechargeWalletDTO, RechargeWalletResponseDTO } from '../dtos/index.js';
 import { WalletMapper } from '../mappers/WalletMapper.js';
 
@@ -21,7 +22,15 @@ export class RechargeWalletUseCase implements IUseCase<RechargeWalletDTO, Rechar
   }
 
   async execute({ userId, amount, method = 'Tarjeta de Crédito' }: RechargeWalletDTO): Promise<RechargeWalletResponseDTO> {
-    const money = Money.create(Number(amount));
+    const numAmount = Number(amount);
+    if (isNaN(numAmount) || numAmount < 5) {
+      throw new ValidationError('El monto mínimo de recarga es de $5.00 USD');
+    }
+    if (numAmount > 1000) {
+      throw new ValidationError('El monto máximo de recarga por transacción es de $1,000.00 USD');
+    }
+
+    const money = Money.create(numAmount);
 
     const transaction = WalletFactory.createTransaction({
       walletId: userId,

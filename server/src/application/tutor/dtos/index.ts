@@ -13,6 +13,7 @@ export interface RegisterTutorDTO {
   pricePerHour?: number;
   rate?: number;
   modality?: TutorModality;
+  badges?: string[];
 }
 
 export interface GetTutorsFilterDTO {

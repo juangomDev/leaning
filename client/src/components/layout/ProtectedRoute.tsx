@@ -23,12 +23,15 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowe
   }
 
   if (allowedRole) {
-    const hasRole = role === allowedRole || 
+    const hasRole = 
+      role === 'admin' ||
+      role === allowedRole || 
       (Array.isArray(user.roles) && user.roles.includes(allowedRole)) ||
       (allowedRole === 'admin' && (user.email?.includes('admin') || user.email === 'admin@educonnect.com'));
       
     if (!hasRole && role) {
-      return <Navigate to={role === 'tutor' ? '/tutor' : '/student'} replace />;
+      const destination = role === 'admin' ? '/admin' : (role === 'tutor' ? '/tutor' : '/student');
+      return <Navigate to={destination} replace />;
     }
   }
 

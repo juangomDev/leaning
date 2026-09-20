@@ -92,7 +92,7 @@ export const Navbar: React.FC = () => {
                   {profile?.full_name || user.email?.split('@')[0]}
                 </span>
                 <span className="navbar-user-role">
-                  {role === 'tutor' ? 'Tutor' : 'Estudiante'}
+                  {role === 'admin' ? 'Administrador' : (role === 'tutor' ? 'Tutor' : 'Estudiante')}
                 </span>
                 <img 
                   src={profile?.avatar_url || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80"} 
@@ -104,7 +104,7 @@ export const Navbar: React.FC = () => {
               {userDropdownOpen && (
                 <div className="navbar-user-dropdown animate-fadeIn">
                   <Link 
-                    to={role === 'tutor' ? '/dashboard/tutor' : '/dashboard'}
+                    to={role === 'admin' ? '/admin' : (role === 'tutor' ? '/tutor' : '/student')}
                     onClick={() => setUserDropdownOpen(false)}
                     className="navbar-user-dropdown-item"
                   >

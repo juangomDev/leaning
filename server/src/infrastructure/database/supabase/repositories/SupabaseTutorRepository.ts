@@ -1,6 +1,6 @@
 import { ITutorRepository } from '../../../../domain/tutor/TutorRepository.js';
 import { Tutor, TutorFilterOptions } from '../../../../domain/tutor/Tutor.js';
-import { supabase } from '../client.js';
+import { dbClient as supabase } from '../client.js';
 import { TutorMapper } from '../mappers/TutorMapper.js';
 
 export class SupabaseTutorRepository implements ITutorRepository {
@@ -124,7 +124,6 @@ export class SupabaseTutorRepository implements ITutorRepository {
 
     const { error: tutorError } = await supabase.from('tutors').upsert({
       id: tutor.id,
-      user_id: tutor.userId,
       bio: row.bio,
       modality: row.modality,
       rating: row.rating,

@@ -1,0 +1,35 @@
+# ==========================================================
+# ROOT GITIGNORE - SEGURIDAD Y PRIVACIDAD DE CREDENCIALES
+# ==========================================================
+
+# 1. Variables de entorno y secretos (NUNCA SUBIR AL REPO)
+.env
+.env.*
+*.env
+**/.env
+**/.env.*
+**/*.env
+
+# 2. Dependencias
+node_modules/
+**/node_modules/
+
+# 3. Compilados y empaquetados
+dist/
+**/dist/
+dist-ssr/
+build/
+
+# 4. Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# 5. IDEs y sistema operativo
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.tsbuildinfo

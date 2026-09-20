@@ -1,6 +1,6 @@
 import { IReviewRepository } from '../../../../domain/review/ReviewRepository.js';
 import { Review } from '../../../../domain/review/Review.js';
-import { supabase } from '../client.js';
+import { dbClient as supabase } from '../client.js';
 import { ReviewMapper } from '../mappers/ReviewMapper.js';
 
 export class SupabaseReviewRepository implements IReviewRepository {

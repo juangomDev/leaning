@@ -14,6 +14,8 @@ export interface UpdateBookingStatusDTO {
   bookingId: string;
   status: BookingStatus;
   notes?: string | null;
+  requesterId?: string;
+  requesterRole?: string;
 }
 
 export interface CancelBookingDTO {

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { apiClient } from '../api/apiClient';
+import { isSupabaseConfigured as clientSupabaseConfigured } from '../api/supabaseClient';
 import { AuthContextType, AppUser, UserProfile, SignUpParams } from '../types';
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -10,6 +11,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [roles, setRoles] = useState<string[]>(['student']);
   const [activeRole, setActiveRole] = useState<string>(() => localStorage.getItem('educonnect_active_role') || 'student');
   const [loading, setLoading] = useState<boolean>(true);
+  const [isSupabaseConfigured, setIsSupabaseConfigured] = useState<boolean>(clientSupabaseConfigured);
 
   const switchActiveRole = (newRole: string) => {
     setActiveRole(newRole);
@@ -68,6 +70,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const checkCurrentSession = async () => {
       try {
+        // Consultar salud del backend para sincronizar modo de base de datos
+        apiClient.get('/health').then((hRes) => {
+          if (hRes.data?.isSupabaseConfigured !== undefined) {
+            setIsSupabaseConfigured(Boolean(hRes.data.isSupabaseConfigured));
+          }
+        }).catch(() => {});
+
         const res = await apiClient.get('/auth/me');
         if (!isMounted) return;
 
@@ -214,7 +223,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     signUp,
     signOut,
     demoLogin,
-    isSupabaseConfigured: false,
+    isSupabaseConfigured,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

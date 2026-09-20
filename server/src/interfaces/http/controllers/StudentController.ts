@@ -70,6 +70,8 @@ export class StudentController {
         id: studentId,
         learningGoals,
         educationLevel,
+        requesterId: req.user?.id,
+        requesterRole: req.user?.role,
       });
 
       res.status(200).json({

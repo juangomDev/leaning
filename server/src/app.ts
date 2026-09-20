@@ -47,7 +47,9 @@ app.use(
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'x-demo-user-id', 'x-demo-role'],
+    allowedHeaders: config.nodeEnv === 'production'
+      ? ['Content-Type', 'Authorization']
+      : ['Content-Type', 'Authorization', 'x-demo-user-id', 'x-demo-role'],
     maxAge: 86400, // 24 horas de cache preflight
   })
 );

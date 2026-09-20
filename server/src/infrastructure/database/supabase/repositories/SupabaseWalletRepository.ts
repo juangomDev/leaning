@@ -1,7 +1,7 @@
 import { IWalletRepository } from '../../../../domain/wallet/WalletRepository.js';
 import { Wallet } from '../../../../domain/wallet/Wallet.js';
 import { WalletTransaction } from '../../../../domain/wallet/WalletTransaction.js';
-import { supabase } from '../client.js';
+import { dbClient as supabase } from '../client.js';
 import { WalletMapper } from '../mappers/WalletMapper.js';
 
 export class SupabaseWalletRepository implements IWalletRepository {

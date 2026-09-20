@@ -7,6 +7,8 @@ import studentRoutes from './studentRoutes.js';
 import reviewRoutes from './reviewRoutes.js';
 import adminRoutes from './adminRoutes.js';
 
+import { config } from '../../../infrastructure/config/env.js';
+
 const apiRouter = Router();
 
 // Health Check
@@ -16,6 +18,8 @@ apiRouter.get('/health', (_req: Request, res: Response) => {
     timestamp: new Date().toISOString(),
     service: 'EduConnect Backend API (TypeScript)',
     architecture: 'Clean Architecture',
+    database: config.isSupabaseConfigured() ? 'supabase' : 'in-memory',
+    isSupabaseConfigured: config.isSupabaseConfigured(),
     version: '1.0.0',
   });
 });

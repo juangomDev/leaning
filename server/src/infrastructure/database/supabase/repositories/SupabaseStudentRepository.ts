@@ -1,6 +1,6 @@
 import { IStudentRepository } from '../../../../domain/student/StudentRepository.js';
 import { Student } from '../../../../domain/student/Student.js';
-import { supabase } from '../client.js';
+import { dbClient as supabase } from '../client.js';
 import { StudentMapper } from '../mappers/StudentMapper.js';
 
 export class SupabaseStudentRepository implements IStudentRepository {

@@ -94,5 +94,9 @@ export interface WalletTransactionRow {
   created_at: string;
 }
 
+// Cliente principal para repositorios del servidor: utiliza privilegios administrativos
+// (service_role) para no ser bloqueado por las políticas Row Level Security (RLS).
+export const dbClient: SupabaseClient | null = supabaseAdmin || supabase;
+
 export { supabase, supabaseAdmin };
 export type { SupabaseClient };

@@ -61,7 +61,11 @@ export class TutorController {
 
   applyTutor = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const tutor = await this.registerTutorUseCase.execute(req.body);
+      const userId = req.user?.id || req.body.userId;
+      const tutor = await this.registerTutorUseCase.execute({
+        ...req.body,
+        userId,
+      });
       res.status(201).json({
         success: true,
         data: tutor,

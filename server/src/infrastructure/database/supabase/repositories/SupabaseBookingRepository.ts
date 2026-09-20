@@ -1,6 +1,6 @@
 import { IBookingRepository } from '../../../../domain/booking/BookingRepository.js';
 import { Booking, BookingStatus } from '../../../../domain/booking/Booking.js';
-import { supabase } from '../client.js';
+import { dbClient as supabase } from '../client.js';
 import { BookingMapper } from '../mappers/BookingMapper.js';
 
 export class SupabaseBookingRepository implements IBookingRepository {

@@ -147,6 +147,13 @@ export class Tutor {
     return this._subjects.get(subjectId);
   }
 
+  public updateBio(newBio: string): void {
+    if (!newBio || typeof newBio !== 'string' || newBio.trim() === '') {
+      throw new ValidationError('La biografía no puede estar vacía');
+    }
+    this.bio = newBio.trim();
+  }
+
   public setAvailability(available: boolean): void {
     if (typeof available !== 'boolean') {
       throw new ValidationError('El valor de disponibilidad debe ser booleano');

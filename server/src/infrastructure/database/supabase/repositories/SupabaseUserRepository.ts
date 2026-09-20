@@ -1,6 +1,6 @@
 import { IUserRepository } from '../../../../domain/user/UserRepository.js';
 import { User } from '../../../../domain/user/User.js';
-import { supabase } from '../client.js';
+import { dbClient as supabase, supabaseAdmin } from '../client.js';
 import { UserMapper } from '../mappers/UserMapper.js';
 
 export class SupabaseUserRepository implements IUserRepository {
@@ -29,21 +29,43 @@ export class SupabaseUserRepository implements IUserRepository {
   async create(user: User, password?: string): Promise<User> {
     if (!supabase) return user;
 
-    const { data, error } = await supabase.auth.signUp({
-      email: user.email,
-      password: password || 'DefaultPass123!',
-      options: {
-        data: {
+    let userId = user.id;
+    if (supabaseAdmin?.auth?.admin) {
+      const { data, error } = await supabaseAdmin.auth.admin.createUser({
+        email: user.email,
+        password: password || 'DefaultPass123!',
+        email_confirm: true,
+        user_metadata: {
           full_name: user.fullName,
           role: user.role,
           phone: user.phone,
         },
-      },
-    });
+      });
 
-    if (error) throw new Error(error.message);
+      if (error) {
+        throw new Error(error.message);
+      }
+      if (data?.user) {
+        userId = data.user.id;
+      }
+    } else {
+      const { data, error } = await supabase.auth.signUp({
+        email: user.email,
+        password: password || 'DefaultPass123!',
+        options: {
+          data: {
+            full_name: user.fullName,
+            role: user.role,
+            phone: user.phone,
+          },
+        },
+      });
 
-    user.id = data.user?.id || user.id;
+      if (error) throw new Error(error.message);
+      userId = data.user?.id || user.id;
+    }
+
+    user.id = userId;
 
     const profileRow = UserMapper.toRow(user);
     await supabase.from('profiles').upsert(profileRow);

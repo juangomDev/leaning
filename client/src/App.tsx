@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
 import { ProtectedRoute } from './components/layout/ProtectedRoute';
@@ -102,6 +102,20 @@ const PublicLayout: React.FC = () => {
       <Footer />
     </div>
   );
+};
+
+const RoleBasedDashboardRedirect: React.FC = () => {
+  const { role, loading } = useAuth();
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="w-8 h-8 border-4 border-brand-600 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+  if (role === 'admin') return <Navigate to="/admin" replace />;
+  if (role === 'tutor') return <Navigate to="/tutor" replace />;
+  return <Navigate to="/student" replace />;
 };
 
 export default function App(): React.JSX.Element {
@@ -252,7 +266,7 @@ export default function App(): React.JSX.Element {
           <Route path="/account/become-student" element={<Navigate to="/account/roles" replace />} />
 
           {/* Retrocompatibilidad con rutas anteriores /dashboard/* */}
-          <Route path="/dashboard" element={<Navigate to="/student" replace />} />
+          <Route path="/dashboard" element={<RoleBasedDashboardRedirect />} />
           <Route path="/dashboard/clases" element={<Navigate to="/student/bookings" replace />} />
           <Route path="/dashboard/tutores" element={<Navigate to="/student/tutors" replace />} />
           <Route path="/dashboard/finanzas" element={<Navigate to="/student/wallet" replace />} />

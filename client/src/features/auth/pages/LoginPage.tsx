@@ -33,7 +33,11 @@ export const LoginPage: React.FC = () => {
       if (res?.error) {
         setErrorMsg(extractErrorMessage(res.error, 'Credenciales inválidas. Verifica tu correo o contraseña.'));
       } else {
-        navigate(redirectTarget, { replace: true });
+        const returnedUser = res.data?.user || res.user;
+        const targetRole = returnedUser?.role || (Array.isArray(returnedUser?.roles) ? returnedUser.roles[0] : 'student');
+        const defaultDestination = targetRole === 'admin' ? '/admin' : (targetRole === 'tutor' ? '/tutor' : '/student');
+        const destination = searchParams.get('redirect') || defaultDestination;
+        navigate(destination, { replace: true });
       }
     } catch (err: any) {
       setErrorMsg(extractErrorMessage(err, 'Credenciales inválidas. Verifica tu correo o contraseña.'));
@@ -47,7 +51,8 @@ export const LoginPage: React.FC = () => {
     setErrorMsg('');
     try {
       await demoLogin(role);
-      navigate(role === 'tutor' ? '/dashboard/tutor' : redirectTarget, { replace: true });
+      const destination = role === 'admin' ? '/admin' : (role === 'tutor' ? '/tutor' : '/student');
+      navigate(destination, { replace: true });
     } catch (err: any) {
       setErrorMsg('Error al conectar con la cuenta demo.');
     } finally {

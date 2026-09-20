@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { UnauthorizedError } from '../../../domain/shared/errors/DomainError.js';
 import { container } from '../../../infrastructure/container.js';
+import { config } from '../../../infrastructure/config/env.js';
 
 export interface AuthenticatedUser {
   id: string;
@@ -27,15 +28,25 @@ export const authMiddleware = async (
     const token = tokenFromCookie || tokenFromHeader;
 
     if (!token) {
-      // Soporte para desarrollo / pruebas con header demo
-      const demoUserId = req.headers['x-demo-user-id'] as string;
-      if (demoUserId) {
-        req.user = {
-          id: demoUserId,
-          role: (req.headers['x-demo-role'] as string) || 'student',
-        };
-        return next();
+      // Cabeceras demo estrictamente bloqueadas en producción
+      const isProduction = config.nodeEnv === 'production';
+      const allowDemoHeaders = process.env.ALLOW_DEMO_HEADERS === 'true';
+
+      if (!isProduction && allowDemoHeaders) {
+        const demoUserId = req.headers['x-demo-user-id'] as string;
+        if (demoUserId) {
+          // Prevenir escalación de privilegios: nunca permitir admin por header no autenticado
+          const requestedRole = (req.headers['x-demo-role'] as string) || 'student';
+          const safeRole = requestedRole === 'admin' ? 'student' : requestedRole;
+
+          req.user = {
+            id: demoUserId,
+            role: safeRole,
+          };
+          return next();
+        }
       }
+
       throw new UnauthorizedError('Token de autenticación no proporcionado (cookie o header)');
     }
 

@@ -75,6 +75,8 @@ export class BookingController {
         bookingId: id,
         status: status as BookingStatus,
         notes,
+        requesterId: req.user?.id,
+        requesterRole: req.user?.role,
       });
 
       res.status(200).json({

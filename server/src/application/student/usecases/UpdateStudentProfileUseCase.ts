@@ -1,6 +1,7 @@
 import { IStudentRepository } from '../ports/IStudentRepository.js';
 import { IUseCase } from '../../shared/IUseCase.js';
 import { NotFoundError } from '../../shared/errors/NotFoundError.js';
+import { ForbiddenError } from '../../shared/errors/ForbiddenError.js';
 import { UpdateStudentProfileDTO, StudentResponseDTO } from '../dtos/index.js';
 import { StudentMapper } from '../mappers/StudentMapper.js';
 
@@ -26,6 +27,10 @@ export class UpdateStudentProfileUseCase implements IUseCase<UpdateStudentProfil
 
     if (!student) {
       throw new NotFoundError('Perfil de estudiante');
+    }
+
+    if (dto.requesterId && student.userId !== dto.requesterId && dto.requesterRole !== 'admin') {
+      throw new ForbiddenError('No tienes permisos para modificar el perfil de este estudiante');
     }
 
     if (dto.educationLevel) {

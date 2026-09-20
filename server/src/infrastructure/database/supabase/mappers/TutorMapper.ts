@@ -21,7 +21,7 @@ export class TutorMapper {
 
     return TutorFactory.reconstitute({
       id: row.id,
-      userId: row.user_id,
+      userId: row.user_id || row.id,
       fullName: row.full_name,
       avatarUrl: row.avatar_url,
       bio: row.bio,
@@ -38,7 +38,6 @@ export class TutorMapper {
   public static toRow(tutor: Tutor): Partial<TutorRow> {
     return {
       id: tutor.id,
-      user_id: tutor.userId,
       full_name: tutor.fullName,
       avatar_url: tutor.avatarUrl,
       bio: tutor.bio,

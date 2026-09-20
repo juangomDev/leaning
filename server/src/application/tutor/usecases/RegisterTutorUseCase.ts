@@ -33,7 +33,7 @@ export class RegisterTutorUseCase implements IUseCase<RegisterTutorDTO, TutorRes
       subjectCategory: tutorData.subjectCategory,
       pricePerHour: tutorData.pricePerHour || tutorData.rate,
       description: tutorData.bio,
-      badges: ['Nuevo Tutor', 'Verificado'],
+      badges: tutorData.badges || ['Nuevo Tutor'],
       createdAt: this.clock.now(),
     });
 

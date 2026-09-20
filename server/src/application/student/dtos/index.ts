@@ -9,6 +9,8 @@ export interface UpdateStudentProfileDTO {
   userId?: string;
   educationLevel?: string;
   learningGoals?: string;
+  requesterId?: string;
+  requesterRole?: string;
 }
 
 export interface StudentResponseDTO {

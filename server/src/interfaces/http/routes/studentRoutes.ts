@@ -7,7 +7,7 @@ const studentController = container.studentController;
 
 router.post('/', authMiddleware, studentController.createProfile);
 router.get('/profile', authMiddleware, studentController.getProfile);
-router.get('/:id', studentController.getProfile);
+router.get('/:id', authMiddleware, studentController.getProfile);
 router.put('/:id', authMiddleware, studentController.updateProfile);
 
 export default router;

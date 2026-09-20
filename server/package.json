@@ -9,6 +9,8 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc -p tsconfig.build.json",
     "start": "node dist/server.js",
+    "check:supabase": "tsx src/scripts/checkSupabase.ts",
+    "create:admin": "tsx src/scripts/createAdmin.ts",
     "test": "npm run test:domain && npm run test:application && npm run test:infrastructure && npm run test:interfaces",
     "test:domain": "tsx --test src/domain/**/*.test.ts",
     "test:application": "tsx --test src/application/**/*.test.ts",
