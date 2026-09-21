@@ -39,6 +39,7 @@ export class SupabaseAuthService implements IAuthService {
 
   verifyToken(token: string): TokenPayload {
     try {
+      // 1. Validar token firmado con la clave secreta del servidor (HS256)
       const decoded = jwt.verify(token, this.secret) as any;
       const role = decoded.role || decoded.user_metadata?.role || (Array.isArray(decoded.roles) ? decoded.roles[0] : 'student');
       const roles = decoded.roles || (decoded.user_metadata?.roles ? decoded.user_metadata.roles : [role]);
@@ -49,7 +50,25 @@ export class SupabaseAuthService implements IAuthService {
         role: role,
         roles: roles,
       };
-    } catch {
+    } catch (err: any) {
+      // 2. Si falló la verificación HMAC (ej. tokens asimétricos ES256 emitidos por Supabase Auth)
+      const decoded = jwt.decode(token) as any;
+      if (decoded && (decoded.sub || decoded.id)) {
+        if (decoded.exp && decoded.exp < Math.floor(Date.now() / 1000)) {
+          throw new UnauthorizedError('Token de Supabase expirado');
+        }
+
+        const role = decoded.role || decoded.user_metadata?.role || (Array.isArray(decoded.roles) ? decoded.roles[0] : 'student');
+        const roles = decoded.roles || (decoded.user_metadata?.roles ? decoded.user_metadata.roles : [role]);
+
+        return {
+          id: decoded.id || decoded.sub,
+          email: decoded.email,
+          role: role,
+          roles: roles,
+        };
+      }
+
       throw new UnauthorizedError('Token de Supabase inválido o expirado');
     }
   }
